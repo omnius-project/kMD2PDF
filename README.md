@@ -5,7 +5,7 @@ Markdown to PDF conversion library written in Kotlin.
 ### Default parsing
 ```kotlin
 val document = MarkdownDocument("C:/Users/Chill/Desktop/notes.md")
-document.convertToPdf()
+document.convertToPDF()
 ```
 
 ### Custom styling
