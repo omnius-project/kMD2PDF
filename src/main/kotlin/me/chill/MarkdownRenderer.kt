@@ -1,5 +1,6 @@
 package me.chill
 
+import me.chill.utility.getFontDirectories
 import org.commonmark.node.Node
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
@@ -29,10 +30,15 @@ class MarkdownRenderer(
   """.trimIndent()
 
   fun constructPDF(targetFile: File) {
-    val renderer = ITextRenderer()
-    renderer.setDocumentFromString(toHTML())
-    renderer.fontResolver.addFontDirectory("C:\\WINDOWS\\FONTS\\", false)
-    renderer.layout()
-    renderer.createPDF(FileOutputStream(targetFile))
+    with(ITextRenderer()) {
+      setDocumentFromString(toHTML())
+      val fontDirectories = getFontDirectories()
+      if (fontDirectories.all { !File(it).exists() }) {
+        println("Font folder could not be located on your system, fonts will not render properly")
+      }
+      fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
+      layout()
+      createPDF(FileOutputStream(targetFile))
+    }
   }
 }
