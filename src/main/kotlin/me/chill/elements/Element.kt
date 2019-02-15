@@ -1,5 +1,6 @@
 package me.chill.elements
 
+import me.chill.FontFamily
 import me.chill.utility.px
 import java.awt.Color
 
@@ -9,7 +10,7 @@ import java.awt.Color
 open class Element(open var fontSize: Double) {
 
   open var fontColor = Color.BLACK
-  open var fontFamily = listOf("Arial")
+  open var fontFamily = FontFamily("Arial")
   open var backgroundColor: Color? = null
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
@@ -24,7 +25,10 @@ open class Element(open var fontSize: Double) {
     fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
 
-  fun getFontFamilyString() = fontFamily.joinToString(", ") { "\"$it\"" }
-
   fun getFontSizeString() = fontSize.px
+
+  fun fontFamily(fonts: FontFamily.() -> Unit) {
+    fontFamily.emptyFontFamily()
+    fontFamily.fonts()
+  }
 }

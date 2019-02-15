@@ -13,9 +13,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
       when (this) {
         is Heading -> {
           inlineStyleRenderer
-            .attribute(
-              "font-family",
-              style.matchHeaderLevel(level) { it.fontFamily.joinToString(", ") { fontFamily -> "\"$fontFamily\"" } })
+            .attribute("font-family", style.matchHeaderLevel(level) { it.fontFamily.getFontFamilyString() })
             .attribute("color", style.matchHeaderLevel(level) { it.fontColor.cssColor() })
             .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.px })
 
@@ -24,7 +22,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
         is Code, is FencedCodeBlock -> {
           with(style.code) {
             inlineStyleRenderer
-              .attribute("font-family", getFontFamilyString())
+              .attribute("font-family", fontFamily.getFontFamilyString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())
@@ -36,7 +34,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
         is StrongEmphasis -> {
           with(style.bold) {
             inlineStyleRenderer
-              .attribute("font-family", getFontFamilyString())
+              .attribute("font-family", fontFamily.getFontFamilyString())
               .attribute("font-weight", fontWeight.name.toLowerCase())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
@@ -47,7 +45,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
         is Paragraph -> {
           with(style.paragraph) {
             inlineStyleRenderer
-              .attribute("font-family", getFontFamilyString())
+              .attribute("font-family", fontFamily.getFontFamilyString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())
@@ -56,9 +54,8 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
 
         is Link -> {
           with(style.link) {
-            println(getFontFamilyString())
             inlineStyleRenderer
-              .attribute("font-family", getFontFamilyString())
+              .attribute("font-family", fontFamily.getFontFamilyString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())

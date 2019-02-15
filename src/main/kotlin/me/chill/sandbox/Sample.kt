@@ -1,5 +1,6 @@
 package me.chill.sandbox
 
+import me.chill.FontFamily
 import me.chill.MarkdownDocument
 import me.chill.PDFStyle
 import me.chill.elements.Bold
@@ -19,7 +20,9 @@ fun main() {
 
 fun createDSLStyle() = PDFStyle.createStyle {
     code {
-      fontFamily = listOf("Hack")
+      fontFamily {
+        + "Fira Code"
+      }
     }
 
     headerOne {
@@ -31,18 +34,22 @@ fun createDSLStyle() = PDFStyle.createStyle {
     }
 
     paragraph {
-      fontFamily = listOf("Roboto")
+      fontFamily {
+        + "Roboto"
+      }
     }
 
     link {
-      fontFamily = listOf("Raleway")
+      fontFamily {
+        + "Times New Romans"
+      }
     }
   }
 
 class CustomStyle : PDFStyle() {
   override var code = object : Code() {
     override var fontSize = super.fontSize * 3
-    override var fontFamily = listOf("Hack")
+    override var fontFamily = FontFamily("Hack")
   }
 
   override var headerOne = object : HeaderOne() {
@@ -54,10 +61,10 @@ class CustomStyle : PDFStyle() {
   }
 
   override var paragraph = object : Paragraph() {
-    override var fontFamily = listOf("Raleway", "Lato", "Roboto")
+    override var fontFamily = FontFamily("Raleway", "Lato", "Roboto")
   }
 
   override var link = object : Link() {
-    override var fontFamily = listOf("Monaco")
+    override var fontFamily = FontFamily("Monaco")
   }
 }
