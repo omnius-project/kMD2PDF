@@ -3,7 +3,8 @@ package me.chill
 class InlineStyleRenderer {
   private val attributes = mutableMapOf<String, String>()
 
-  fun attribute(attributeName: String, attributeValue: String): InlineStyleRenderer {
+  fun attribute(attributeName: String, attributeValue: String?): InlineStyleRenderer {
+    attributeValue ?: return this
     attributes[attributeName] = attributeValue
     return this
   }
