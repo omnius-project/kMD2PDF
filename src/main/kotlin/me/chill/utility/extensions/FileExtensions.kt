@@ -1,4 +1,4 @@
-package me.chill.utility
+package me.chill.utility.extensions
 
 import java.io.File
 
