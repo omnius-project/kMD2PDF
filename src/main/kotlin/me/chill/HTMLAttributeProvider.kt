@@ -18,13 +18,15 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
 
         }
 
-        is Code -> {
+        is Code, is FencedCodeBlock -> {
           with(style.code) {
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())
+              .attribute("border-radius", "5px")
+              .attribute("padding", "3px")
           }
         }
 

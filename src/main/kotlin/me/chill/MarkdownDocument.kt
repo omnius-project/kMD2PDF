@@ -1,12 +1,8 @@
 package me.chill
 
-import me.chill.utility.isFileType
-import org.commonmark.node.Node
+import me.chill.utility.extensions.isFileType
 import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
-import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
-import java.io.FileOutputStream
 import com.itextpdf.text.Document as ITextDocument
 import org.commonmark.node.Document as CommonMarkDocument
 
