@@ -4,8 +4,7 @@ class InlineStyleRenderer {
   private val attributes = mutableMapOf<String, String>()
 
   fun attribute(attributeName: String, attributeValue: String?): InlineStyleRenderer {
-    attributeValue ?: return this
-    attributes[attributeName] = attributeValue
+    attributeValue?.let { attributes[attributeName] = it }
     return this
   }
 
