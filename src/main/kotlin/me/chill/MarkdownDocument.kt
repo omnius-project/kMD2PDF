@@ -23,8 +23,6 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
     }
   }
 
-  fun toHTML() = markdownRenderer.toHTML()
-
   /**
    * Converts the current markdown document into a PDF.
    *

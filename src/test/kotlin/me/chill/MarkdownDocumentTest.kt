@@ -34,21 +34,6 @@ class MarkdownDocumentTest {
   }
 
   @Test
-  fun `Default markdown should render to HTML`() {
-    val file = generateDefaultMarkdownFile()
-
-    val expectedOutput = """
-    <h2>Hello world</h2>
-    <p>This is a <strong>test</strong>!</p>
-    <h3>Sub-heading</h3>
-    <p><em>Hello</em> world</p>
-    """.trimIndent()
-
-    val markdownDocument = MarkdownDocument(file)
-    assertEquals(expectedOutput, markdownDocument.toHTML())
-  }
-
-  @Test
   fun `Default markdown should render to default PDF`() {
     val file = generateDefaultMarkdownFile()
     val markdownDocument = MarkdownDocument(file)
