@@ -1,29 +1,38 @@
 package me.chill
 
-import com.itextpdf.text.BaseColor
 import org.commonmark.node.Code
 import org.commonmark.node.Heading
 import org.commonmark.node.Node
 import org.commonmark.renderer.html.AttributeProvider
+import java.awt.Color
 
 class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
   override fun setAttributes(node: Node, tagName: String, attributes: MutableMap<String, String>) {
     with(node) {
       when (this) {
         is Heading -> {
-          attributes["font-family"] = style.headerFontFamily
-          attributes["color"] = style.headerFontColor.cssColor()
-          attributes["font-size"] = style.matchHeaderSize(level)
+          attributes["font-family"] = style.matchHeaderLevel(level) {
+            it.fontFamily.joinToString(", ")
+          }
+          attributes["color"] = style.matchHeaderLevel(level) {
+            it.fontColor.cssColor()
+          }
+          attributes["font-size"] = style.matchHeaderLevel(level) {
+            it.fontSize.toString() + "px"
+          }
         }
         is Code -> {
-          attributes["font-family"] = style.codeFontFamily
-          attributes["color"] = style.codeFontColor.cssColor()
-          attributes["background-color"] = style.codeBackgroundColor.cssColor()
-          attributes["font-size"] = style.codeFontSize.toString() + "px"
+          with(style.code) {
+            attributes["font-family"] = getFontFamilyString()
+            attributes["color"] = fontColor.cssColor()
+            attributes["background-color"] = backgroundColor.cssColor()
+            attributes["font-size"] = getFontSizeString()
+
+          }
         }
       }
     }
   }
 
-  private fun BaseColor.cssColor() = "rgb($red, $green, $blue)"
+  private fun Color.cssColor() = "rgb($red, $green, $blue)"
 }

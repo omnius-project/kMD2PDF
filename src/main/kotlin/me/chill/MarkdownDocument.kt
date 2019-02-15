@@ -14,12 +14,12 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
 
   constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
 
+  private var parsedMarkdownDocument: Node
   private val markdownParser = Parser.builder().build()
   private val htmlRenderer = HtmlRenderer
     .builder()
     .attributeProviderFactory { HTMLAttributeProvider(style) }
     .build()
-  private var parsedMarkdownDocument: Node
 
   init {
     with(file) {
@@ -31,6 +31,7 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
     }
   }
 
+  // TODO: Generate CSS file on the go,  link to said file, render PDF, then delete the file
   fun toHTML() = """
     <!DOCTYPE html>
     <html>
@@ -49,10 +50,12 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
   }
 
   private fun constructPDF(targetFile: File) {
-    val renderer = ITextRenderer()
-    renderer.setDocumentFromString(toHTML())
-    renderer.layout()
-    renderer.createPDF(FileOutputStream(targetFile))
+    println(toHTML())
+
+//    val renderer = ITextRenderer()
+//    renderer.setDocumentFromString(toHTML())
+//    renderer.layout()
+//    renderer.createPDF(FileOutputStream(targetFile))
   }
 
   private fun createTargetOutputFile(filePath: String?) =

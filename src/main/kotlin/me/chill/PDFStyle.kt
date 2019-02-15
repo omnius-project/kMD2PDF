@@ -1,35 +1,31 @@
 package me.chill
 
-import com.itextpdf.text.BaseColor
-import com.itextpdf.text.Font
-import com.itextpdf.text.FontFactory
+import me.chill.elements.Code
+import me.chill.elements.Element
+import me.chill.elements.headers.*
 
+/**
+ * CSS styling for the PDF
+ */
 open class PDFStyle {
 
-  // Header preferences
-  open val headerFontFamily = FontFactory.HELVETICA
-  open val headerFontColor = BaseColor.BLACK
-  open val headerOneFontSize = 48
-  open val headerTwoFontSize = 39
-  open val headerThreeFontSize = 31
-  open val headerFourFontSize = 25
-  open val headerFiveFontSize = 20
-  open val headerSixFontSize = 48
+  open val headerOne = HeaderOne()
+  open val headerTwo = HeaderTwo()
+  open val headerThree = HeaderThree()
+  open val headerFour = HeaderFour()
+  open val headerFive = HeaderFive()
+  open val headerSix = HeaderSix()
 
-  // Code preferences
-  open val codeFontFamily = FontFactory.COURIER
-  open val codeFontColor = BaseColor.WHITE
-  open val codeBackgroundColor = BaseColor.BLACK
-  open val codeFontSize = 16
+  open val code = Code()
 
-  fun matchHeaderSize(headerLevel: Int) =
+  fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
     when (headerLevel) {
-      1 -> headerOneFontSize
-      2 -> headerTwoFontSize
-      3 -> headerThreeFontSize
-      4 -> headerFourFontSize
-      5 -> headerFiveFontSize
-      6 -> headerSixFontSize
-      else -> headerOneFontSize
-    }.toString() + "px"
+      1 -> operation(headerOne)
+      2 -> operation(headerTwo)
+      3 -> operation(headerThree)
+      4 -> operation(headerFour)
+      5 -> operation(headerFive)
+      6 -> operation(headerSix)
+      else -> operation(headerOne)
+    }
 }
