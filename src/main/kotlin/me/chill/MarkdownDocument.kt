@@ -11,7 +11,6 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
   constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
 
   private var markdownRenderer: MarkdownRenderer
-  private val markdownParser = Parser.builder().build()
 
   init {
     with(file) {
@@ -19,10 +18,8 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
       require(isFile) { "File path ($path) must point to a file" }
       require(isFileType("md")) { "File ($nameWithoutExtension) must be a markdown document" }
 
-      markdownRenderer = MarkdownRenderer(
-        markdownParser.parse(readText()),
-        style
-      )
+      val parsedDocument = Parser.builder().build().parse(readText())
+      markdownRenderer = MarkdownRenderer(parsedDocument, style)
     }
   }
 
