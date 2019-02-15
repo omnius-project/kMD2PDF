@@ -14,12 +14,8 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
 
   constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
 
-  private var parsedMarkdownDocument: Node
+  private var markdownRenderer: MarkdownRenderer
   private val markdownParser = Parser.builder().build()
-  private val htmlRenderer = HtmlRenderer
-    .builder()
-    .attributeProviderFactory { HTMLAttributeProvider(style) }
-    .build()
 
   init {
     with(file) {
@@ -27,35 +23,19 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
       require(isFile) { "File path ($path) must point to a file" }
       require(isFileType("md")) { "File ($nameWithoutExtension) must be a markdown document" }
 
-      parsedMarkdownDocument = markdownParser.parse(readText())
+      markdownRenderer = MarkdownRenderer(
+        markdownParser.parse(readText()),
+        style
+      )
     }
   }
-
-  // TODO: Generate CSS file on the go,  link to said file, render PDF, then delete the file
-  fun toHTML() = """
-    <!DOCTYPE html>
-    <html>
-      <body>
-        ${htmlRenderer.render(parsedMarkdownDocument).trim()}
-      </body>
-    </html>
-  """.trimIndent()
 
   fun convertToPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
 
-      constructPDF(this)
+      markdownRenderer.constructPDF(this)
     }
-  }
-
-  private fun constructPDF(targetFile: File) {
-    println(toHTML())
-
-//    val renderer = ITextRenderer()
-//    renderer.setDocumentFromString(toHTML())
-//    renderer.layout()
-//    renderer.createPDF(FileOutputStream(targetFile))
   }
 
   private fun createTargetOutputFile(filePath: String?) =
