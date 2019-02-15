@@ -1,9 +1,6 @@
 package me.chill
 
-import org.commonmark.node.Code
-import org.commonmark.node.Heading
-import org.commonmark.node.Node
-import org.commonmark.node.StrongEmphasis
+import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import java.awt.Color
 
@@ -36,6 +33,16 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())
               .attribute("font-weight", fontWeight.name.toLowerCase())
+              .attribute("color", fontColor.cssColor())
+              .attribute("background-color", backgroundColor?.cssColor())
+              .attribute("font-size", getFontSizeString())
+          }
+        }
+
+        is Paragraph -> {
+          with (style.paragraph) {
+            inlineStyleRenderer
+              .attribute("font-family", getFontFamilyString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())

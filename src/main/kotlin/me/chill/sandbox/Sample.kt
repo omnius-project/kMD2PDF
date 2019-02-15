@@ -4,6 +4,7 @@ import me.chill.MarkdownDocument
 import me.chill.PDFStyle
 import me.chill.elements.Bold
 import me.chill.elements.Code
+import me.chill.elements.Paragraph
 import me.chill.elements.headers.HeaderOne
 import java.awt.Color
 
@@ -23,6 +24,10 @@ class CustomStyle : PDFStyle() {
   }
 
   override val bold = object : Bold() {
-    override val fontColor = Color.GREEN
+    override val fontColor = Color.PINK
+  }
+
+  override val paragraph = object : Paragraph() {
+    override val fontFamily = listOf("Raleway", "Lato", "Roboto")
   }
 }

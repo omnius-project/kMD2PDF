@@ -3,6 +3,7 @@ package me.chill
 import me.chill.elements.Bold
 import me.chill.elements.Code
 import me.chill.elements.Element
+import me.chill.elements.Paragraph
 import me.chill.elements.headers.*
 
 /**
@@ -16,10 +17,10 @@ open class PDFStyle {
   open val headerFour = HeaderFour()
   open val headerFive = HeaderFive()
   open val headerSix = HeaderSix()
-
   open val code = Code()
-
   open val bold = Bold()
+  open val paragraph = Paragraph()
+
 
   fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
     when (headerLevel) {
