@@ -1,14 +1,12 @@
 package me.chill
 
-import me.chill.elements.Bold
-import me.chill.elements.Code
-import me.chill.elements.Element
-import me.chill.elements.Paragraph
+import me.chill.elements.*
 import me.chill.elements.headers.*
 
 /**
  * CSS styling for the PDF
  */
+// TODO: Convert to use DSL format
 open class PDFStyle {
 
   open val headerOne = HeaderOne()
@@ -20,7 +18,7 @@ open class PDFStyle {
   open val code = Code()
   open val bold = Bold()
   open val paragraph = Paragraph()
-
+  open val link = Link()
 
   fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
     when (headerLevel) {

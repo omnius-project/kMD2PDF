@@ -4,6 +4,7 @@ import me.chill.MarkdownDocument
 import me.chill.PDFStyle
 import me.chill.elements.Bold
 import me.chill.elements.Code
+import me.chill.elements.Link
 import me.chill.elements.Paragraph
 import me.chill.elements.headers.HeaderOne
 import java.awt.Color
@@ -29,5 +30,9 @@ class CustomStyle : PDFStyle() {
 
   override val paragraph = object : Paragraph() {
     override val fontFamily = listOf("Raleway", "Lato", "Roboto")
+  }
+
+  override val link = object : Link() {
+    override val fontFamily = listOf("Monaco")
   }
 }

@@ -48,6 +48,17 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
               .attribute("font-size", getFontSizeString())
           }
         }
+
+        is Link -> {
+          with (style.link) {
+            inlineStyleRenderer
+              .attribute("font-family", getFontFamilyString())
+              .attribute("color", fontColor.cssColor())
+              .attribute("background-color", backgroundColor?.cssColor())
+              .attribute("font-size", getFontSizeString())
+              .attribute("text-decoration", textDecoration.name.toLowerCase())
+          }
+        }
       }
 
       attributes["style"] = inlineStyleRenderer.renderStyle()
