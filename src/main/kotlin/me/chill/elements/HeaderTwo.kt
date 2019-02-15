@@ -1,4 +1,4 @@
-package me.chill.elements.headers
+package me.chill.elements
 
 import me.chill.elements.Element
 

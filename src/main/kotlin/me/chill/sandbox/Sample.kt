@@ -6,7 +6,7 @@ import me.chill.elements.Bold
 import me.chill.elements.Code
 import me.chill.elements.Link
 import me.chill.elements.Paragraph
-import me.chill.elements.headers.HeaderOne
+import me.chill.elements.HeaderOne
 import java.awt.Color
 
 fun main() {

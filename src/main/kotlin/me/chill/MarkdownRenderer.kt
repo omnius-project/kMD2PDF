@@ -36,6 +36,7 @@ class MarkdownRenderer(
       if (fontDirectories.all { !File(it).exists() }) {
         println("Font folder could not be located on your system, fonts will not render properly")
       }
+      // todo: create extension function for recursively adding font directory (linux requires it)
       fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
       layout()
       createPDF(FileOutputStream(targetFile))

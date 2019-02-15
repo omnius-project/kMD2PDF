@@ -1,7 +1,6 @@
 package me.chill
 
 import me.chill.elements.*
-import me.chill.elements.headers.*
 
 /**
  * CSS styling for the PDF
