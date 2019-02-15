@@ -9,37 +9,18 @@ import me.chill.style.elements.*
  * specified. This [baseFontSize] will influence the scaling of each
  * header.
  */
-class PDFStyle(private val baseFontSize: Double = 16.0) {
+class PDFStyle(private val baseFontSize: Double = 16.0) : GenericPDFStyle() {
 
-  var headerOne = HeaderOne(baseFontSize)
-    private set
-
-  var headerTwo = HeaderTwo(baseFontSize)
-    private set
-
-  var headerThree = HeaderThree(baseFontSize)
-    private set
-
-  var headerFour = HeaderFour(baseFontSize)
-    private set
-
-  var headerFive = HeaderFive(baseFontSize)
-    private set
-
-  var headerSix = HeaderSix(baseFontSize)
-    private set
-
-  var code = Code(baseFontSize)
-    private set
-
-  var bold = Bold(baseFontSize)
-    private set
-
-  var paragraph = Paragraph(baseFontSize)
-    private set
-
-  var link = Link(baseFontSize)
-    private set
+  override var headerOne = HeaderOne(baseFontSize)
+  override var headerTwo = HeaderTwo(baseFontSize)
+  override var headerThree = HeaderThree(baseFontSize)
+  override var headerFour = HeaderFour(baseFontSize)
+  override var headerFive = HeaderFive(baseFontSize)
+  override var headerSix = HeaderSix(baseFontSize)
+  override var code = Code(baseFontSize)
+  override var bold = Bold(baseFontSize)
+  override var paragraph = Paragraph(baseFontSize)
+  override var link = Link(baseFontSize)
 
   companion object {
     /**
