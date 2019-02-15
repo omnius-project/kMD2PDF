@@ -2,7 +2,6 @@ package me.chill.sandbox
 
 import me.chill.MarkdownDocument
 import me.chill.PDFStyle
-import me.chill.createStyle
 import me.chill.elements.Bold
 import me.chill.elements.Code
 import me.chill.elements.Link
@@ -18,7 +17,7 @@ fun main() {
   dslDocument.convertToPDF("C:/Users/Chill/Desktop/Document.pdf")
 }
 
-fun createDSLStyle() = createStyle {
+fun createDSLStyle() = PDFStyle.createStyle {
     code {
       fontSize = 16.0
       fontFamily = listOf("Hack")

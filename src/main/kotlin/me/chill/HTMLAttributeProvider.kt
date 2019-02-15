@@ -51,6 +51,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
 
         is Link -> {
           with (style.link) {
+            println(getFontFamilyString())
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())
               .attribute("color", fontColor.cssColor())

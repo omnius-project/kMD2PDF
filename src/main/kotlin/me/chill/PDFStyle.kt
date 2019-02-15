@@ -6,13 +6,6 @@ import me.chill.elements.headers.*
 /**
  * CSS styling for the PDF
  */
-// TODO: Convert to use DSL format
-fun createStyle(styleFunction: PDFStyle.() -> Unit): PDFStyle {
-  val style = PDFStyle()
-  style.styleFunction()
-  return style
-}
-
 open class PDFStyle {
 
   open var headerOne = HeaderOne()
@@ -25,6 +18,14 @@ open class PDFStyle {
   open var bold = Bold()
   open var paragraph = Paragraph()
   open var link = Link()
+
+  companion object {
+    fun createStyle(styleFunction: PDFStyle.() -> Unit): PDFStyle {
+      val style = PDFStyle()
+      style.styleFunction()
+      return style
+    }
+  }
 
   fun code(style: Code.() -> Unit) {
     val code = Code()
@@ -39,11 +40,15 @@ open class PDFStyle {
   }
 
   fun paragraph(style: Paragraph.() -> Unit) {
-
+    val paragraph = Paragraph()
+    paragraph.style()
+    this.paragraph = paragraph
   }
 
   fun link(style: Link.() -> Unit) {
-
+    val link = Link()
+    link.style()
+    this.link = link
   }
 
   fun headerOne(style: HeaderOne.() -> Unit) {
