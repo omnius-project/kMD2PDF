@@ -9,20 +9,45 @@ import me.chill.style.elements.*
  * specified. This [baseFontSize] will influence the scaling of each
  * header.
  */
-open class PDFStyle(private val baseFontSize: Double = 16.0) {
+class PDFStyle(private val baseFontSize: Double = 16.0) {
 
-  open var headerOne = HeaderOne(baseFontSize)
-  open var headerTwo = HeaderTwo(baseFontSize)
-  open var headerThree = HeaderThree(baseFontSize)
-  open var headerFour = HeaderFour(baseFontSize)
-  open var headerFive = HeaderFive(baseFontSize)
-  open var headerSix = HeaderSix(baseFontSize)
-  open var code = Code(baseFontSize)
-  open var bold = Bold(baseFontSize)
-  open var paragraph = Paragraph(baseFontSize)
-  open var link = Link(baseFontSize)
+  var headerOne = HeaderOne(baseFontSize)
+    private set
+
+  var headerTwo = HeaderTwo(baseFontSize)
+    private set
+
+  var headerThree = HeaderThree(baseFontSize)
+    private set
+
+  var headerFour = HeaderFour(baseFontSize)
+    private set
+
+  var headerFive = HeaderFive(baseFontSize)
+    private set
+
+  var headerSix = HeaderSix(baseFontSize)
+    private set
+
+  var code = Code(baseFontSize)
+    private set
+
+  var bold = Bold(baseFontSize)
+    private set
+
+  var paragraph = Paragraph(baseFontSize)
+    private set
+
+  var link = Link(baseFontSize)
+    private set
 
   companion object {
+    /**
+     * Creates a custom PDFStyle object using a custom DSL.
+     *
+     * Supply a [baseFontSize] to be applied to all element unless otherwise specified.
+     * [baseFontSize] will influence the scaling of each header.
+     */
     fun createStyle(baseFontSize: Double = 16.0, styleFunction: PDFStyle.() -> Unit): PDFStyle {
       val style = PDFStyle(baseFontSize)
       style.styleFunction()
