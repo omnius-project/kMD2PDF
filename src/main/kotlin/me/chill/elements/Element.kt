@@ -5,8 +5,8 @@ import java.awt.Color
 /**
  * Represents a HTML element
  */
-open class Element {
-  open var fontSize = 16.0
+open class Element(open var fontSize: Double) {
+
   open var fontColor = Color.BLACK
   open var fontFamily = listOf("Arial")
   open var backgroundColor: Color? = null
@@ -18,7 +18,9 @@ open class Element {
   }
 
   enum class TextDecoration {
-    OVERLINE, LINE_THROUGH, UNDERLINE, NONE
+    OVERLINE, LINE_THROUGH, UNDERLINE, NONE;
+
+    fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
 
   fun getFontFamilyString() = fontFamily.joinToString(", ") { "\"$it\"" }

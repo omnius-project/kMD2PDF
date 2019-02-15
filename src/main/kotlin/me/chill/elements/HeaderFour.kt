@@ -1,7 +1,5 @@
 package me.chill.elements
 
-import me.chill.elements.Element
-
-open class HeaderFour : Element() {
+open class HeaderFour(fontSize: Double = 16.0) : Element(fontSize) {
   override var fontSize = super.fontSize
 }

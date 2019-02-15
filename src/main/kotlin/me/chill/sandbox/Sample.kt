@@ -19,7 +19,6 @@ fun main() {
 
 fun createDSLStyle() = PDFStyle.createStyle {
     code {
-      fontSize = 16.0
       fontFamily = listOf("Hack")
     }
 
@@ -36,13 +35,13 @@ fun createDSLStyle() = PDFStyle.createStyle {
     }
 
     link {
-      fontFamily = listOf("Monaco")
+      fontFamily = listOf("Raleway")
     }
   }
 
 class CustomStyle : PDFStyle() {
   override var code = object : Code() {
-    override var fontSize = 32.0
+    override var fontSize = super.fontSize * 3
     override var fontFamily = listOf("Hack")
   }
 
