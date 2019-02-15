@@ -1,5 +1,6 @@
 package me.chill
 
+import me.chill.utility.px
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import java.awt.Color
@@ -12,9 +13,11 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
       when (this) {
         is Heading -> {
           inlineStyleRenderer
-            .attribute("font-family", style.matchHeaderLevel(level) { it.fontFamily.joinToString(", ") })
+            .attribute(
+              "font-family",
+              style.matchHeaderLevel(level) { it.fontFamily.joinToString(", ") { fontFamily -> "\"$fontFamily\"" } })
             .attribute("color", style.matchHeaderLevel(level) { it.fontColor.cssColor() })
-            .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.toString() + "px" })
+            .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.px })
 
         }
 
@@ -25,8 +28,8 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())
-              .attribute("border-radius", "5px")
-              .attribute("padding", "3px")
+              .attribute("border-radius", 5.px)
+              .attribute("padding", 3.px)
           }
         }
 
@@ -42,7 +45,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
         }
 
         is Paragraph -> {
-          with (style.paragraph) {
+          with(style.paragraph) {
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())
               .attribute("color", fontColor.cssColor())
@@ -52,7 +55,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
         }
 
         is Link -> {
-          with (style.link) {
+          with(style.link) {
             println(getFontFamilyString())
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())

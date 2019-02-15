@@ -1,5 +1,6 @@
 package me.chill.elements
 
+import me.chill.utility.px
 import java.awt.Color
 
 /**
@@ -25,5 +26,5 @@ open class Element(open var fontSize: Double) {
 
   fun getFontFamilyString() = fontFamily.joinToString(", ") { "\"$it\"" }
 
-  fun getFontSizeString() = "${fontSize}px"
+  fun getFontSizeString() = fontSize.px
 }
