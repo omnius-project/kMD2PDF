@@ -1,4 +1,4 @@
-package me.chill
+package me.chill.style
 
 class FontFamily(vararg fonts: String) {
   private val fontFamily = mutableListOf<String>()

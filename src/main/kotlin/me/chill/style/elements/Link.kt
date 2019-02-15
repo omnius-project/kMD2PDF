@@ -1,4 +1,4 @@
-package me.chill.elements
+package me.chill.style.elements
 
 import java.awt.Color
 

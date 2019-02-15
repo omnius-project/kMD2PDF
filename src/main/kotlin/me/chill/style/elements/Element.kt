@@ -1,6 +1,6 @@
-package me.chill.elements
+package me.chill.style.elements
 
-import me.chill.FontFamily
+import me.chill.style.FontFamily
 import me.chill.utility.px
 import java.awt.Color
 

@@ -1,5 +1,6 @@
-package me.chill
+package me.chill.rendering
 
+import me.chill.style.PDFStyle
 import me.chill.utility.getFontDirectories
 import org.commonmark.node.Node
 import org.commonmark.renderer.html.HtmlRenderer

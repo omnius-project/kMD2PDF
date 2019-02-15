@@ -1,4 +1,4 @@
-package me.chill
+package me.chill.style
 
 class InlineStyleRenderer {
   private val attributes = mutableMapOf<String, String>()

@@ -1,9 +1,13 @@
-package me.chill
+package me.chill.style
 
-import me.chill.elements.*
+import me.chill.style.elements.*
 
 /**
- * CSS styling for the PDF
+ * Default styling for an exported PDF.
+ *
+ * Supply a [baseFontSize] to be applied to all elements unless otherwise
+ * specified. This [baseFontSize] will influence the scaling of each
+ * header.
  */
 open class PDFStyle(private val baseFontSize: Double = 16.0) {
 

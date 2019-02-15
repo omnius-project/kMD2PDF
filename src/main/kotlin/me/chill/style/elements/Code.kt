@@ -1,6 +1,6 @@
-package me.chill.elements
+package me.chill.style.elements
 
-import me.chill.FontFamily
+import me.chill.style.FontFamily
 import java.awt.Color
 
 open class Code(fontSize: Double = 16.0) : Element(fontSize) {

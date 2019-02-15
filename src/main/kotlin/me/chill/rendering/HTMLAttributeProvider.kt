@@ -1,5 +1,7 @@
-package me.chill
+package me.chill.rendering
 
+import me.chill.style.PDFStyle
+import me.chill.style.InlineStyleRenderer
 import me.chill.utility.px
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
