@@ -3,7 +3,7 @@ package me.chill.elements
 import java.awt.Color
 
 open class Code : Element() {
-  override val fontFamily = listOf("Courier")
-  override val fontColor: Color = Color.WHITE
-  override val backgroundColor: Color = Color.BLACK
+  override var fontFamily = listOf("Courier")
+  override var fontColor: Color = Color.WHITE
+  override var backgroundColor: Color? = Color.BLACK
 }

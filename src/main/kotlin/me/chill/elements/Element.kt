@@ -6,12 +6,12 @@ import java.awt.Color
  * Represents a HTML element
  */
 open class Element {
-  open val fontSize = 16.0
-  open val fontColor = Color.BLACK
-  open val fontFamily = listOf("Arial")
-  open val backgroundColor: Color? = null
-  open val fontWeight = FontWeight.NORMAL
-  open val textDecoration = TextDecoration.NONE
+  open var fontSize = 16.0
+  open var fontColor = Color.BLACK
+  open var fontFamily = listOf("Arial")
+  open var backgroundColor: Color? = null
+  open var fontWeight = FontWeight.NORMAL
+  open var textDecoration = TextDecoration.NONE
 
   enum class FontWeight {
     NORMAL, BOLD, BOLDER, LIGHTER
