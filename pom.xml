@@ -20,6 +20,7 @@
     <commonmark.version>0.12.1</commonmark.version>
     <itextpdf.version>5.5.10</itextpdf.version>
     <flying.saucer.version>9.1.16</flying.saucer.version>
+    <apache.commons.version>3.8.1</apache.commons.version>
   </properties>
 
   <dependencies>
@@ -65,6 +66,12 @@
       <groupId>org.xhtmlrenderer</groupId>
       <artifactId>flying-saucer-pdf</artifactId>
       <version>${flying.saucer.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${apache.commons.version}</version>
     </dependency>
   </dependencies>
 
