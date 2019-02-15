@@ -25,6 +25,16 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
 
   fun toHTML() = markdownRenderer.toHTML()
 
+  /**
+   * Converts the current markdown document into a PDF.
+   *
+   * If no [filePath] is supplied, the exported PDF is exported to the same parent
+   * folder of the markdown file.
+   *
+   * If a [filePath] is supplied, the exported PDF is exported to the file path
+   * specified. The [filePath] supplied must end with a file with the extension of
+   * `.pdf`
+   */
   fun convertToPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
