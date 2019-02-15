@@ -4,7 +4,7 @@ Markdown to PDF conversion library written in Kotlin.
 ## Sample Usage
 ### Default styling
 ```kotlin
-fun main(args: Array<String>) {
+fun main() {
   val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md")
   document.convertToPDF()
 }
@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
 ### Specifying .pdf location
 ```kotlin
 // File must be named with .pdf extension
-fun main(args: Array<String>) {
+fun main() {
   val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md")
   document.convertToPDF("C:/Users/Chill/Desktop/Document.pdf")
 }
