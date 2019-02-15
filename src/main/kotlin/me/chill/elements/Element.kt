@@ -11,7 +11,7 @@ open class Element {
   open val fontFamily = listOf("Arial")
   open val backgroundColor: Color? = null
 
-  fun getFontFamilyString() = fontFamily.joinToString(", ")
+  fun getFontFamilyString() = fontFamily.joinToString(", ") { "\"$it\"" }
 
   fun getFontSizeString() = "${fontSize}px"
 }

@@ -19,7 +19,6 @@ class MarkdownRenderer(
     .attributeProviderFactory { HTMLAttributeProvider(style) }
     .build()
 
-  // TODO: Generate CSS file on the go, link to said file, render PDF, then delete the file
   fun toHTML() = """
   <!DOCTYPE html>
   <html>
@@ -29,13 +28,10 @@ class MarkdownRenderer(
   </html>
   """.trimIndent()
 
-
-
   fun constructPDF(targetFile: File) {
-//    println(toHTML())
-
     val renderer = ITextRenderer()
     renderer.setDocumentFromString(toHTML())
+    renderer.fontResolver.addFontDirectory("C:\\WINDOWS\\FONTS\\", false)
     renderer.layout()
     renderer.createPDF(FileOutputStream(targetFile))
   }

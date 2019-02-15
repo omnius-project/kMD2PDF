@@ -30,6 +30,8 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
     }
   }
 
+  fun toHTML() = markdownRenderer.toHTML()
+
   fun convertToPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
