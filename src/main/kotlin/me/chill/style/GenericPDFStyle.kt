@@ -2,15 +2,15 @@ package me.chill.style
 
 import me.chill.style.elements.*
 
-abstract class GenericPDFStyle {
-  abstract var headerOne: HeaderOne
-  abstract var headerTwo: HeaderTwo
-  abstract var headerThree: HeaderThree
-  abstract var headerFour: HeaderFour
-  abstract var headerFive: HeaderFive
-  abstract var headerSix: HeaderSix
-  abstract var code: Code
-  abstract var bold: Bold
-  abstract var paragraph: Paragraph
-  abstract var link: Link
+open class GenericPDFStyle {
+  open var headerOne = HeaderOne()
+  open var headerTwo = HeaderTwo()
+  open var headerThree = HeaderThree()
+  open var headerFour = HeaderFour()
+  open var headerFive = HeaderFive()
+  open var headerSix = HeaderSix()
+  open var code = Code()
+  open var bold = Bold()
+  open var paragraph = Paragraph()
+  open var link = Link()
 }
