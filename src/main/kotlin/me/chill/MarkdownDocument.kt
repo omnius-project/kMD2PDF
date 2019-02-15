@@ -40,8 +40,9 @@ class MarkdownDocument(private val file: File, private val style: PDFStyle = PDF
     filePath?.let { File(it) } ?: createFileRelativeToDocument()
 
   private fun createFileRelativeToDocument(): File {
-    val parentFolder = file.parentFile
-      ?: throw IllegalStateException("File cannot have no parent folder")
-    return File(parentFolder, "${file.nameWithoutExtension}.pdf")
+    with(file.parentFile) {
+      check(this != null) { "File cannot have no parent folder" }
+      return File(this, "${file.nameWithoutExtension}.pdf")
+    }
   }
 }
