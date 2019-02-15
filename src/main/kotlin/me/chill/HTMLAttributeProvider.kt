@@ -23,7 +23,7 @@ class HTMLAttributeProvider(private val style: PDFStyle) : AttributeProvider {
             inlineStyleRenderer
               .attribute("font-family", getFontFamilyString())
               .attribute("color", fontColor.cssColor())
-              .attribute("background-color", backgroundColor.cssColor())
+              .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", getFontSizeString())
           }
         }

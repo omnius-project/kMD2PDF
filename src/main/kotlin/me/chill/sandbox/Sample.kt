@@ -13,16 +13,33 @@ import java.awt.Color
 fun main() {
   val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md", CustomStyle())
   document.convertToPDF()
+
+  val dslDocument = MarkdownDocument("C:/Users/Chill/Desktop/README.md", createDSLStyle())
+  dslDocument.convertToPDF("C:/Users/Chill/Desktop/Document.pdf")
 }
 
-fun createDSLStyle() {
-  createStyle {
+fun createDSLStyle() = createStyle {
     code {
       fontSize = 16.0
       fontFamily = listOf("Hack")
     }
+
+    headerOne {
+      fontColor = Color.RED
+    }
+
+    bold {
+      fontColor = Color.PINK
+    }
+
+    paragraph {
+      fontFamily = listOf("Roboto")
+    }
+
+    link {
+      fontFamily = listOf("Monaco")
+    }
   }
-}
 
 class CustomStyle : PDFStyle() {
   override var code = object : Code() {

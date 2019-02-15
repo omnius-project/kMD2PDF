@@ -47,27 +47,39 @@ open class PDFStyle {
   }
 
   fun headerOne(style: HeaderOne.() -> Unit) {
-
+    val header = HeaderOne()
+    header.style()
+    this.headerOne = header
   }
 
   fun headerTwo(style: HeaderTwo.() -> Unit) {
-
+    val header = HeaderTwo()
+    header.style()
+    this.headerTwo = header
   }
 
-  fun headerThree(style: HeaderTwo.() -> Unit) {
-
+  fun headerThree(style: HeaderThree.() -> Unit) {
+    val header = HeaderThree()
+    header.style()
+    this.headerThree = header
   }
 
-  fun headerFour(style: HeaderTwo.() -> Unit) {
-
+  fun headerFour(style: HeaderFour.() -> Unit) {
+    val header = HeaderFour()
+    header.style()
+    this.headerFour = header
   }
 
-  fun headerFive(style: HeaderTwo.() -> Unit) {
-
+  fun headerFive(style: HeaderFive.() -> Unit) {
+    val header = HeaderFive()
+    header.style()
+    this.headerFive = header
   }
 
-  fun headerSix(style: HeaderTwo.() -> Unit) {
-
+  fun headerSix(style: HeaderSix.() -> Unit) {
+    val header = HeaderSix()
+    header.style()
+    this.headerSix = header
   }
 
   fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
