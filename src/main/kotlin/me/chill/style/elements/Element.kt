@@ -12,7 +12,7 @@ open class Element(
   open var fontFamily: FontFamily = FontFamily("sans-serif")
 ) {
 
-  open var fontColor = Color.BLACK
+  open var fontColor: Color? = Color.BLACK
   open var backgroundColor: Color? = null
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
@@ -26,8 +26,6 @@ open class Element(
 
     fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
-
-  fun getFontSizeString() = fontSize.px
 
   fun fontFamily(load: FontFamily.() -> Unit) {
     fontFamily.emptyFontFamily()
