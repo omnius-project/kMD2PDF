@@ -22,7 +22,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
         is Heading -> {
           inlineStyleRenderer
             .attribute("font-family", style.matchHeaderLevel(level) { it.fontFamily.toString() })
-            .attribute("color", style.matchHeaderLevel(level) { it.fontColor.cssColor() })
+            .attribute("color", style.matchHeaderLevel(level) { it.fontColor?.cssColor() })
             .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.px })
         }
 
@@ -30,7 +30,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
           with(style.inlineCode) {
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
-              .attribute("color", fontColor.cssColor())
+              .attribute("color", fontColor?.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", fontSize.px)
               .attribute("border-radius", borderRadius.px)
@@ -43,7 +43,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
               .attribute("font-weight", fontWeight.name.toLowerCase())
-              .attribute("color", fontColor.cssColor())
+              .attribute("color", fontColor?.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", fontSize.px)
           }
@@ -53,7 +53,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
           with(style.paragraph) {
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
-              .attribute("color", fontColor.cssColor())
+              .attribute("color", fontColor?.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", fontSize.px)
           }
@@ -63,7 +63,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
           with(style.link) {
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
-              .attribute("color", fontColor.cssColor())
+              .attribute("color", fontColor?.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
               .attribute("font-size", fontSize.px)
               .attribute("text-decoration", textDecoration.name.toLowerCase())

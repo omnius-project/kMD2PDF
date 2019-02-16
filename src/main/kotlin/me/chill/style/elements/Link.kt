@@ -8,5 +8,5 @@ class Link(
   fontFamily: FontFamily = FontFamily("sans-serif")
 ) : Element(fontSize, fontFamily) {
   override var textDecoration = TextDecoration.UNDERLINE
-  override var fontColor: Color = Color.BLUE
+  override var fontColor: Color? = Color.BLUE
 }
