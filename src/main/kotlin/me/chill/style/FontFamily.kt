@@ -23,7 +23,8 @@ class FontFamily(private vararg val fonts: String) {
   fun emptyFontFamily() = fontFamily.clear()
 
   /**
-   * Converts the [FontFamily] to the string format appropriate for CSS styles to use.
+   * Override [toString] method to convert the [FontFamily] to the string format
+   * appropriate for CSS styles to use.
    */
-  fun getFontFamilyString() = fontFamily.joinToString(", ") { "\"$it\"" }
+  override fun toString() = fontFamily.joinToString(", ") { "\"$it\"" }
 }
