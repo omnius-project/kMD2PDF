@@ -1,6 +1,7 @@
 package me.chill
 
 import me.chill.rendering.MarkdownRenderer
+import me.chill.style.GenericPDFStyle
 import me.chill.style.PDFStyle
 import me.chill.utility.extensions.isFileType
 import org.commonmark.parser.Parser
@@ -8,9 +9,12 @@ import java.io.File
 import com.itextpdf.text.Document as ITextDocument
 import org.commonmark.node.Document as CommonMarkDocument
 
-class MarkdownDocument(private val file: File, private val style: PDFStyle = PDFStyle()) {
+class MarkdownDocument(
+  private val file: File,
+  private val style: GenericPDFStyle = PDFStyle()
+) {
 
-  constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
+  constructor(filePath: String, style: GenericPDFStyle = PDFStyle()) : this(File(filePath), style)
 
   private var markdownRenderer: MarkdownRenderer
 

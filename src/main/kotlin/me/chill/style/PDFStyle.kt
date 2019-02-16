@@ -95,15 +95,4 @@ class PDFStyle(private val baseFontSize: Double = 16.0) : GenericPDFStyle() {
     header.style()
     this.headerSix = header
   }
-
-  fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
-    when (headerLevel) {
-      1 -> operation(headerOne)
-      2 -> operation(headerTwo)
-      3 -> operation(headerThree)
-      4 -> operation(headerFour)
-      5 -> operation(headerFive)
-      6 -> operation(headerSix)
-      else -> operation(headerOne)
-    }
 }

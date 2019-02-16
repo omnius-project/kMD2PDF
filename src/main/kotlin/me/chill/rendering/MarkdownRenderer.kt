@@ -1,5 +1,6 @@
 package me.chill.rendering
 
+import me.chill.style.GenericPDFStyle
 import me.chill.style.PDFStyle
 import me.chill.utility.getFontDirectories
 import org.commonmark.node.Node
@@ -14,7 +15,7 @@ import java.io.FileOutputStream
 // TODO: Pass a MarkdownDocument instead of a node
 class MarkdownRenderer(
   private val parsedMarkdownDocument: Node,
-  private val style: PDFStyle
+  private val style: GenericPDFStyle
 ) {
 
   private val htmlRenderer = HtmlRenderer
