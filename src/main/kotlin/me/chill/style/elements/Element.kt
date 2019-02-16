@@ -9,7 +9,7 @@ import java.awt.Color
  */
 open class Element(
   open var fontSize: Double,
-  open var fontFamily: FontFamily = FontFamily("serif")
+  open var fontFamily: FontFamily = FontFamily("sans-serif")
 ) {
 
   open var fontColor = Color.BLACK

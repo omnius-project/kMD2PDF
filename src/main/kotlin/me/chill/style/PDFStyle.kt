@@ -14,7 +14,7 @@ import me.chill.style.elements.*
  */
 class PDFStyle(
   private val baseFontSize: Double = 16.0,
-  private val baseFontFamily: FontFamily = FontFamily("serif")
+  private val baseFontFamily: FontFamily = FontFamily("sans-serif")
 ) : GenericPDFStyle() {
 
   override var headerOne = HeaderOne(baseFontSize, baseFontFamily)
@@ -37,7 +37,7 @@ class PDFStyle(
      */
     fun createStyle(
       baseFontSize: Double = 16.0,
-      baseFontFamily: FontFamily = FontFamily("serif"),
+      baseFontFamily: FontFamily = FontFamily("sans-serif"),
       styleFunction: PDFStyle.() -> Unit
     ) = PDFStyle(baseFontSize, baseFontFamily).apply { styleFunction() }
   }
