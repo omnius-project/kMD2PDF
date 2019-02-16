@@ -1,7 +1,7 @@
 package me.chill.rendering
 
+import me.chill.MarkdownDocument
 import me.chill.style.GenericPDFStyle
-import me.chill.style.PDFStyle
 import me.chill.utility.getFontDirectories
 import org.commonmark.node.Node
 import org.commonmark.renderer.html.HtmlRenderer
@@ -14,7 +14,7 @@ import java.io.FileOutputStream
  */
 // TODO: Pass a MarkdownDocument instead of a node
 class MarkdownRenderer(
-  private val parsedMarkdownDocument: Node,
+  private val markdownDocument: MarkdownDocument,
   private val style: GenericPDFStyle
 ) {
 
@@ -27,7 +27,7 @@ class MarkdownRenderer(
   <!DOCTYPE html>
   <html>
     <body>
-      ${htmlRenderer.render(parsedMarkdownDocument).trim()}
+      ${htmlRenderer.render(markdownDocument.parsedDocument).trim()}
     </body>
   </html>
   """.trimIndent()
