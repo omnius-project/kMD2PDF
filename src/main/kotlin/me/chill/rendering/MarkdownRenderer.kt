@@ -5,7 +5,7 @@ import kotlinx.html.html
 import kotlinx.html.stream.appendHTML
 import kotlinx.html.unsafe
 import me.chill.MarkdownDocument
-import me.chill.style.GenericPDFStyle
+import me.chill.style.PDFStyle
 import me.chill.utility.getFontDirectories
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
@@ -17,7 +17,7 @@ import java.io.FileOutputStream
  */
 class MarkdownRenderer(
   private val markdownDocument: MarkdownDocument,
-  private val style: GenericPDFStyle
+  private val style: PDFStyle
 ) {
 
   private val htmlRenderer = HtmlRenderer

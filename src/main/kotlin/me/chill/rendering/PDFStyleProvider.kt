@@ -1,8 +1,7 @@
 package me.chill.rendering
 
-import me.chill.style.GenericPDFStyle
-import me.chill.style.PDFStyle
 import me.chill.style.InlineStyleRenderer
+import me.chill.style.PDFStyle
 import me.chill.utility.px
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
@@ -13,7 +12,7 @@ import org.commonmark.renderer.html.HtmlRenderer
  * Adds inline styles to HTML elements as they get rendered by [HtmlRenderer].
  * Styles are read from [style].
  */
-class PDFStyleProvider(private val style: GenericPDFStyle) : AttributeProvider {
+class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
   override fun setAttributes(node: Node, tagName: String, attributes: MutableMap<String, String>) {
     val inlineStyleRenderer = InlineStyleRenderer()
@@ -52,6 +51,7 @@ class PDFStyleProvider(private val style: GenericPDFStyle) : AttributeProvider {
 
         is Paragraph -> {
           with(style.paragraph) {
+            println("paragraph font family ${fontFamily}")
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
               .attribute("color", fontColor.cssColor())

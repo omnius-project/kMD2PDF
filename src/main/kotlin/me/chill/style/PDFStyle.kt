@@ -15,18 +15,18 @@ import me.chill.style.elements.*
 class PDFStyle(
   private val baseFontSize: Double = 16.0,
   private val baseFontFamily: FontFamily = FontFamily("sans-serif")
-) : GenericPDFStyle() {
+) {
 
-  override var headerOne = HeaderOne(baseFontSize, baseFontFamily)
-  override var headerTwo = HeaderTwo(baseFontSize, baseFontFamily)
-  override var headerThree = HeaderThree(baseFontSize, baseFontFamily)
-  override var headerFour = HeaderFour(baseFontSize, baseFontFamily)
-  override var headerFive = HeaderFive(baseFontSize, baseFontFamily)
-  override var headerSix = HeaderSix(baseFontSize, baseFontFamily)
-  override var code = Code(baseFontSize, FontFamily("monospace"))
-  override var bold = Bold(baseFontSize, baseFontFamily)
-  override var paragraph = Paragraph(baseFontSize, baseFontFamily)
-  override var link = Link(baseFontSize, baseFontFamily)
+  var headerOne = HeaderOne(baseFontSize, baseFontFamily)
+  var headerTwo = HeaderTwo(baseFontSize, baseFontFamily)
+  var headerThree = HeaderThree(baseFontSize, baseFontFamily)
+  var headerFour = HeaderFour(baseFontSize, baseFontFamily)
+  var headerFive = HeaderFive(baseFontSize, baseFontFamily)
+  var headerSix = HeaderSix(baseFontSize, baseFontFamily)
+  var code = Code(baseFontSize, FontFamily("monospace"))
+  var bold = Bold(baseFontSize, baseFontFamily)
+  var paragraph = Paragraph(baseFontSize, baseFontFamily)
+  var link = Link(baseFontSize, baseFontFamily)
 
   companion object {
     /**
@@ -81,4 +81,15 @@ class PDFStyle(
   fun headerSix(style: HeaderSix.() -> Unit) {
     this.headerSix = HeaderSix(baseFontSize).apply { style() }
   }
+
+  fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
+    when (headerLevel) {
+      1 -> operation(headerOne)
+      2 -> operation(headerTwo)
+      3 -> operation(headerThree)
+      4 -> operation(headerFour)
+      5 -> operation(headerFive)
+      6 -> operation(headerSix)
+      else -> operation(headerOne)
+    }
 }
