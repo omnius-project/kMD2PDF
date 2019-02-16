@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.org/woojiahao/kMD2PDF.svg?branch=master)](https://travis-ci.org/woojiahao/kMD2PDF)
 
-# kMD2PDF
-Markdown to PDF conversion library written in Kotlin.
+![](art/logo.png)
+> Easy to use Markdown to PDF library
 
 ## Sample Usage
 ### Default styling
@@ -26,7 +26,7 @@ fun main() {
 fun createDSLStyle() = PDFStyle.createStyle {
   code {
     fontFamily {
-      + "Fira Code"
+      +"Fira Code"
     }
   }
 
@@ -53,7 +53,10 @@ fun createDSLStyle() = PDFStyle.createStyle {
 
 fun main() {
   val customStyle = createDSLStyle()
-  val dslDocument = MarkdownDocument("C:/Users/Chill/Desktop/README.md", customStyle)
+  val dslDocument = MarkdownDocument(
+    "C:/Users/Chill/Desktop/README.md", 
+    customStyle
+  )
   dslDocument.convertToPDF()
 }
 ```
