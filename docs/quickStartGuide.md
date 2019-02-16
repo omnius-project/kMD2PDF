@@ -1,12 +1,5 @@
-[![Build Status](https://travis-ci.org/woojiahao/kMD2PDF.svg?branch=master)](https://travis-ci.org/woojiahao/kMD2PDF)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/woojiahao/kMD2PDF/blob/master/LICENSE)
-[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
-
-![](art/logo.png)
-> Easy to use Markdown to PDF library
-
-## Sample Usage
-### Default styling
+# Quick Start Guide
+## Default styling
 ```kotlin
 fun main() {
   val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md")
@@ -14,7 +7,7 @@ fun main() {
 }
 ```
 
-### Specifying .pdf location
+## Specifying .pdf location
 ```kotlin
 // File must be named with .pdf extension
 fun main() {
@@ -23,7 +16,7 @@ fun main() {
 }
 ```
 
-### Custom styling using style DSL
+## Custom styling using style DSL
 ```kotlin
 fun createDSLStyle() = PDFStyle.createStyle {
   code {
@@ -62,6 +55,3 @@ fun main() {
   dslDocument.convertToPDF()
 }
 ```
-
-## To do
-* [ ] Move to custom parser library 
