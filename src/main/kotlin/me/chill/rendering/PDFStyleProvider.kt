@@ -7,7 +7,12 @@ import me.chill.utility.px
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import java.awt.Color
+import org.commonmark.renderer.html.HtmlRenderer
 
+/**
+ * Adds inline styles to HTML elements as they get rendered by [HtmlRenderer].
+ * Styles are read from [style].
+ */
 class PDFStyleProvider(private val style: GenericPDFStyle) : AttributeProvider {
 
   override fun setAttributes(node: Node, tagName: String, attributes: MutableMap<String, String>) {
@@ -20,7 +25,6 @@ class PDFStyleProvider(private val style: GenericPDFStyle) : AttributeProvider {
             .attribute("font-family", style.matchHeaderLevel(level) { it.fontFamily.toString() })
             .attribute("color", style.matchHeaderLevel(level) { it.fontColor.cssColor() })
             .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.px })
-
         }
 
         is Code, is FencedCodeBlock -> {
