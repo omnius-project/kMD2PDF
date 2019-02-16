@@ -21,6 +21,7 @@
     <itextpdf.version>5.5.10</itextpdf.version>
     <flying.saucer.version>9.1.16</flying.saucer.version>
     <apache.commons.version>3.8.1</apache.commons.version>
+    <kotlin.html.version>0.6.12</kotlin.html.version>
   </properties>
 
   <dependencies>
@@ -72,6 +73,13 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${apache.commons.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jetbrains.kotlinx</groupId>
+      <artifactId>kotlinx-html</artifactId>
+      <version>${kotlin.html.version}</version>
+      <type>pom</type>
     </dependency>
   </dependencies>
 
