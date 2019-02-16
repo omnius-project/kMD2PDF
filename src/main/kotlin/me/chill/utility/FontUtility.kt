@@ -1,9 +1,12 @@
 package me.chill.utility
 
+import me.chill.utility.extensions.isFileType
 import org.apache.commons.lang3.SystemUtils.*
+import java.io.File
 
+fun getFontDirectories() = getFontDirectorySubFolders(getBaseFontDirectories())
 
-fun getFontDirectories(): List<String> =
+private fun getBaseFontDirectories() =
   when {
     IS_OS_WINDOWS -> listOf(
       "${System.getenv("WINDIR")}\\Fonts\\"
@@ -21,3 +24,15 @@ fun getFontDirectories(): List<String> =
     )
     else -> emptyList()
   }
+
+private fun getFontDirectorySubFolders(baseFontDirectories: List<String>) =
+  baseFontDirectories
+    .map {
+      File(it)
+        .walk()
+        .filter { f -> f.isFileType("ttf", "otf") }
+        .map { f -> f.parent }
+        .distinct()
+        .toList()
+    }
+    .flatten()

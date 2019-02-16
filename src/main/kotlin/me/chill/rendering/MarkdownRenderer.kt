@@ -9,13 +9,15 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * Handles the rendering of a markdown file to PDF
+ * Renders a markdown file to a PDF.
  */
+// TODO: Pass a MarkdownDocument instead of a node
 class MarkdownRenderer(
   private val parsedMarkdownDocument: Node,
   private val style: PDFStyle
 ) {
 
+  // TODO: Rename HTMLAttributeProvider
   private val htmlRenderer = HtmlRenderer
     .builder()
     .attributeProviderFactory { HTMLAttributeProvider(style) }
@@ -33,14 +35,14 @@ class MarkdownRenderer(
   fun constructPDF(targetFile: File) {
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
-      val fontDirectories = getFontDirectories()
-      if (fontDirectories.all { !File(it).exists() }) {
-        println("Font folder could not be located on your system, fonts will not render properly")
-      }
-      // todo: create extension function for recursively adding font directory (linux requires it)
-      fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
+      loadFontDirectories()
       layout()
       createPDF(FileOutputStream(targetFile))
     }
+  }
+
+  private fun ITextRenderer.loadFontDirectories() {
+    val fontDirectories = getFontDirectories()
+    fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
   }
 }
