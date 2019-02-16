@@ -17,10 +17,9 @@ class MarkdownRenderer(
   private val style: PDFStyle
 ) {
 
-  // TODO: Rename HTMLAttributeProvider
   private val htmlRenderer = HtmlRenderer
     .builder()
-    .attributeProviderFactory { HTMLAttributeProvider(style) }
+    .attributeProviderFactory { HTMLStyleForPDFProvider(style) }
     .build()
 
   fun toHTML() = """
