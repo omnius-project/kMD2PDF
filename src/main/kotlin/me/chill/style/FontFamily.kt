@@ -23,6 +23,11 @@ class FontFamily(private vararg val fonts: String) {
   fun emptyFontFamily() = fontFamily.clear()
 
   /**
+   * Returns a copy of the list of fonts stored in the [fontFamily].
+   */
+  fun getFonts() = fontFamily.toList()
+
+  /**
    * Override [toString] method to convert the [FontFamily] to the string format
    * appropriate for CSS styles to use.
    */
