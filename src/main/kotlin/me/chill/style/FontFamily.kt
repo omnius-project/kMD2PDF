@@ -31,5 +31,8 @@ class FontFamily(private vararg val fonts: String) {
    * Override [toString] method to convert the [FontFamily] to the string format
    * appropriate for CSS styles to use.
    */
-  override fun toString() = fontFamily.joinToString(", ") { "\"$it\"" }
+  override fun toString() = fontFamily.joinToString(", ") {
+    if (it.split(" ").size > 1) "\"$it\""
+    else it
+  }
 }
