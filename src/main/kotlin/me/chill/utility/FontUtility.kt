@@ -8,7 +8,7 @@ import java.io.File
  * Returns all folders with .ttf or .otf files based on the base folders
  * from [getBaseFontDirectories].
  */
-fun getFontDirectories() = getFontDirectorySubFolders(getBaseFontDirectories())
+fun getFontDirectories() = getFontDirectorySubFolders(getBaseFontDirectories().map { File(it) })
 
 /**
  * Retrieves the common font directories stored on an OS.
@@ -33,14 +33,14 @@ private fun getBaseFontDirectories() =
   }
 
 /**
- * Traverses through a list of [baseFontDirectories] to find sub-folders that
+ * Traverses through [baseFontDirectories] to find sub-folders that
  * contain .ttf or .otf files, returning the parent folder names of all these
  * sub-folders (inclusive of the each [baseFontDirectories].
  */
-private fun getFontDirectorySubFolders(baseFontDirectories: List<String>) =
+private fun getFontDirectorySubFolders(baseFontDirectories: List<File>) =
   baseFontDirectories
     .map {
-      File(it)
+      it
         .walk()
         .filter { f -> f.isFileType("ttf", "otf") }
         .map { f -> f.parent }
