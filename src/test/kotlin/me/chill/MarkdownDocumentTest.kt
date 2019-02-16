@@ -3,16 +3,17 @@ package me.chill
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class MarkdownDocumentTest {
 
   @get:Rule
   val folder = TemporaryFolder()
 
+  private val userHome = System.getProperty("user.home")
+
   @Test(expected = IllegalArgumentException::class)
   fun `IllegalArgumentException thrown if file path does not exist`() {
-    MarkdownDocument("C:/Users/Chill/Desktop/nonExistent.md")
+    MarkdownDocument("$userHome/nonExistent.md")
   }
 
   @Test(expected = IllegalArgumentException::class)
@@ -29,7 +30,7 @@ class MarkdownDocumentTest {
 
   @Test
   fun `Valid markdown document will open`() {
-    val file = folder.newFile("readme.md")
+    val file = folder.newFile("README.md")
     MarkdownDocument(file)
   }
 
@@ -37,12 +38,12 @@ class MarkdownDocumentTest {
   fun `Default markdown should render to default PDF`() {
     val file = generateDefaultMarkdownFile()
     val markdownDocument = MarkdownDocument(file)
-    markdownDocument.convertToPDF("C:/Users/Chill/Desktop/temporary.pdf")
+    markdownDocument.convertToPDF()
   }
 
   private fun generateDefaultMarkdownFile() =
     folder
-      .newFile("readme.md")
+      .newFile("README.md")
       .apply {
         writeText(
           """
