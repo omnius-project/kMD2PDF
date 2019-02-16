@@ -4,8 +4,15 @@ import me.chill.utility.extensions.isFileType
 import org.apache.commons.lang3.SystemUtils.*
 import java.io.File
 
+/**
+ * Returns all folders with .ttf or .otf files based on the base folders
+ * from [getBaseFontDirectories].
+ */
 fun getFontDirectories() = getFontDirectorySubFolders(getBaseFontDirectories())
 
+/**
+ * Retrieves the common font directories stored on an OS.
+ */
 private fun getBaseFontDirectories() =
   when {
     IS_OS_WINDOWS -> listOf(
@@ -25,6 +32,11 @@ private fun getBaseFontDirectories() =
     else -> emptyList()
   }
 
+/**
+ * Traverses through a list of [baseFontDirectories] to find sub-folders that
+ * contain .ttf or .otf files, returning the parent folder names of all these
+ * sub-folders (inclusive of the each [baseFontDirectories].
+ */
 private fun getFontDirectorySubFolders(baseFontDirectories: List<String>) =
   baseFontDirectories
     .map {
