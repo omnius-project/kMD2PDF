@@ -63,5 +63,27 @@ fun main() {
 }
 ```
 
+### onComplete
+Called when the conversion is completed and no errors occurred.
+```kotlin
+fun main() {
+  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md").onComplete {
+    println("Document converted successfully")
+  }
+}
+```
+
+### onError
+Called when the conversion encounters an error.
+```kotlin
+fun main() {
+  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md").onError {
+    if (it is FileNotFoundException) {
+      println("Cannot convert file. File is still open")
+    }
+  }
+}
+```
+
 ## To do
 * [ ] Move to custom parser library 
