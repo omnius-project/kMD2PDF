@@ -43,6 +43,10 @@ class MarkdownRenderer(
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
+    val hasNoFontDirectory = fontDirectories.none { File(it).exists() }
+    if (hasNoFontDirectory) {
+      println("Font folders could not be located on your system, fonts will default")
+    }
     fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
   }
 }
