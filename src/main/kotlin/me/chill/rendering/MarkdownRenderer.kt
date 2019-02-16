@@ -3,16 +3,17 @@ package me.chill.rendering
 import me.chill.MarkdownDocument
 import me.chill.style.GenericPDFStyle
 import me.chill.utility.getFontDirectories
-import org.commonmark.node.Node
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
 import java.io.FileOutputStream
+import kotlinx.html.*
+import kotlinx.html.dom.document
+import kotlinx.html.stream.appendHTML
 
 /**
  * Renders a markdown file to a PDF.
  */
-// TODO: Pass a MarkdownDocument instead of a node
 class MarkdownRenderer(
   private val markdownDocument: MarkdownDocument,
   private val style: GenericPDFStyle
@@ -23,17 +24,17 @@ class MarkdownRenderer(
     .attributeProviderFactory { HTMLStyleForPDFProvider(style) }
     .build()
 
-  fun toHTML() = """
-  <!DOCTYPE html>
-  <html>
-    <body>
-      ${htmlRenderer.render(markdownDocument.parsedDocument).trim()}
-    </body>
-  </html>
-  """.trimIndent()
+  fun toHTML() = StringBuilder().appendHTML().html {
+    body {
+      unsafe {
+        +htmlRenderer.render(markdownDocument.parsedDocument).trim()
+      }
+    }
+  }.toString()
 
   fun constructPDF(targetFile: File) {
     with(ITextRenderer()) {
+      println(toHTML())
       setDocumentFromString(toHTML())
       loadFontDirectories()
       layout()
