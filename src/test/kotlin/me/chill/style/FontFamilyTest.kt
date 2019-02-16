@@ -37,7 +37,7 @@ class FontFamilyTest {
   @Test
   fun `FontFamily toString will return the font family in CSS font-family format`() {
     val fontFamily = FontFamily("Fira Code", "Roboto", "Raleway")
-    val expectedString = "\"Fira Code\", Roboto, Raleway"
+    val expectedString = "'Fira Code', Roboto, Raleway"
     assertEquals(expectedString, fontFamily.toString())
   }
 
