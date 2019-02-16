@@ -27,6 +27,8 @@ class FontFamily(private vararg val fonts: String) {
    */
   fun getFonts() = fontFamily.toList()
 
+  fun clone() = FontFamily(*fontFamily.toTypedArray())
+
   /**
    * Override [toString] method to convert the [FontFamily] to the string format
    * appropriate for CSS styles to use.

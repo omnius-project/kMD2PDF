@@ -44,7 +44,6 @@ class MarkdownRenderer(
    */
   fun constructPDF(targetFile: File) {
     with(ITextRenderer()) {
-      println(toHTML())
       setDocumentFromString(toHTML())
       loadFontDirectories()
       layout()

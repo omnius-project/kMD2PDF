@@ -17,16 +17,35 @@ class PDFStyle(
   private val baseFontFamily: FontFamily = FontFamily("sans-serif")
 ) {
 
-  var headerOne = HeaderOne(baseFontSize, baseFontFamily)
-  var headerTwo = HeaderTwo(baseFontSize, baseFontFamily)
-  var headerThree = HeaderThree(baseFontSize, baseFontFamily)
-  var headerFour = HeaderFour(baseFontSize, baseFontFamily)
-  var headerFive = HeaderFive(baseFontSize, baseFontFamily)
-  var headerSix = HeaderSix(baseFontSize, baseFontFamily)
-  var code = Code(baseFontSize, FontFamily("monospace"))
-  var bold = Bold(baseFontSize, baseFontFamily)
-  var paragraph = Paragraph(baseFontSize, baseFontFamily)
-  var link = Link(baseFontSize, baseFontFamily)
+  var headerOne = HeaderOne(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var headerTwo = HeaderTwo(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var headerThree = HeaderThree(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var headerFour = HeaderFour(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var headerFive = HeaderFive(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var headerSix = HeaderSix(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var code = Code(baseFontSize, FontFamily("monospace").clone())
+    private set
+
+  var bold = Bold(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var paragraph = Paragraph(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var link = Link(baseFontSize, baseFontFamily.clone())
+    private set
 
   companion object {
     /**
@@ -39,47 +58,47 @@ class PDFStyle(
       baseFontSize: Double = 16.0,
       baseFontFamily: FontFamily = FontFamily("sans-serif"),
       styleFunction: PDFStyle.() -> Unit
-    ) = PDFStyle(baseFontSize, baseFontFamily).apply { styleFunction() }
+    )= PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
   fun code(style: Code.() -> Unit) {
-    this.code = Code(baseFontSize, FontFamily("monospace")).apply { style() }
+    this.code = Code(baseFontSize, FontFamily("monospace").clone()).apply { style() }
   }
 
   fun bold(style: Bold.() -> Unit) {
-    this.bold = Bold(baseFontSize, baseFontFamily).apply { style() }
+    this.bold = Bold(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun paragraph(style: Paragraph.() -> Unit) {
-    this.paragraph = Paragraph(baseFontSize, baseFontFamily).apply { style() }
+    this.paragraph = Paragraph(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun link(style: Link.() -> Unit) {
-    this.link = Link(baseFontSize, baseFontFamily).apply { style() }
+    this.link = Link(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerOne(style: HeaderOne.() -> Unit) {
-    this.headerOne = HeaderOne(baseFontSize).apply { style() }
+    this.headerOne = HeaderOne(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerTwo(style: HeaderTwo.() -> Unit) {
-    this.headerTwo = HeaderTwo(baseFontSize).apply { style() }
+    this.headerTwo = HeaderTwo(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerThree(style: HeaderThree.() -> Unit) {
-    this.headerThree = HeaderThree(baseFontSize).apply { style() }
+    this.headerThree = HeaderThree(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerFour(style: HeaderFour.() -> Unit) {
-    this.headerFour = HeaderFour(baseFontSize).apply { style() }
+    this.headerFour = HeaderFour(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerFive(style: HeaderFive.() -> Unit) {
-    this.headerFive = HeaderFive(baseFontSize).apply { style() }
+    this.headerFive = HeaderFive(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun headerSix(style: HeaderSix.() -> Unit) {
-    this.headerSix = HeaderSix(baseFontSize).apply { style() }
+    this.headerSix = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
