@@ -22,7 +22,7 @@ class MarkdownRenderer(
 
   private val htmlRenderer = HtmlRenderer
     .builder()
-    .attributeProviderFactory { HTMLStyleForPDFProvider(style) }
+    .attributeProviderFactory { PDFStyleProvider(style) }
     .build()
 
   /**

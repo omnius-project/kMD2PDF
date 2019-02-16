@@ -8,7 +8,7 @@ import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import java.awt.Color
 
-class HTMLStyleForPDFProvider(private val style: GenericPDFStyle) : AttributeProvider {
+class PDFStyleProvider(private val style: GenericPDFStyle) : AttributeProvider {
 
   override fun setAttributes(node: Node, tagName: String, attributes: MutableMap<String, String>) {
     val inlineStyleRenderer = InlineStyleRenderer()
