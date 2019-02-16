@@ -39,70 +39,46 @@ class PDFStyle(
       baseFontSize: Double = 16.0,
       baseFontFamily: FontFamily = FontFamily("serif"),
       styleFunction: PDFStyle.() -> Unit
-    ): PDFStyle {
-      val style = PDFStyle(baseFontSize, baseFontFamily)
-      style.styleFunction()
-      return style
-    }
+    ) = PDFStyle(baseFontSize, baseFontFamily).apply { styleFunction() }
   }
 
   fun code(style: Code.() -> Unit) {
-    val code = Code(baseFontSize)
-    code.style()
-    this.code = code
+    this.code = Code(baseFontSize, FontFamily("monospace")).apply { style() }
   }
 
   fun bold(style: Bold.() -> Unit) {
-    val bold = Bold(baseFontSize)
-    bold.style()
-    this.bold = bold
+    this.bold = Bold(baseFontSize, baseFontFamily).apply { style() }
   }
 
   fun paragraph(style: Paragraph.() -> Unit) {
-    val paragraph = Paragraph(baseFontSize)
-    paragraph.style()
-    this.paragraph = paragraph
+    this.paragraph = Paragraph(baseFontSize, baseFontFamily).apply { style() }
   }
 
   fun link(style: Link.() -> Unit) {
-    val link = Link(baseFontSize)
-    link.style()
-    this.link = link
+    this.link = Link(baseFontSize, baseFontFamily).apply { style() }
   }
 
   fun headerOne(style: HeaderOne.() -> Unit) {
-    val header = HeaderOne(baseFontSize)
-    header.style()
-    this.headerOne = header
+    this.headerOne = HeaderOne(baseFontSize).apply { style() }
   }
 
   fun headerTwo(style: HeaderTwo.() -> Unit) {
-    val header = HeaderTwo(baseFontSize)
-    header.style()
-    this.headerTwo = header
+    this.headerTwo = HeaderTwo(baseFontSize).apply { style() }
   }
 
   fun headerThree(style: HeaderThree.() -> Unit) {
-    val header = HeaderThree(baseFontSize)
-    header.style()
-    this.headerThree = header
+    this.headerThree = HeaderThree(baseFontSize).apply { style() }
   }
 
   fun headerFour(style: HeaderFour.() -> Unit) {
-    val header = HeaderFour(baseFontSize)
-    header.style()
-    this.headerFour = header
+    this.headerFour = HeaderFour(baseFontSize).apply { style() }
   }
 
   fun headerFive(style: HeaderFive.() -> Unit) {
-    val header = HeaderFive(baseFontSize)
-    header.style()
-    this.headerFive = header
+    this.headerFive = HeaderFive(baseFontSize).apply { style() }
   }
 
   fun headerSix(style: HeaderSix.() -> Unit) {
-    val header = HeaderSix(baseFontSize)
-    header.style()
-    this.headerSix = header
+    this.headerSix = HeaderSix(baseFontSize).apply { style() }
   }
 }
