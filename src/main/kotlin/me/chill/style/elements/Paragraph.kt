@@ -1,3 +1,8 @@
 package me.chill.style.elements
 
-open class Paragraph(fontSize: Double = 16.0) : Element(fontSize)
+import me.chill.style.FontFamily
+
+open class Paragraph(
+  fontSize: Double = 16.0,
+  fontFamily: FontFamily = FontFamily("serif")
+) : Element(fontSize, fontFamily)

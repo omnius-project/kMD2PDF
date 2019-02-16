@@ -7,10 +7,12 @@ import java.awt.Color
 /**
  * Represents a HTML element
  */
-open class Element(open var fontSize: Double) {
+open class Element(
+  open var fontSize: Double,
+  open var fontFamily: FontFamily = FontFamily("serif")
+) {
 
   open var fontColor = Color.BLACK
-  open var fontFamily = FontFamily("Arial")
   open var backgroundColor: Color? = null
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
@@ -27,8 +29,8 @@ open class Element(open var fontSize: Double) {
 
   fun getFontSizeString() = fontSize.px
 
-  fun fontFamily(fonts: FontFamily.() -> Unit) {
+  fun fontFamily(load: FontFamily.() -> Unit) {
     fontFamily.emptyFontFamily()
-    fontFamily.fonts()
+    fontFamily.load()
   }
 }

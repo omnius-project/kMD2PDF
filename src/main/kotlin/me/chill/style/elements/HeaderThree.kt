@@ -1,5 +1,10 @@
 package me.chill.style.elements
 
-open class HeaderThree(fontSize: Double = 16.0) : Element(fontSize) {
+import me.chill.style.FontFamily
+
+open class HeaderThree(
+  fontSize: Double = 16.0,
+  fontFamily: FontFamily = FontFamily("serif")
+) : Element(fontSize, fontFamily) {
   override var fontSize = super.fontSize * 1.17
 }
