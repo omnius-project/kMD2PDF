@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/woojiahao/kMD2PDF.svg?branch=master)](https://travis-ci.org/woojiahao/kMD2PDF)
+
 # kMD2PDF
 Markdown to PDF conversion library written in Kotlin.
 
