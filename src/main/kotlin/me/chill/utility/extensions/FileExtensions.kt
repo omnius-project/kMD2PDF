@@ -2,4 +2,8 @@ package me.chill.utility.extensions
 
 import java.io.File
 
-fun File.isFileType(vararg fileType: String) = fileType.any { extension == it }
+/**
+ * Returns the target file has an extension that matches any of
+ * the supplied [fileTypes].
+ */
+fun File.isFileType(vararg fileTypes: String) = fileTypes.any { extension == it }
