@@ -3,7 +3,7 @@ package me.chill.style.elements
 import me.chill.style.FontFamily
 import java.awt.Color
 
-open class Link(
+class Link(
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily("sans-serif")
 ) : Element(fontSize, fontFamily) {
