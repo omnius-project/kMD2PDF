@@ -1,3 +1,14 @@
 language: java
-jdk:
-  - oraclejdk8
+jdk: oraclejdk8
+install: true
+
+env:
+  - CODECOV_TOKEN="5adecac7-7ba1-4519-8e77-bfc4d4b1a9f2"
+
+script:
+  - ./mvnw clean install
+  - bash <(curl -s https://codecov.io/bash)
+
+cache:
+  directories:
+    - $HOME/.m2
