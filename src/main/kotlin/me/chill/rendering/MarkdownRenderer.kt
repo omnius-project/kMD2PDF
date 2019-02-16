@@ -22,6 +22,7 @@ class MarkdownRenderer(
 
   private val htmlRenderer = HtmlRenderer
     .builder()
+    .escapeHtml(true)
     .attributeProviderFactory { PDFStyleProvider(style) }
     .build()
 
@@ -43,6 +44,7 @@ class MarkdownRenderer(
    */
   fun constructPDF(targetFile: File) {
     with(ITextRenderer()) {
+      println(toHTML())
       setDocumentFromString(toHTML())
       loadFontDirectories()
       layout()

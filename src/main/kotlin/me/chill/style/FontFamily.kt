@@ -32,7 +32,7 @@ class FontFamily(private vararg val fonts: String) {
    * appropriate for CSS styles to use.
    */
   override fun toString() = fontFamily.joinToString(", ") {
-    if (it.split(" ").size > 1) "\"$it\""
+    if (it.split(" ").size > 1) "'$it'"
     else it
   }
 }
