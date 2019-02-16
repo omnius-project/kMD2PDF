@@ -41,13 +41,25 @@ class MarkdownRenderer(
   /**
    * Converts the given [markdownDocument] to a PDF, saving it at the location
    * specified by [targetFile].
+   *
+   * Optionally pass [onComplete] and [onError] to be invoked when the file is
+   * converted or when it encounters an error.
    */
-  fun constructPDF(targetFile: File) {
+  fun constructPDF(
+    targetFile: File,
+    onComplete: ((File) -> Unit)? = null,
+    onError: ((Exception) -> Unit)? = null
+  ) {
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
       layout()
-      createPDF(FileOutputStream(targetFile))
+      try {
+        createPDF(FileOutputStream(targetFile))
+        onComplete?.invoke(targetFile)
+      } catch (e: Exception) {
+        onError?.invoke(e)
+      }
     }
   }
 

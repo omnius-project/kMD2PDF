@@ -28,6 +28,9 @@ class MarkdownDocument(
   var parsedDocument: Node
     private set
 
+  private var onComplete: ((File) -> Unit)? = null
+  private var onError: ((Exception) -> Unit)? = null
+
   init {
     with(file) {
       require(exists()) { "File path ($path) must exist" }
@@ -36,6 +39,24 @@ class MarkdownDocument(
 
       parsedDocument = Parser.builder().build().parse(readText())
     }
+  }
+
+  /**
+   * Sets the action to perform when conversion is complete.
+   * This action will pass the converted file as an input parameter.
+   */
+  fun onComplete(onComplete: (File) -> Unit): MarkdownDocument {
+    this.onComplete = onComplete
+    return this
+  }
+
+  /**
+   * Sets the action to perform when conversion encounters an exception.
+   * This action will pass the exception as an input parameter.
+   */
+  fun onError(onError: (Exception) -> Unit): MarkdownDocument {
+    this.onError = onError
+    return this
   }
 
   /**
@@ -51,7 +72,7 @@ class MarkdownDocument(
   fun convertToPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
-      markdownRenderer.constructPDF(this)
+      markdownRenderer.constructPDF(this, onComplete, onError)
     }
   }
 
