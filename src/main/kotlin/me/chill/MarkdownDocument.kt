@@ -29,8 +29,6 @@ class MarkdownDocument(
     private set
 
   init {
-    println("markdown paragraph style: ${style.paragraph.fontFamily}")
-
     with(file) {
       require(exists()) { "File path ($path) must exist" }
       require(isFile) { "File path ($path) must point to a file" }

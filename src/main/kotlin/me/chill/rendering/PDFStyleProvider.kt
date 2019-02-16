@@ -26,15 +26,15 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
             .attribute("font-size", style.matchHeaderLevel(level) { it.fontSize.px })
         }
 
-        is Code, is FencedCodeBlock -> {
-          with(style.code) {
+        is Code -> {
+          with(style.inlineCode) {
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
-              .attribute("font-size", getFontSizeString())
-              .attribute("border-radius", 5.px)
-              .attribute("padding", 3.px)
+              .attribute("font-size", fontSize.px)
+              .attribute("border-radius", borderRadius.px)
+              .attribute("padding", padding.px)
           }
         }
 
@@ -45,18 +45,17 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
               .attribute("font-weight", fontWeight.name.toLowerCase())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
-              .attribute("font-size", getFontSizeString())
+              .attribute("font-size", fontSize.px)
           }
         }
 
         is Paragraph -> {
           with(style.paragraph) {
-            println("paragraph font family ${fontFamily}")
             inlineStyleRenderer
               .attribute("font-family", fontFamily.toString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
-              .attribute("font-size", getFontSizeString())
+              .attribute("font-size", fontSize.px)
           }
         }
 
@@ -66,7 +65,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
               .attribute("font-family", fontFamily.toString())
               .attribute("color", fontColor.cssColor())
               .attribute("background-color", backgroundColor?.cssColor())
-              .attribute("font-size", getFontSizeString())
+              .attribute("font-size", fontSize.px)
               .attribute("text-decoration", textDecoration.name.toLowerCase())
           }
         }

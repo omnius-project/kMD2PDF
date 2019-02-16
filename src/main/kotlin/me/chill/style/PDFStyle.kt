@@ -10,7 +10,7 @@ import me.chill.style.elements.*
  * header.
  *
  * Supply a [baseFontFamily] to be applied to all elements unless otherwise
- * specified. [Code] will change this font to use a monospace font instead.
+ * specified. [InlineCode] will change this font to use a monospace font instead.
  */
 class PDFStyle(
   private val baseFontSize: Double = 16.0,
@@ -35,7 +35,7 @@ class PDFStyle(
   var headerSix = HeaderSix(baseFontSize, baseFontFamily.clone())
     private set
 
-  var code = Code(baseFontSize, FontFamily("monospace").clone())
+  var inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone())
     private set
 
   var bold = Bold(baseFontSize, baseFontFamily.clone())
@@ -61,8 +61,8 @@ class PDFStyle(
     )= PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
-  fun code(style: Code.() -> Unit) {
-    this.code = Code(baseFontSize, FontFamily("monospace").clone()).apply { style() }
+  fun inlineCode(style: InlineCode.() -> Unit) {
+    this.inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone()).apply { style() }
   }
 
   fun bold(style: Bold.() -> Unit) {
