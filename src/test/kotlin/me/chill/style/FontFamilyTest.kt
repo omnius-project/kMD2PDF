@@ -36,9 +36,20 @@ class FontFamilyTest {
 
   @Test
   fun `FontFamily toString will return the font family in CSS font-family format`() {
-    val fontFamily = FontFamily("Fira Code", "Roboto", "Raleway")
-    val expectedString = "'Fira Code', Roboto, Raleway"
-    assertEquals(expectedString, fontFamily.toString())
+    val fontFamily = FontFamily("Roboto", "Raleway")
+    val expectedString = "Roboto, Raleway"
+    fontFamily.checkToString(expectedString)
+  }
+
+  @Test
+  fun `FontFamily toString adds single quotes to font names with more than 2 words`() {
+    val fontFamily = FontFamily("Fira Code", "Roboto", "Raleway", "Droid Sans Mono")
+    val expectedString = "'Fira Code', Roboto, Raleway, 'Droid Sans Mono'"
+    fontFamily.checkToString(expectedString)
+  }
+
+  private fun FontFamily.checkToString(expectedToString: String) {
+    assertEquals(expectedToString, toString())
   }
 
   private fun FontFamily.checkFontFamilySize(expectedSize: Int) {
