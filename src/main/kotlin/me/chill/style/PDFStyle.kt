@@ -1,6 +1,7 @@
 package me.chill.style
 
 import me.chill.style.elements.*
+import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
 
