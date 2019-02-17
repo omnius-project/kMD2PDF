@@ -25,3 +25,8 @@ fun c(hexCode: String): Color? {
 
   return Color.decode("#$convertedHexCode")
 }
+
+/**
+ * Converts a [Color] to the rgb format for CSS.
+ */
+fun Color.cssColor() = "rgb($red, $green, $blue)"

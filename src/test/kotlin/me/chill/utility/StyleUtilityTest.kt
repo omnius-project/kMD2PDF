@@ -48,4 +48,12 @@ class StyleUtilityTest {
     val expectedColor = Color.decode("#486ca5")
     assertEquals(expectedColor, color)
   }
+
+  @Test
+  fun `cssColor returns rgb format for color`() {
+    val color = c("#D32F2F")
+    val rgbFormat = color?.cssColor()
+    val expectedRgb = "rgb(211, 47, 47)"
+    assertEquals(rgbFormat, expectedRgb)
+  }
 }
