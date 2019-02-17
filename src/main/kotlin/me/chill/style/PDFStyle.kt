@@ -58,7 +58,7 @@ class PDFStyle(
       baseFontSize: Double = 16.0,
       baseFontFamily: FontFamily = FontFamily("sans-serif"),
       styleFunction: PDFStyle.() -> Unit
-    )= PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
+    ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
   fun inlineCode(style: InlineCode.() -> Unit) {
@@ -101,14 +101,14 @@ class PDFStyle(
     this.headerSix = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun <T> matchHeaderLevel(headerLevel: Int, operation: (Element) -> T) =
+  fun matchHeaderLevel(headerLevel: Int) =
     when (headerLevel) {
-      1 -> operation(headerOne)
-      2 -> operation(headerTwo)
-      3 -> operation(headerThree)
-      4 -> operation(headerFour)
-      5 -> operation(headerFive)
-      6 -> operation(headerSix)
-      else -> operation(headerOne)
+      1 -> headerOne
+      2 -> headerTwo
+      3 -> headerThree
+      4 -> headerFour
+      5 -> headerFive
+      6 -> headerSix
+      else -> headerOne
     }
 }
