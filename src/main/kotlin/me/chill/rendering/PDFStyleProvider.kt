@@ -3,6 +3,7 @@ package me.chill.rendering
 import me.chill.style.InlineStyleRenderer
 import me.chill.style.PDFStyle
 import me.chill.style.elements.Element
+import me.chill.style.elements.lists.UnorderedList
 import me.chill.utility.cssColor
 import me.chill.utility.px
 import org.bouncycastle.crypto.tls.ExtensionType
@@ -36,6 +37,21 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
       is Paragraph -> inlineStyleRenderer.setStyle(style.paragraph)
 
       is Link -> inlineStyleRenderer.setStyle(style.link)
+
+      is ListBlock -> {
+        val listType = when (node) {
+          is BulletList -> style.ul
+          is OrderedList -> style.ol
+          else -> style.ul
+        }
+
+        with (listType) {
+          inlineStyleRenderer
+            .setStyle(this)
+            .attribute("list-style-type", listStyleType.toCss())
+            .attribute("list-style-position", listStylePosition.name.toLowerCase())
+        }
+      }
     }
 
     attributes["style"] = inlineStyleRenderer.renderStyle()
