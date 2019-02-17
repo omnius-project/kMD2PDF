@@ -13,7 +13,16 @@ data class Border(
   var borderColor: Color? = Color.BLACK
 ) {
   enum class BorderStyle {
-    DOTTED, DASHED, SOLID, DOUBLE, GROOVE, RIDGE, INSET, OUTSET, NONE, HIDDEN
+    DOTTED,
+    DASHED,
+    SOLID,
+    DOUBLE,
+    GROOVE,
+    RIDGE,
+    INSET,
+    OUTSET,
+    NONE,
+    HIDDEN
   }
 
   /**
