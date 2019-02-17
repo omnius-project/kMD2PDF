@@ -1,6 +1,7 @@
 package me.chill.style
 
 import me.chill.style.elements.*
+import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
 
@@ -19,22 +20,22 @@ class PDFStyle(
   private val baseFontFamily: FontFamily = FontFamily("sans-serif")
 ) {
 
-  var headerOne = HeaderOne(baseFontSize, baseFontFamily.clone())
+  var h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
     private set
 
-  var headerTwo = HeaderTwo(baseFontSize, baseFontFamily.clone())
+  var h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
     private set
 
-  var headerThree = HeaderThree(baseFontSize, baseFontFamily.clone())
+  var h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
     private set
 
-  var headerFour = HeaderFour(baseFontSize, baseFontFamily.clone())
+  var h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
     private set
 
-  var headerFive = HeaderFive(baseFontSize, baseFontFamily.clone())
+  var h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
     private set
 
-  var headerSix = HeaderSix(baseFontSize, baseFontFamily.clone())
+  var h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
     private set
 
   var inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone())
@@ -85,28 +86,28 @@ class PDFStyle(
     this.link = Link(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerOne(style: HeaderOne.() -> Unit) {
-    this.headerOne = HeaderOne(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h1(style: HeaderOne.() -> Unit) {
+    this.h1 = HeaderOne(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerTwo(style: HeaderTwo.() -> Unit) {
-    this.headerTwo = HeaderTwo(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h2(style: HeaderTwo.() -> Unit) {
+    this.h2 = HeaderTwo(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerThree(style: HeaderThree.() -> Unit) {
-    this.headerThree = HeaderThree(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h3(style: HeaderThree.() -> Unit) {
+    this.h3 = HeaderThree(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerFour(style: HeaderFour.() -> Unit) {
-    this.headerFour = HeaderFour(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h4(style: HeaderFour.() -> Unit) {
+    this.h4 = HeaderFour(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerFive(style: HeaderFive.() -> Unit) {
-    this.headerFive = HeaderFive(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h5(style: HeaderFive.() -> Unit) {
+    this.h5 = HeaderFive(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
-  fun headerSix(style: HeaderSix.() -> Unit) {
-    this.headerSix = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
+  fun h6(style: HeaderSix.() -> Unit) {
+    this.h6 = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun ul(style: UnorderedList.() -> Unit) {
@@ -119,12 +120,12 @@ class PDFStyle(
 
   fun matchHeaderLevel(headerLevel: Int) =
     when (headerLevel) {
-      1 -> headerOne
-      2 -> headerTwo
-      3 -> headerThree
-      4 -> headerFour
-      5 -> headerFive
-      6 -> headerSix
-      else -> headerOne
+      1 -> h1
+      2 -> h2
+      3 -> h3
+      4 -> h4
+      5 -> h5
+      6 -> h6
+      else -> h1
     }
 }

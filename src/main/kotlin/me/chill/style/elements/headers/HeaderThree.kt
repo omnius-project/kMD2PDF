@@ -1,10 +1,9 @@
-package me.chill.style.elements
+package me.chill.style.elements.headers
 
 import me.chill.style.FontFamily
+import me.chill.style.elements.Element
 
 class HeaderThree(
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily("sans-serif")
-) : Element(fontSize, fontFamily) {
-  override var fontSize = super.fontSize * 1.17
-}
+) : Header(fontSize, fontFamily, 1.17)
