@@ -5,9 +5,6 @@
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/woojiahao/kMD2PDF/blob/master/LICENSE)
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
 
-## Table of Contents
-1. [Quick Start Guide](quickStartGuide.md)
-
 ## Libraries Used
 * [Commonmark Java](https://github.com/atlassian/commonmark-java)
 * [Dokka](https://github.com/Kotlin/dokka)
