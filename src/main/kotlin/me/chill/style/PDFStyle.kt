@@ -1,6 +1,8 @@
 package me.chill.style
 
 import me.chill.style.elements.*
+import me.chill.style.elements.lists.OrderedList
+import me.chill.style.elements.lists.UnorderedList
 
 /**
  * Default styling for an exported PDF.
@@ -45,6 +47,12 @@ class PDFStyle(
     private set
 
   var link = Link(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var ul = UnorderedList(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var ol = OrderedList(baseFontSize, baseFontFamily.clone())
     private set
 
   companion object {
@@ -99,6 +107,14 @@ class PDFStyle(
 
   fun headerSix(style: HeaderSix.() -> Unit) {
     this.headerSix = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
+  }
+
+  fun ul(style: UnorderedList.() -> Unit) {
+    this.ul = UnorderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
+  }
+
+  fun ol(style: OrderedList.() -> Unit) {
+    this.ol = OrderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun matchHeaderLevel(headerLevel: Int) =
