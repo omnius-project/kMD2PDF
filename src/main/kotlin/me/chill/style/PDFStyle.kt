@@ -1,6 +1,7 @@
 package me.chill.style
 
 import me.chill.style.elements.*
+import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
 
 /**
@@ -49,6 +50,9 @@ class PDFStyle(
     private set
 
   var ul = UnorderedList(baseFontSize, baseFontFamily.clone())
+    private set
+
+  var ol = OrderedList(baseFontSize, baseFontFamily.clone())
     private set
 
   companion object {
@@ -107,6 +111,10 @@ class PDFStyle(
 
   fun ul(style: UnorderedList.() -> Unit) {
     this.ul = UnorderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
+  }
+
+  fun ol(style: OrderedList.() -> Unit) {
+    this.ol = OrderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
   }
 
   fun matchHeaderLevel(headerLevel: Int) =
