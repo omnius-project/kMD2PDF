@@ -5,15 +5,25 @@ import kotlin.test.assertEquals
 
 class FontFamilyTest {
   @Test
-  fun `Creating FontFamily with empty fonts parameter leaves fonts empty`() {
+  fun `Empty FontFamily loads no fonts`() {
     val fontFamily = FontFamily()
     fontFamily.checkFontFamilySize(0)
   }
 
   @Test
-  fun `Creating FontFamily with some fonts will load those fonts into the FontFamily`() {
+  fun `FontFamily with some fonts loads those fonts`() {
     val fontFamily = FontFamily("Roboto", "Arial", "Consolas")
     fontFamily.checkFontList("Roboto", "Arial", "Consolas")
+  }
+
+  @Test
+  fun `FontFamily adds fallback font to the end of the font list`() {
+    val fontFamily = FontFamily(
+      FontFamily.BaseFontFamily.SANS_SERIF,
+      "Roboto",
+      "Lato"
+    )
+    fontFamily.checkFontList("Roboto", "Lato", "sans-serif")
   }
 
   @Test

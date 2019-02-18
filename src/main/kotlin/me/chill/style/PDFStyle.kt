@@ -1,6 +1,11 @@
 package me.chill.style
 
-import me.chill.style.elements.*
+import me.chill.style.FontFamily.BaseFontFamily.MONOSPACE
+import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
+import me.chill.style.elements.Bold
+import me.chill.style.elements.InlineCode
+import me.chill.style.elements.Link
+import me.chill.style.elements.Paragraph
 import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
@@ -17,7 +22,7 @@ import me.chill.style.elements.lists.UnorderedList
  */
 class PDFStyle(
   private val baseFontSize: Double = 16.0,
-  private val baseFontFamily: FontFamily = FontFamily("sans-serif")
+  private val baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
 ) {
 
   var h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
@@ -38,7 +43,7 @@ class PDFStyle(
   var h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
     private set
 
-  var inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone())
+  var inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
     private set
 
   var bold = Bold(baseFontSize, baseFontFamily.clone())
@@ -65,13 +70,13 @@ class PDFStyle(
      */
     fun createStyle(
       baseFontSize: Double = 16.0,
-      baseFontFamily: FontFamily = FontFamily("sans-serif"),
+      baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
       styleFunction: PDFStyle.() -> Unit
     ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
   fun inlineCode(style: InlineCode.() -> Unit) {
-    this.inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone()).apply { style() }
+    this.inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone()).apply { style() }
   }
 
   fun bold(style: Bold.() -> Unit) {

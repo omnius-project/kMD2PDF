@@ -2,7 +2,7 @@ package me.chill.style.elements
 
 import me.chill.style.Border
 import me.chill.style.FontFamily
-import me.chill.utility.px
+import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
 import java.awt.Color
 
 /**
@@ -10,7 +10,7 @@ import java.awt.Color
  */
 open class Element(
   open var fontSize: Double,
-  open var fontFamily: FontFamily = FontFamily("sans-serif")
+  open var fontFamily: FontFamily = FontFamily(SANS_SERIF)
 ) {
 
   open var fontColor: Color? = Color.BLACK

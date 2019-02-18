@@ -5,7 +5,7 @@ import me.chill.style.elements.Element
 
 open class List(
   fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily("sans-serif")
+  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
 ) : Element(fontSize, fontFamily) {
 
   open var listStyleType = ListStyleType.CIRCLE

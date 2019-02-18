@@ -6,6 +6,15 @@ package me.chill.style
  */
 class FontFamily(private vararg val fonts: String) {
 
+  enum class BaseFontFamily {
+    SERIF, SANS_SERIF, CURSIVE, FANTASY, MONOSPACE;
+
+    fun toCss() = name.toLowerCase().replace("_", "-")
+  }
+
+  constructor(fallBackFont: BaseFontFamily, vararg fonts: String)
+      : this(*fonts.toMutableList().apply { add(fallBackFont.toCss()) }.toTypedArray())
+
   private val fontFamily = mutableListOf<String>()
 
   init {
