@@ -3,7 +3,7 @@ package me.chill.style
 /**
  * Box of measurements for all directions.
  */
-class Box<T>(val top: T, val right: T, val bottom: T, val left: T) {
+open class Box<T>(val top: T, val right: T, val bottom: T, val left: T) {
   constructor(vertical: T, horizontal: T) : this(vertical, horizontal, vertical, horizontal)
   constructor(all: T) : this(all, all, all, all)
 

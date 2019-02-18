@@ -10,18 +10,7 @@ class BorderTest {
   @Test
   fun `Default border is 0 width, black color, NONE and 0 radius`() {
     with(Border()) {
-      checkBorderSettings(0.0, NONE, Color.BLACK, Box(0.0))
-    }
-  }
-
-  @Test
-  fun `DSL sets borderRadius to respective value`() {
-    with(Border()) {
-      border {
-        borderRadius = Box(3.2)
-      }
-
-      checkBorderSettings(0.0, NONE, Color.BLACK, Box(3.2))
+      checkBorderSettings(0.0, NONE, Color.BLACK)
     }
   }
 
@@ -40,7 +29,7 @@ class BorderTest {
         4.1 dashed c("EDE7F6")
       }
       clearBorder()
-      checkBorderSettings(0.0, NONE, Color.BLACK, Box(0.0))
+      checkBorderSettings(0.0, NONE, Color.BLACK)
     }
   }
 
@@ -64,7 +53,7 @@ class BorderTest {
         }
       }
 
-      checkBorderSettings(borderWidth, this@testDSL, borderColor, Box(0.0))
+      checkBorderSettings(borderWidth, this@testDSL, borderColor)
     }
   }
 
@@ -73,19 +62,10 @@ class BorderTest {
   private fun Border.checkBorderSettings(
     borderWidth: Double,
     borderStyle: Border.BorderStyle,
-    borderColor: Color?,
-    borderRadius: Box<Double>
+    borderColor: Color?
   ) {
     assertEquals(borderWidth, this.borderWidth)
     assertEquals(borderStyle, this.borderStyle)
     assertEquals(borderColor, this.borderColor)
-    this.borderRadius.checkBoxDimensions(borderRadius)
-  }
-
-  private fun Box<Double>.checkBoxDimensions(box: Box<Double>) {
-    assertEquals(box.top, this.top)
-    assertEquals(box.right, this.right)
-    assertEquals(box.bottom, this.bottom)
-    assertEquals(box.left, this.left)
   }
 }

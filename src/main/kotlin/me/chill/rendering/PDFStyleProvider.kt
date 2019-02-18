@@ -58,8 +58,11 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
       attribute("background-color", backgroundColor?.cssColor())
       attribute("font-weight", fontWeight.name.toLowerCase())
       attribute("text-decoration", textDecoration.toCss())
-      attribute("border", border)
-      attribute("border-radius", border.borderRadius.toCss { it.px })
+      attribute("border-top", border.top)
+      attribute("border-right", border.right)
+      attribute("border-bottom", border.bottom)
+      attribute("border-left", border.left)
+      attribute("border-radius", borderRadius.toCss { it.px })
       attribute("padding", padding.toCss { it.px })
     }
 }
