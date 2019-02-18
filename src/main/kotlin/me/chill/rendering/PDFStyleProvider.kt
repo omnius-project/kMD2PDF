@@ -31,6 +31,8 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
       is BlockQuote -> inlineStyleRenderer.setStyle(style.blockQuote)
 
+      is Image -> inlineStyleRenderer.setStyle(style.img)
+
       is ListBlock -> {
         val listType = when (node) {
           is BulletList -> style.ul
