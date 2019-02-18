@@ -3,10 +3,8 @@ package me.chill.rendering
 import me.chill.style.InlineStyleRenderer
 import me.chill.style.PDFStyle
 import me.chill.style.elements.Element
-import me.chill.style.elements.lists.UnorderedList
 import me.chill.utility.cssColor
 import me.chill.utility.px
-import org.bouncycastle.crypto.tls.ExtensionType
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import org.commonmark.renderer.html.HtmlRenderer
@@ -34,7 +32,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
       is StrongEmphasis -> inlineStyleRenderer.setStyle(style.bold)
 
-      is Paragraph -> inlineStyleRenderer.setStyle(style.paragraph)
+      is Paragraph -> inlineStyleRenderer.setStyle(style.p)
 
       is Link -> inlineStyleRenderer.setStyle(style.link)
 
