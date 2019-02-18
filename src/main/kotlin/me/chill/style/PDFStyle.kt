@@ -36,44 +36,20 @@ class PDFStyle(
     ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
-  var h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
-    private set
-
-  var bold = Bold(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var p = Paragraph(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var link = Link(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var ul = UnorderedList(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var ol = OrderedList(baseFontSize, baseFontFamily.clone())
-    private set
-
-  var blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
-    private set
+  val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
+  val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
+  val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
+  val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
+  val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
+  val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
+  val inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  val bold = Bold(baseFontSize, baseFontFamily.clone())
+  val p = Paragraph(baseFontSize, baseFontFamily.clone())
+  val link = Link(baseFontSize, baseFontFamily.clone())
+  val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
+  val ol = OrderedList(baseFontSize, baseFontFamily.clone())
+  val blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
+  val img = Image(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.
@@ -109,6 +85,11 @@ class PDFStyle(
    * Style for [BlockQuote] element.
    */
   fun blockQuote(style: BlockQuote.() -> Unit) = blockQuote.style()
+
+  /**
+   * Style for [Image] element.
+   */
+  fun img(style: Image.() -> Unit) = img.style()
 
   /**
    * Style [HeaderOne] element.
