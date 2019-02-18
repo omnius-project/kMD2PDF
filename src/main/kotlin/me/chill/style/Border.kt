@@ -1,6 +1,7 @@
 package me.chill.style
 
 import me.chill.style.Border.BorderStyle.*
+import me.chill.style.elements.Box
 import me.chill.utility.cssColor
 import me.chill.utility.px
 import java.awt.Color
@@ -12,8 +13,10 @@ import java.awt.Color
 data class Border(
   var borderWidth: Double = 0.0,
   var borderStyle: BorderStyle = NONE,
-  var borderColor: Color? = Color.BLACK
+  var borderColor: Color? = Color.BLACK,
+  var borderRadius: Box<Double> = Box(0.0)
 ) {
+
   enum class BorderStyle {
     DOTTED,
     DASHED,
@@ -79,17 +82,23 @@ data class Border(
 
   /**
    * Resets the border to defaults of [borderWidth] - 0.0, [borderStyle] - [NONE],
-   * [borderColor] - [Color.BLACK].
+   * [borderColor] - [Color.BLACK], [borderRadius] - `Box(0.0)`.
    */
-  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK)
+  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK, Box(0.0))
 
   /**
    * Sets the border preferences.
    */
-  private fun setBorder(borderWidth: Double, borderStyle: BorderStyle, borderColor: Color?) {
+  private fun setBorder(
+    borderWidth: Double,
+    borderStyle: BorderStyle,
+    borderColor: Color?,
+    borderRadius: Box<Double> = this.borderRadius
+  ) {
     this.borderWidth = borderWidth
     this.borderStyle = borderStyle
     this.borderColor = borderColor
+    this.borderRadius = borderRadius
   }
 
   override fun toString() = "${borderWidth.px} ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
