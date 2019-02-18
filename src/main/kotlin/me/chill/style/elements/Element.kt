@@ -1,6 +1,7 @@
 package me.chill.style.elements
 
 import me.chill.style.Border
+import me.chill.style.Box
 import me.chill.style.FontFamily
 import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
 import java.awt.Color
@@ -18,6 +19,7 @@ open class Element(
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
   open var border = Border()
+  open var padding = Box(0.0)
 
   enum class FontWeight {
     NORMAL, BOLD, BOLDER, LIGHTER
