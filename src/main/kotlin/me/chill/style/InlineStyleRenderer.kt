@@ -8,5 +8,10 @@ class InlineStyleRenderer {
     return this
   }
 
+  fun removeAttribute(attributeName: String): InlineStyleRenderer {
+    attributes.remove(attributeName)
+    return this
+  }
+
   fun renderStyle() = attributes.entries.joinToString(" ") { "${it.key}: ${it.value};" }
 }

@@ -3,6 +3,7 @@ package me.chill
 import me.chill.rendering.MarkdownRenderer
 import me.chill.style.PDFStyle
 import me.chill.utility.extensions.isFileType
+import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.Node
 import org.commonmark.parser.Parser
 import java.io.File
@@ -24,6 +25,10 @@ class MarkdownDocument(
   constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
 
   private val markdownRenderer = MarkdownRenderer(this, style)
+  private val parser = Parser
+    .builder()
+    .extensions(listOf(TablesExtension.create()))
+    .build()
 
   var parsedDocument: Node
     private set
@@ -37,7 +42,7 @@ class MarkdownDocument(
       require(isFile) { "File path ($path) must point to a file" }
       require(isFileType("md")) { "File ($name) must be a markdown document" }
 
-      parsedDocument = Parser.builder().build().parse(readText())
+      parsedDocument = parser.parse(readText())
     }
   }
 

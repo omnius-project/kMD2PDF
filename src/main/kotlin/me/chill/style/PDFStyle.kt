@@ -6,6 +6,7 @@ import me.chill.style.elements.*
 import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
+import me.chill.style.elements.table.Table
 
 /**
  * Styling for an exported PDF.
@@ -50,6 +51,7 @@ class PDFStyle(
   val ol = OrderedList(baseFontSize, baseFontFamily.clone())
   val blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
   val img = Image(baseFontSize, baseFontFamily.clone())
+  val table = Table(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.
@@ -90,6 +92,11 @@ class PDFStyle(
    * Style for [Image] element.
    */
   fun img(style: Image.() -> Unit) = img.style()
+
+  /**
+   * Style for [Table] element
+   */
+  fun table(style: Table.() -> Unit) = table.style()
 
   /**
    * Style [HeaderOne] element.

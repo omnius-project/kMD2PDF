@@ -5,6 +5,7 @@ import me.chill.style.PDFStyle
 import me.chill.style.elements.Element
 import me.chill.utility.cssColor
 import me.chill.utility.px
+import org.commonmark.ext.gfm.tables.*
 import org.commonmark.node.*
 import org.commonmark.renderer.html.AttributeProvider
 import org.commonmark.renderer.html.HtmlRenderer
@@ -32,6 +33,26 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
       is BlockQuote -> inlineStyleRenderer.setStyle(style.blockQuote)
 
       is Image -> inlineStyleRenderer.setStyle(style.img)
+
+      is TableBlock -> {
+        with(style.table) {
+          inlineStyleRenderer
+            .setStyle(this)
+            .attribute("border-collapse", "collapse")
+        }
+      }
+
+      is TableCell -> {
+        with(style.table) {
+          inlineStyleRenderer.setStyle(if (node.isHeader) th else td)
+        }
+      }
+
+      is TableBody -> inlineStyleRenderer.setStyle(style.table.tbody)
+
+      is TableHead -> inlineStyleRenderer.setStyle(style.table.thead)
+
+      is TableRow -> inlineStyleRenderer.setStyle(style.table.tr)
 
       is ListBlock -> {
         val listType = when (node) {
