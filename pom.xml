@@ -88,6 +88,12 @@
       <artifactId>kotlinx-html-jvm</artifactId>
       <version>${kotlin.html.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.atlassian.commonmark</groupId>
+      <artifactId>commonmark-ext-gfm-tables</artifactId>
+      <version>${commonmark.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
