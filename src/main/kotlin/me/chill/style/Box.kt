@@ -1,4 +1,4 @@
-package me.chill.style.elements
+package me.chill.style
 
 /**
  * Box of measurements for all directions.

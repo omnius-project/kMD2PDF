@@ -1,6 +1,5 @@
 package me.chill.style
 
-import me.chill.style.elements.Box
 import me.chill.utility.px
 import org.junit.Test
 import kotlin.test.assertEquals
