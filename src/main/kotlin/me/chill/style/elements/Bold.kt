@@ -6,6 +6,6 @@ import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
 class Bold(
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily(SANS_SERIF)
-) : Element(fontSize, fontFamily) {
+) : Element("strong", fontSize, fontFamily) {
   override var fontWeight = FontWeight.BOLD
 }

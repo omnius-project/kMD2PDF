@@ -18,14 +18,14 @@ import me.chill.style.elements.table.Table
  * Supply a [baseFontFamily] to be applied to all elements unless otherwise
  * specified. [InlineCode] will change this font to use a monospace font instead.
  */
-class PDFStyle(
+class Style(
   private val baseFontSize: Double = 16.0,
   private val baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
-) {
+) : AbstractStyle() {
 
   companion object {
     /**
-     * Creates a custom PDFStyle object using the DSL.
+     * Creates a custom Style object using the DSL.
      *
      * Supply a [baseFontSize] to be applied to all element unless otherwise specified.
      * [baseFontSize] will influence the scaling of each header.
@@ -33,35 +33,35 @@ class PDFStyle(
     fun createStyle(
       baseFontSize: Double = 16.0,
       baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
-      styleFunction: PDFStyle.() -> Unit
-    ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
+      styleFunction: Style.() -> Unit
+    ) = Style(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
-  val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
-  val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
-  val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
-  val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
-  val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
-  val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-  val inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
-  val bold = Bold(baseFontSize, baseFontFamily.clone())
-  val p = Paragraph(baseFontSize, baseFontFamily.clone())
-  val link = Link(baseFontSize, baseFontFamily.clone())
-  val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
-  val ol = OrderedList(baseFontSize, baseFontFamily.clone())
-  val blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
-  val img = Image(baseFontSize, baseFontFamily.clone())
-  val table = Table(baseFontSize, baseFontFamily.clone())
+  override val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
+  override val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
+  override val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
+  override val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
+  override val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
+  override val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
+  override val code = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  override val strong = Bold(baseFontSize, baseFontFamily.clone())
+  override val p = Paragraph(baseFontSize, baseFontFamily.clone())
+  override val a = Link(baseFontSize, baseFontFamily.clone())
+  override val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
+  override val ol = OrderedList(baseFontSize, baseFontFamily.clone())
+  override val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
+  override val img = Image(baseFontSize, baseFontFamily.clone())
+  override val table = Table(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.
    */
-  fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
+  fun code(style: InlineCode.() -> Unit) = code.style()
 
   /**
    * Style [Bold] element.
    */
-  fun bold(style: Bold.() -> Unit) = bold.style()
+  fun strong(style: Bold.() -> Unit) = strong.style()
 
   /**
    * Style [Paragraph] element.
@@ -71,7 +71,7 @@ class PDFStyle(
   /**
    * Style [Link] element.
    */
-  fun link(style: Link.() -> Unit) = link.style()
+  fun a(style: Link.() -> Unit) = a.style()
 
   /**
    * Style [UnorderedList] element.
@@ -86,7 +86,7 @@ class PDFStyle(
   /**
    * Style for [BlockQuote] element.
    */
-  fun blockQuote(style: BlockQuote.() -> Unit) = blockQuote.style()
+  fun blockquote(style: BlockQuote.() -> Unit) = blockquote.style()
 
   /**
    * Style for [Image] element.

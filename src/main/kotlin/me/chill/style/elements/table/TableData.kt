@@ -6,7 +6,6 @@ import me.chill.style.Box
 import me.chill.style.FontFamily
 import me.chill.style.elements.Element
 import me.chill.utility.c
-import java.awt.Color
 
 /**
  * <td></td> element.
@@ -14,7 +13,7 @@ import java.awt.Color
 class TableData(
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element(fontSize, fontFamily) {
+) : Element("td", fontSize, fontFamily) {
   override var border = BorderBox(
     Border(),
     Border(),

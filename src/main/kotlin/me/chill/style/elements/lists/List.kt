@@ -4,13 +4,10 @@ import me.chill.style.FontFamily
 import me.chill.style.elements.Element
 
 open class List(
+  elementName: String,
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element(fontSize, fontFamily) {
-
-  open var listStyleType = ListStyleType.CIRCLE
-
-  open var listStylePosition = ListStylePosition.OUTSIDE
+) : Element(elementName, fontSize, fontFamily) {
 
   enum class ListStylePosition {
     INSIDE, OUTSIDE
@@ -41,5 +38,15 @@ open class List(
     NONE;
 
     fun toCss() = name.toLowerCase().replace("_", "-")
+  }
+
+  open var listStyleType = ListStyleType.CIRCLE
+
+  open var listStylePosition = ListStylePosition.OUTSIDE
+
+  override fun toCss(): String {
+    attributes.attribute("list-style-type", listStyleType.toCss())
+    attributes.attribute("list-style-position", listStylePosition.name.toLowerCase())
+    return super.toCss()
   }
 }

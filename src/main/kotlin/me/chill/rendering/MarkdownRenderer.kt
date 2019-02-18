@@ -1,11 +1,10 @@
 package me.chill.rendering
 
-import kotlinx.html.body
-import kotlinx.html.html
+import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import kotlinx.html.unsafe
 import me.chill.MarkdownDocument
-import me.chill.style.PDFStyle
+import me.chill.style.AbstractStyle
+import me.chill.style.Style
 import me.chill.utility.getFontDirectories
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.renderer.html.HtmlRenderer
@@ -18,26 +17,34 @@ import java.io.FileOutputStream
  */
 class MarkdownRenderer(
   private val markdownDocument: MarkdownDocument,
-  private val style: PDFStyle
+  private val style: AbstractStyle
 ) {
 
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(listOf(TablesExtension.create()))
-    .attributeProviderFactory { PDFStyleProvider(style) }
     .build()
 
   /**
    * Converts the [markdownDocument] into HTML for the PDF to render.
    * [style] is rendered along with the HTML as inline styles.
    */
-  fun toHTML() = StringBuilder().appendHTML().html {
-    body {
-      unsafe {
-        +htmlRenderer.render(markdownDocument.parsedDocument).trim()
+  fun toHTML() = StringBuilder()
+    .appendHTML()
+    .html {
+      head {
+        style {
+          unsafe {
+            +extractStyle()
+          }
+        }
       }
-    }
-  }.toString()
+      body {
+        unsafe {
+          +htmlRenderer.render(markdownDocument.parsedDocument).trim()
+        }
+      }
+    }.toString()
 
   /**
    * Converts the given [markdownDocument] to a PDF, saving it at the location
@@ -51,6 +58,8 @@ class MarkdownRenderer(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
+    println(toHTML())
+
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
@@ -63,6 +72,8 @@ class MarkdownRenderer(
       }
     }
   }
+
+  private fun extractStyle() = style.getElements().joinToString("\n\n") { it.toCss() }
 
   /**
    * Loads all available font directories into an [ITextRenderer] to be used with
