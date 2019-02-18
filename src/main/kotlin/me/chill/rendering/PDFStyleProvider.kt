@@ -49,6 +49,8 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
             .attribute("list-style-position", listStylePosition.name.toLowerCase())
         }
       }
+
+      is BlockQuote -> inlineStyleRenderer.setStyle(style.blockQuote)
     }
 
     attributes["style"] = inlineStyleRenderer.renderStyle()

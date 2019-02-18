@@ -1,7 +1,6 @@
 package me.chill.style
 
 import me.chill.style.Border.BorderStyle.*
-import me.chill.style.elements.Box
 import me.chill.utility.c
 import org.junit.Test
 import java.awt.Color

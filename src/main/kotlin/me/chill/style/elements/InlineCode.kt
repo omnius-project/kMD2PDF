@@ -1,5 +1,6 @@
 package me.chill.style.elements
 
+import me.chill.style.Box
 import me.chill.style.FontFamily
 import me.chill.style.FontFamily.BaseFontFamily.MONOSPACE
 import me.chill.utility.c
