@@ -21,7 +21,7 @@ import me.chill.style.elements.table.Table
 class Style(
   private val baseFontSize: Double = 16.0,
   private val baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
-) {
+) : AbstractStyle() {
 
   companion object {
     /**
@@ -37,44 +37,21 @@ class Style(
     ) = Style(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
-  val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
-  val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
-  val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
-  val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
-  val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
-  val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-  val code = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
-  val strong = Bold(baseFontSize, baseFontFamily.clone())
-  val p = Paragraph(baseFontSize, baseFontFamily.clone())
-  val a = Link(baseFontSize, baseFontFamily.clone())
-  val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
-  val ol = OrderedList(baseFontSize, baseFontFamily.clone())
-  val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
-  val img = Image(baseFontSize, baseFontFamily.clone())
-  val table = Table(baseFontSize, baseFontFamily.clone())
-
-  val elements = setOf(
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    code,
-    strong,
-    p,
-    a,
-    ul,
-    ol,
-    blockquote,
-    img,
-    table,
-    table.thead,
-    table.tbody,
-    table.th,
-    table.td,
-    table.tr
-  )
+  override val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
+  override val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
+  override val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
+  override val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
+  override val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
+  override val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
+  override val code = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  override val strong = Bold(baseFontSize, baseFontFamily.clone())
+  override val p = Paragraph(baseFontSize, baseFontFamily.clone())
+  override val a = Link(baseFontSize, baseFontFamily.clone())
+  override val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
+  override val ol = OrderedList(baseFontSize, baseFontFamily.clone())
+  override val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
+  override val img = Image(baseFontSize, baseFontFamily.clone())
+  override val table = Table(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.

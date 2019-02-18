@@ -3,6 +3,7 @@ package me.chill.rendering
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import me.chill.MarkdownDocument
+import me.chill.style.AbstractStyle
 import me.chill.style.Style
 import me.chill.utility.getFontDirectories
 import org.commonmark.ext.gfm.tables.TablesExtension
@@ -16,7 +17,7 @@ import java.io.FileOutputStream
  */
 class MarkdownRenderer(
   private val markdownDocument: MarkdownDocument,
-  private val style: Style
+  private val style: AbstractStyle
 ) {
 
   private val htmlRenderer = HtmlRenderer
@@ -57,6 +58,8 @@ class MarkdownRenderer(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
+    println(toHTML())
+
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
@@ -70,7 +73,7 @@ class MarkdownRenderer(
     }
   }
 
-  private fun extractStyle() = style.elements.joinToString("\n\n") { it.toCss() }
+  private fun extractStyle() = style.getElements().joinToString("\n\n") { it.toCss() }
 
   /**
    * Loads all available font directories into an [ITextRenderer] to be used with

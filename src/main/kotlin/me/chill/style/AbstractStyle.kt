@@ -1,0 +1,48 @@
+package me.chill.style
+
+import me.chill.style.elements.*
+import me.chill.style.elements.headers.*
+import me.chill.style.elements.lists.OrderedList
+import me.chill.style.elements.lists.UnorderedList
+import me.chill.style.elements.table.Table
+
+abstract class AbstractStyle {
+  abstract val h1: HeaderOne
+  abstract val h2: HeaderTwo
+  abstract val h3: HeaderThree
+  abstract val h4: HeaderFour
+  abstract val h5: HeaderFive
+  abstract val h6: HeaderSix
+  abstract val code: InlineCode
+  abstract val strong: Bold
+  abstract val p: Paragraph
+  abstract val a: Link
+  abstract val ul: UnorderedList
+  abstract val ol: OrderedList
+  abstract val blockquote: BlockQuote
+  abstract val img: Image
+  abstract val table: Table
+
+  fun getElements() = setOf(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    code,
+    strong,
+    p,
+    a,
+    ul,
+    ol,
+    blockquote,
+    img,
+    table,
+    table.thead,
+    table.tbody,
+    table.th,
+    table.td,
+    table.tr
+  )
+}
