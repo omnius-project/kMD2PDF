@@ -25,8 +25,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
         with(style.inlineCode) {
           inlineStyleRenderer
             .setStyle(this)
-            .attribute("border-radius", borderRadius.px)
-            .attribute("padding", padding.px)
+            .attribute("padding", padding.toCss { it.px })
         }
       }
 
@@ -43,7 +42,7 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
           else -> style.ul
         }
 
-        with (listType) {
+        with(listType) {
           inlineStyleRenderer
             .setStyle(this)
             .attribute("list-style-type", listStyleType.toCss())
@@ -64,5 +63,6 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
       attribute("font-weight", fontWeight.name.toLowerCase())
       attribute("text-decoration", textDecoration.toCss())
       attribute("border", border)
+      attribute("border-radius", border.borderRadius.toCss { it.px })
     }
 }
