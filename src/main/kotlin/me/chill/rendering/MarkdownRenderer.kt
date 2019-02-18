@@ -7,6 +7,7 @@ import kotlinx.html.unsafe
 import me.chill.MarkdownDocument
 import me.chill.style.PDFStyle
 import me.chill.utility.getFontDirectories
+import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
@@ -22,7 +23,7 @@ class MarkdownRenderer(
 
   private val htmlRenderer = HtmlRenderer
     .builder()
-    .escapeHtml(true)
+    .extensions(listOf(TablesExtension.create()))
     .attributeProviderFactory { PDFStyleProvider(style) }
     .build()
 
