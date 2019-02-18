@@ -14,5 +14,5 @@ class InlineCode(
 ) : Element(fontSize, fontFamily) {
   override var fontColor = c("FF3D00")
   override var backgroundColor = c("#F5F5F5")
-  override var padding = Box(3.0)
+  override var padding: Box<Double>? = Box(3.0)
 }

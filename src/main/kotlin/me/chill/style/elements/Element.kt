@@ -21,7 +21,8 @@ open class Element(
   open var textDecoration = TextDecoration.NONE
   open var border = BorderBox(Border())
   open var borderRadius = Box(0.0)
-  open var padding = Box(0.0)
+  open var padding: Box<Double>? = null
+  open var margin: Box<Double>? = null
 
   enum class FontWeight {
     NORMAL, BOLD, BOLDER, LIGHTER

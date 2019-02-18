@@ -52,6 +52,12 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
   private fun InlineStyleRenderer.setStyle(element: Element) =
     with(element) {
+      if (padding != null) {
+        attribute("padding", padding?.toCss { it.px })
+      }
+      if (margin != null) {
+        attribute("margin", margin?.toCss { it.px })
+      }
       attribute("font-size", fontSize.px)
       attribute("font-family", fontFamily)
       attribute("color", fontColor?.cssColor())
@@ -63,6 +69,5 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
       attribute("border-bottom", border.bottom)
       attribute("border-left", border.left)
       attribute("border-radius", borderRadius.toCss { it.px })
-      attribute("padding", padding.toCss { it.px })
     }
 }
