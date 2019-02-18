@@ -40,7 +40,7 @@ class MarkdownRenderer(
       head {
         style {
           unsafe {
-            +extractStyle()
+            +"\n${extractStyle()}\n"
           }
         }
       }
