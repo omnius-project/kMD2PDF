@@ -2,10 +2,7 @@ package me.chill.style
 
 import me.chill.style.FontFamily.BaseFontFamily.MONOSPACE
 import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
-import me.chill.style.elements.Bold
-import me.chill.style.elements.InlineCode
-import me.chill.style.elements.Link
-import me.chill.style.elements.Paragraph
+import me.chill.style.elements.*
 import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
@@ -75,6 +72,9 @@ class PDFStyle(
   var ol = OrderedList(baseFontSize, baseFontFamily.clone())
     private set
 
+  var blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
+    private set
+
   /**
    * Style [InlineCode] element.
    */
@@ -104,6 +104,11 @@ class PDFStyle(
    * Style [OrderedList] element.
    */
   fun ol(style: OrderedList.() -> Unit) = ol.style()
+
+  /**
+   * Style for [BlockQuote] element.
+   */
+  fun blockQuote(style: BlockQuote.() -> Unit) = blockQuote.style()
 
   /**
    * Style [HeaderOne] element.
