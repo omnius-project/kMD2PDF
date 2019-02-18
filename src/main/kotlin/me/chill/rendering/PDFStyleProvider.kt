@@ -36,10 +36,9 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
       is TableBlock -> {
         with(style.table) {
-          inlineStyleRenderer.setStyle(this)
-          if (borderCollapse) {
-            inlineStyleRenderer.attribute("border-collapse", "collapse")
-          }
+          inlineStyleRenderer
+            .setStyle(this)
+            .attribute("border-collapse", "collapse")
         }
       }
 

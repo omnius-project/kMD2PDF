@@ -21,12 +21,6 @@ class Table(
   val td = TableData(fontSize, fontFamily.clone())
   val tr = TableRow(fontSize, fontFamily.clone())
 
-  override var border = BorderBox(
-    Border(1.0, Border.BorderStyle.SOLID, Color.BLACK)
-  )
-  var borderCollapse = true
-  var striped = false
-
   fun thead(style: TableHead.() -> Unit) = thead.style()
 
   fun tbody(style: TableBody.() -> Unit) = tbody.style()
