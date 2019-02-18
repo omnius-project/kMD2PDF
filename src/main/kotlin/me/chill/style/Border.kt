@@ -6,14 +6,12 @@ import me.chill.utility.px
 import java.awt.Color
 
 /**
- * Handles the border to be rendered. Border properties can be set individually,
- * or using CSS-like DSL syntax: `5.0 dotted Color.RED`
+ * Single side border.
  */
 data class Border(
   var borderWidth: Double = 0.0,
   var borderStyle: BorderStyle = NONE,
-  var borderColor: Color? = Color.BLACK,
-  var borderRadius: Box<Double> = Box(0.0)
+  var borderColor: Color? = Color.BLACK
 ) {
 
   enum class BorderStyle {
@@ -83,7 +81,7 @@ data class Border(
    * Resets the border to defaults of [borderWidth] - 0.0, [borderStyle] - [NONE],
    * [borderColor] - [Color.BLACK], [borderRadius] - `Box(0.0)`.
    */
-  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK, Box(0.0))
+  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK)
 
   /**
    * Sets the border preferences.
@@ -91,13 +89,11 @@ data class Border(
   private fun setBorder(
     borderWidth: Double,
     borderStyle: BorderStyle,
-    borderColor: Color?,
-    borderRadius: Box<Double> = this.borderRadius
+    borderColor: Color?
   ) {
     this.borderWidth = borderWidth
     this.borderStyle = borderStyle
     this.borderColor = borderColor
-    this.borderRadius = borderRadius
   }
 
   override fun toString() = "${borderWidth.px} ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"

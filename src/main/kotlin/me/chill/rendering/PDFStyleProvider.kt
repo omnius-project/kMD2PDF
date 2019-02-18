@@ -21,19 +21,15 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
     when (node) {
       is Heading -> inlineStyleRenderer.setStyle(style.matchHeaderLevel(node.level))
 
-      is Code -> {
-        with(style.inlineCode) {
-          inlineStyleRenderer
-            .setStyle(this)
-            .attribute("padding", padding.toCss { it.px })
-        }
-      }
+      is Code -> inlineStyleRenderer.setStyle(style.inlineCode)
 
       is StrongEmphasis -> inlineStyleRenderer.setStyle(style.bold)
 
       is Paragraph -> inlineStyleRenderer.setStyle(style.p)
 
       is Link -> inlineStyleRenderer.setStyle(style.link)
+
+      is BlockQuote -> inlineStyleRenderer.setStyle(style.blockQuote)
 
       is ListBlock -> {
         val listType = when (node) {
@@ -49,8 +45,6 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
             .attribute("list-style-position", listStylePosition.name.toLowerCase())
         }
       }
-
-      is BlockQuote -> inlineStyleRenderer.setStyle(style.blockQuote)
     }
 
     attributes["style"] = inlineStyleRenderer.renderStyle()
@@ -58,13 +52,22 @@ class PDFStyleProvider(private val style: PDFStyle) : AttributeProvider {
 
   private fun InlineStyleRenderer.setStyle(element: Element) =
     with(element) {
+      if (padding != null) {
+        attribute("padding", padding?.toCss { it.px })
+      }
+      if (margin != null) {
+        attribute("margin", margin?.toCss { it.px })
+      }
       attribute("font-size", fontSize.px)
       attribute("font-family", fontFamily)
       attribute("color", fontColor?.cssColor())
       attribute("background-color", backgroundColor?.cssColor())
       attribute("font-weight", fontWeight.name.toLowerCase())
       attribute("text-decoration", textDecoration.toCss())
-      attribute("border", border)
-      attribute("border-radius", border.borderRadius.toCss { it.px })
+      attribute("border-top", border.top)
+      attribute("border-right", border.right)
+      attribute("border-bottom", border.bottom)
+      attribute("border-left", border.left)
+      attribute("border-radius", borderRadius.toCss { it.px })
     }
 }

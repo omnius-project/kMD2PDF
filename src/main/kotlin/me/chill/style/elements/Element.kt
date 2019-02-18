@@ -1,6 +1,8 @@
 package me.chill.style.elements
 
 import me.chill.style.Border
+import me.chill.style.BorderBox
+import me.chill.style.Box
 import me.chill.style.FontFamily
 import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
 import java.awt.Color
@@ -17,7 +19,10 @@ open class Element(
   open var backgroundColor: Color? = null
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
-  open var border = Border()
+  open var border = BorderBox(Border())
+  open var borderRadius = Box(0.0)
+  open var padding: Box<Double>? = null
+  open var margin: Box<Double>? = null
 
   enum class FontWeight {
     NORMAL, BOLD, BOLDER, LIGHTER
@@ -34,8 +39,5 @@ open class Element(
     fontFamily.load()
   }
 
-  fun border(load: Border.() -> Unit) {
-    border.clearBorder()
-    border.load()
-  }
+  fun border(load: BorderBox.() -> Unit) = border.load()
 }
