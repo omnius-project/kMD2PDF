@@ -1,12 +1,17 @@
 package me.chill.style
 
-import me.chill.style.elements.*
+import me.chill.style.FontFamily.BaseFontFamily.MONOSPACE
+import me.chill.style.FontFamily.BaseFontFamily.SANS_SERIF
+import me.chill.style.elements.Bold
+import me.chill.style.elements.InlineCode
+import me.chill.style.elements.Link
+import me.chill.style.elements.Paragraph
 import me.chill.style.elements.headers.*
 import me.chill.style.elements.lists.OrderedList
 import me.chill.style.elements.lists.UnorderedList
 
 /**
- * Default styling for an exported PDF.
+ * Styling for an exported PDF.
  *
  * Supply a [baseFontSize] to be applied to all elements unless otherwise
  * specified. This [baseFontSize] will influence the scaling of each
@@ -17,8 +22,22 @@ import me.chill.style.elements.lists.UnorderedList
  */
 class PDFStyle(
   private val baseFontSize: Double = 16.0,
-  private val baseFontFamily: FontFamily = FontFamily("sans-serif")
+  private val baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
 ) {
+
+  companion object {
+    /**
+     * Creates a custom PDFStyle object using the DSL.
+     *
+     * Supply a [baseFontSize] to be applied to all element unless otherwise specified.
+     * [baseFontSize] will influence the scaling of each header.
+     */
+    fun createStyle(
+      baseFontSize: Double = 16.0,
+      baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
+      styleFunction: PDFStyle.() -> Unit
+    ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
+  }
 
   var h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
     private set
@@ -38,13 +57,13 @@ class PDFStyle(
   var h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
     private set
 
-  var inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone())
+  var inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
     private set
 
   var bold = Bold(baseFontSize, baseFontFamily.clone())
     private set
 
-  var paragraph = Paragraph(baseFontSize, baseFontFamily.clone())
+  var p = Paragraph(baseFontSize, baseFontFamily.clone())
     private set
 
   var link = Link(baseFontSize, baseFontFamily.clone())
@@ -56,67 +75,65 @@ class PDFStyle(
   var ol = OrderedList(baseFontSize, baseFontFamily.clone())
     private set
 
-  companion object {
-    /**
-     * Creates a custom PDFStyle object using a custom DSL.
-     *
-     * Supply a [baseFontSize] to be applied to all element unless otherwise specified.
-     * [baseFontSize] will influence the scaling of each header.
-     */
-    fun createStyle(
-      baseFontSize: Double = 16.0,
-      baseFontFamily: FontFamily = FontFamily("sans-serif"),
-      styleFunction: PDFStyle.() -> Unit
-    ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
-  }
+  /**
+   * Style [InlineCode] element.
+   */
+  fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
 
-  fun inlineCode(style: InlineCode.() -> Unit) {
-    this.inlineCode = InlineCode(baseFontSize, FontFamily("monospace").clone()).apply { style() }
-  }
+  /**
+   * Style [Bold] element.
+   */
+  fun bold(style: Bold.() -> Unit) = bold.style()
 
-  fun bold(style: Bold.() -> Unit) {
-    this.bold = Bold(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [Paragraph] element.
+   */
+  fun p(style: Paragraph.() -> Unit) = p.style()
 
-  fun paragraph(style: Paragraph.() -> Unit) {
-    this.paragraph = Paragraph(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [Link] element.
+   */
+  fun link(style: Link.() -> Unit) = link.style()
 
-  fun link(style: Link.() -> Unit) {
-    this.link = Link(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [UnorderedList] element.
+   */
+  fun ul(style: UnorderedList.() -> Unit) = ul.style()
 
-  fun h1(style: HeaderOne.() -> Unit) {
-    this.h1 = HeaderOne(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [OrderedList] element.
+   */
+  fun ol(style: OrderedList.() -> Unit) = ol.style()
 
-  fun h2(style: HeaderTwo.() -> Unit) {
-    this.h2 = HeaderTwo(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderOne] element.
+   */
+  fun h1(style: HeaderOne.() -> Unit) = h1.style()
 
-  fun h3(style: HeaderThree.() -> Unit) {
-    this.h3 = HeaderThree(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderTwo] element.
+   */
+  fun h2(style: HeaderTwo.() -> Unit) = h2.style()
 
-  fun h4(style: HeaderFour.() -> Unit) {
-    this.h4 = HeaderFour(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderThree] element.
+   */
+  fun h3(style: HeaderThree.() -> Unit) = h3.style()
 
-  fun h5(style: HeaderFive.() -> Unit) {
-    this.h5 = HeaderFive(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderFour] element.
+   */
+  fun h4(style: HeaderFour.() -> Unit) = h4.style()
 
-  fun h6(style: HeaderSix.() -> Unit) {
-    this.h6 = HeaderSix(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderFive] element.
+   */
+  fun h5(style: HeaderFive.() -> Unit) = h5.style()
 
-  fun ul(style: UnorderedList.() -> Unit) {
-    this.ul = UnorderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
-
-  fun ol(style: OrderedList.() -> Unit) {
-    this.ol = OrderedList(baseFontSize, baseFontFamily.clone()).apply { style() }
-  }
+  /**
+   * Style [HeaderSix] element.
+   */
+  fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
   fun matchHeaderLevel(headerLevel: Int) =
     when (headerLevel) {

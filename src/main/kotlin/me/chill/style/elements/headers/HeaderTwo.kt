@@ -5,5 +5,5 @@ import me.chill.style.elements.Element
 
 class HeaderTwo(
   fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily("sans-serif")
+  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
 ) : Header(fontSize, fontFamily, 1.5)

@@ -31,7 +31,7 @@ createStyle(18.0) { }
 Code fonts do not inherit this global setting, instead, they default to use `FontFamily("monospace")` configured on the
 user's device.
 
-**Default:** `FontFamily("sans-serif")`
+**Default:** `FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)`
 
 ```kotlin
 createStyle(baseFontFamily = FontFamily("Roboto", "Lato")) { }
@@ -69,7 +69,7 @@ paragraph {
 ### Font Family
 **Data type:** `FontFamily`
 
-**Default:** `FontFamily("sans-serif")`
+**Default:** `FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)`
 
 ```kotlin
 paragraph {

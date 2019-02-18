@@ -5,15 +5,25 @@ import kotlin.test.assertEquals
 
 class FontFamilyTest {
   @Test
-  fun `Creating FontFamily with empty fonts parameter leaves fonts empty`() {
+  fun `Empty FontFamily loads no fonts`() {
     val fontFamily = FontFamily()
     fontFamily.checkFontFamilySize(0)
   }
 
   @Test
-  fun `Creating FontFamily with some fonts will load those fonts into the FontFamily`() {
+  fun `FontFamily with some fonts loads those fonts`() {
     val fontFamily = FontFamily("Roboto", "Arial", "Consolas")
     fontFamily.checkFontList("Roboto", "Arial", "Consolas")
+  }
+
+  @Test
+  fun `FontFamily adds fallback font to the end of the font list`() {
+    val fontFamily = FontFamily(
+      FontFamily.BaseFontFamily.SANS_SERIF,
+      "Roboto",
+      "Lato"
+    )
+    fontFamily.checkFontList("Roboto", "Lato", "sans-serif")
   }
 
   @Test
@@ -36,9 +46,20 @@ class FontFamilyTest {
 
   @Test
   fun `FontFamily toString will return the font family in CSS font-family format`() {
-    val fontFamily = FontFamily("Fira Code", "Roboto", "Raleway")
-    val expectedString = "'Fira Code', Roboto, Raleway"
-    assertEquals(expectedString, fontFamily.toString())
+    val fontFamily = FontFamily("Roboto", "Raleway")
+    val expectedString = "Roboto, Raleway"
+    fontFamily.checkToString(expectedString)
+  }
+
+  @Test
+  fun `FontFamily toString adds single quotes to font names with more than 2 words`() {
+    val fontFamily = FontFamily("Fira Code", "Roboto", "Raleway", "Droid Sans Mono")
+    val expectedString = "'Fira Code', Roboto, Raleway, 'Droid Sans Mono'"
+    fontFamily.checkToString(expectedString)
+  }
+
+  private fun FontFamily.checkToString(expectedToString: String) {
+    assertEquals(expectedToString, toString())
   }
 
   private fun FontFamily.checkFontFamilySize(expectedSize: Int) {
