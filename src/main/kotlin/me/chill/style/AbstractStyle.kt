@@ -13,7 +13,8 @@ abstract class AbstractStyle {
   abstract val h4: HeaderFour
   abstract val h5: HeaderFive
   abstract val h6: HeaderSix
-  abstract val code: InlineCode
+  abstract val inlineCode: InlineCode
+  abstract val codeBlock: CodeBlock
   abstract val strong: Bold
   abstract val p: Paragraph
   abstract val a: Link
@@ -23,14 +24,15 @@ abstract class AbstractStyle {
   abstract val img: Image
   abstract val table: Table
 
-  fun getElements() = setOf(
+  fun getElements() = listOf(
     h1,
     h2,
     h3,
     h4,
     h5,
     h6,
-    code,
+    inlineCode,
+    codeBlock,
     strong,
     p,
     a,

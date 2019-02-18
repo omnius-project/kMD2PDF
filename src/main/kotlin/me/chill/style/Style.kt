@@ -43,7 +43,8 @@ class Style(
   override val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
   override val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
   override val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-  override val code = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  override val inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  override val codeBlock = CodeBlock(baseFontSize, FontFamily(MONOSPACE).clone())
   override val strong = Bold(baseFontSize, baseFontFamily.clone())
   override val p = Paragraph(baseFontSize, baseFontFamily.clone())
   override val a = Link(baseFontSize, baseFontFamily.clone())
@@ -56,7 +57,12 @@ class Style(
   /**
    * Style [InlineCode] element.
    */
-  fun code(style: InlineCode.() -> Unit) = code.style()
+  fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
+
+  /**
+   * Style [CodeBlock] element.
+   */
+  fun codeBlock(style: CodeBlock.() -> Unit) = codeBlock.style()
 
   /**
    * Style [Bold] element.
