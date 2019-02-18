@@ -43,13 +43,13 @@ class Style(
   val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
   val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
   val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-  val inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
-  val bold = Bold(baseFontSize, baseFontFamily.clone())
+  val code = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
+  val strong = Bold(baseFontSize, baseFontFamily.clone())
   val p = Paragraph(baseFontSize, baseFontFamily.clone())
-  val link = Link(baseFontSize, baseFontFamily.clone())
+  val a = Link(baseFontSize, baseFontFamily.clone())
   val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
   val ol = OrderedList(baseFontSize, baseFontFamily.clone())
-  val blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
+  val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
   val img = Image(baseFontSize, baseFontFamily.clone())
   val table = Table(baseFontSize, baseFontFamily.clone())
 
@@ -60,13 +60,13 @@ class Style(
     h4,
     h5,
     h6,
-    inlineCode,
-    bold,
+    code,
+    strong,
     p,
-    link,
+    a,
     ul,
     ol,
-    blockQuote,
+    blockquote,
     img,
     table,
     table.thead,
@@ -79,12 +79,12 @@ class Style(
   /**
    * Style [InlineCode] element.
    */
-  fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
+  fun code(style: InlineCode.() -> Unit) = code.style()
 
   /**
    * Style [Bold] element.
    */
-  fun bold(style: Bold.() -> Unit) = bold.style()
+  fun strong(style: Bold.() -> Unit) = strong.style()
 
   /**
    * Style [Paragraph] element.
@@ -94,7 +94,7 @@ class Style(
   /**
    * Style [Link] element.
    */
-  fun link(style: Link.() -> Unit) = link.style()
+  fun a(style: Link.() -> Unit) = a.style()
 
   /**
    * Style [UnorderedList] element.
@@ -109,7 +109,7 @@ class Style(
   /**
    * Style for [BlockQuote] element.
    */
-  fun blockQuote(style: BlockQuote.() -> Unit) = blockQuote.style()
+  fun blockquote(style: BlockQuote.() -> Unit) = blockquote.style()
 
   /**
    * Style for [Image] element.
