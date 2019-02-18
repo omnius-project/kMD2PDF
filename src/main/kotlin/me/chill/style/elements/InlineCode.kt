@@ -11,7 +11,7 @@ import me.chill.utility.c
 class InlineCode(
   fontSize: Double = 16.0,
   fontFamily: FontFamily = FontFamily(MONOSPACE)
-) : Element(fontSize, fontFamily) {
+) : Element("code", fontSize, fontFamily) {
   override var fontColor = c("FF3D00")
   override var backgroundColor = c("#F5F5F5")
   override var padding: Box<Double>? = Box(3.0)

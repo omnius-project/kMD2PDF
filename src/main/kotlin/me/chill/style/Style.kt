@@ -18,14 +18,14 @@ import me.chill.style.elements.table.Table
  * Supply a [baseFontFamily] to be applied to all elements unless otherwise
  * specified. [InlineCode] will change this font to use a monospace font instead.
  */
-class PDFStyle(
+class Style(
   private val baseFontSize: Double = 16.0,
   private val baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
 ) {
 
   companion object {
     /**
-     * Creates a custom PDFStyle object using the DSL.
+     * Creates a custom Style object using the DSL.
      *
      * Supply a [baseFontSize] to be applied to all element unless otherwise specified.
      * [baseFontSize] will influence the scaling of each header.
@@ -33,8 +33,8 @@ class PDFStyle(
     fun createStyle(
       baseFontSize: Double = 16.0,
       baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
-      styleFunction: PDFStyle.() -> Unit
-    ) = PDFStyle(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
+      styleFunction: Style.() -> Unit
+    ) = Style(baseFontSize, baseFontFamily.clone()).apply { styleFunction() }
   }
 
   val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
@@ -52,6 +52,29 @@ class PDFStyle(
   val blockQuote = BlockQuote(baseFontSize, baseFontFamily.clone())
   val img = Image(baseFontSize, baseFontFamily.clone())
   val table = Table(baseFontSize, baseFontFamily.clone())
+
+  val elements = setOf(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    inlineCode,
+    bold,
+    p,
+    link,
+    ul,
+    ol,
+    blockQuote,
+    img,
+    table,
+    table.thead,
+    table.tbody,
+    table.th,
+    table.td,
+    table.tr
+  )
 
   /**
    * Style [InlineCode] element.

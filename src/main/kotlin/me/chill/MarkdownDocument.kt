@@ -1,7 +1,7 @@
 package me.chill
 
 import me.chill.rendering.MarkdownRenderer
-import me.chill.style.PDFStyle
+import me.chill.style.Style
 import me.chill.utility.extensions.isFileType
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.Node
@@ -19,10 +19,10 @@ import org.commonmark.node.Document as CommonMarkDocument
  */
 class MarkdownDocument(
   private val file: File,
-  private val style: PDFStyle = PDFStyle()
+  private val style: Style = Style()
 ) {
 
-  constructor(filePath: String, style: PDFStyle = PDFStyle()) : this(File(filePath), style)
+  constructor(filePath: String, style: Style = Style()) : this(File(filePath), style)
 
   private val markdownRenderer = MarkdownRenderer(this, style)
   private val parser = Parser
