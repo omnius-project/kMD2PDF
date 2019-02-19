@@ -61,6 +61,8 @@ class MarkdownConverter(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
+    println(toHTML())
+
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
@@ -74,7 +76,25 @@ class MarkdownConverter(
     }
   }
 
-  private fun extractStyle() = style.getElements().joinToString("\n\n") { it.toCss() }
+  private fun extractStyle(): String {
+    val standardElementCSS = style.getElements().joinToString("\n\n") { it.toCss() }
+    val customCSSSelectorsCSS = style
+      .customCSSSelectors
+      .map {
+        val selector = it.key
+        val attributes = it.value.toCss()
+        StringBuilder("$selector {\n")
+          .append(attributes)
+          .append("\n}")
+          .toString()
+      }
+      .joinToString("\n\n")
+    return StringBuilder()
+      .append(standardElementCSS)
+      .append("\n\n")
+      .append(customCSSSelectorsCSS)
+      .toString()
+  }
 
   /**
    * Loads all available font directories into an [ITextRenderer] to be used with

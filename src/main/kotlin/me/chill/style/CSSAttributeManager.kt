@@ -13,6 +13,10 @@ class CSSAttributeManager {
     return this
   }
 
+  infix fun <T> String.to(attributeValue: T?) {
+    attributes[this] = attributeValue?.toString()
+  }
+
   fun toCss() =
     attributes
       .entries
