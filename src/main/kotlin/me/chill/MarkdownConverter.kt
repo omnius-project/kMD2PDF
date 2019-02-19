@@ -1,10 +1,8 @@
-package me.chill.rendering
+package me.chill
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import me.chill.MarkdownDocument
 import me.chill.style.AbstractStyle
-import me.chill.style.Style
 import me.chill.utility.getFontDirectories
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
@@ -16,7 +14,7 @@ import java.io.FileOutputStream
 /**
  * Converts a [markdownDocument] to a PDF, applying the supplied [style] to the PDF.
  */
-class MarkdownRenderer(
+class MarkdownConverter(
   private val markdownDocument: MarkdownDocument,
   private val style: AbstractStyle
 ) {
@@ -58,13 +56,11 @@ class MarkdownRenderer(
    * Optionally pass [onComplete] and [onError] to be invoked when the file is
    * converted or when it encounters an error.
    */
-  fun constructPDF(
+  fun createPDF(
     targetFile: File,
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
-    println(toHTML())
-
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
