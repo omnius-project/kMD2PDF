@@ -61,8 +61,6 @@ class MarkdownConverter(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
-    println(toHTML())
-
     with(ITextRenderer()) {
       setDocumentFromString(toHTML())
       loadFontDirectories()
