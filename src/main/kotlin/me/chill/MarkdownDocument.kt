@@ -35,12 +35,11 @@ class MarkdownDocument(
     .builder()
     .extensions(extensions)
     .build()
+  private var onComplete: ((File) -> Unit)? = null
+  private var onError: ((Exception) -> Unit)? = null
 
   var parsedDocument: Node
     private set
-
-  private var onComplete: ((File) -> Unit)? = null
-  private var onError: ((Exception) -> Unit)? = null
 
   init {
     with(file) {
@@ -80,7 +79,7 @@ class MarkdownDocument(
    * specified. The [filePath] supplied must end with a file with the extension of
    * `.pdf`
    */
-  fun convertToPDF(filePath: String? = null) {
+  fun toPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
       markdownRenderer.constructPDF(this, onComplete, onError)
