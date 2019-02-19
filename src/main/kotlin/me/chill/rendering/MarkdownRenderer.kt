@@ -6,6 +6,7 @@ import me.chill.MarkdownDocument
 import me.chill.style.AbstractStyle
 import me.chill.style.Style
 import me.chill.utility.getFontDirectories
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
@@ -20,9 +21,13 @@ class MarkdownRenderer(
   private val style: AbstractStyle
 ) {
 
+  private val extensions = listOf(
+    TablesExtension.create(),
+    StrikethroughExtension.create()
+  )
   private val htmlRenderer = HtmlRenderer
     .builder()
-    .extensions(listOf(TablesExtension.create()))
+    .extensions(extensions)
     .build()
 
   /**
@@ -35,7 +40,7 @@ class MarkdownRenderer(
       head {
         style {
           unsafe {
-            +extractStyle()
+            +"\n${extractStyle()}\n"
           }
         }
       }

@@ -4,6 +4,7 @@ import me.chill.rendering.MarkdownRenderer
 import me.chill.style.AbstractStyle
 import me.chill.style.Style
 import me.chill.utility.extensions.isFileType
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.Node
 import org.commonmark.parser.Parser
@@ -26,9 +27,13 @@ class MarkdownDocument(
   constructor(filePath: String, style: AbstractStyle = Style()) : this(File(filePath), style)
 
   private val markdownRenderer = MarkdownRenderer(this, style)
+  private val extensions = listOf(
+    TablesExtension.create(),
+    StrikethroughExtension.create()
+  )
   private val parser = Parser
     .builder()
-    .extensions(listOf(TablesExtension.create()))
+    .extensions(extensions)
     .build()
 
   var parsedDocument: Node

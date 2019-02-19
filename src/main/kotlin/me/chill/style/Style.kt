@@ -53,6 +53,7 @@ class Style(
   override val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
   override val img = Image(baseFontSize, baseFontFamily.clone())
   override val table = Table(baseFontSize, baseFontFamily.clone())
+  override val strikethrough = Strikethrough(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.
@@ -103,6 +104,11 @@ class Style(
    * Style for [Table] element
    */
   fun table(style: Table.() -> Unit) = table.style()
+
+  /**
+   * Style for [Strikethrough] element.
+   */
+  fun strikethrough(style: Strikethrough.() -> Unit) = strikethrough.style()
 
   /**
    * Style [HeaderOne] element.
