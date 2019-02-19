@@ -54,6 +54,7 @@ class Style(
   override val img = Image(baseFontSize, baseFontFamily.clone())
   override val table = Table(baseFontSize, baseFontFamily.clone())
   override val strikethrough = Strikethrough(baseFontSize, baseFontFamily.clone())
+  override val hr = Ruler(baseFontSize, baseFontFamily.clone())
 
   /**
    * Style [InlineCode] element.
@@ -109,6 +110,11 @@ class Style(
    * Style for [Strikethrough] element.
    */
   fun strikethrough(style: Strikethrough.() -> Unit) = strikethrough.style()
+
+  /**
+   * Style for [Ruler] element.
+   */
+  fun hr(style: Ruler.() -> Unit) = hr.style()
 
   /**
    * Style [HeaderOne] element.
