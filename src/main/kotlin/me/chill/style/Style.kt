@@ -148,14 +148,7 @@ class Style(
    */
   fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
-  fun matchHeaderLevel(headerLevel: Int) =
-    when (headerLevel) {
-      1 -> h1
-      2 -> h2
-      3 -> h3
-      4 -> h4
-      5 -> h5
-      6 -> h6
-      else -> h1
-    }
+  fun selector(selector: String, style: CSSAttributeManager.() -> Unit) {
+    customCSSSelectors[selector] = CSSAttributeManager().apply { style() }
+  }
 }

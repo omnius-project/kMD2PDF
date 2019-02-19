@@ -28,6 +28,8 @@ abstract class AbstractStyle {
   abstract val del: Strikethrough
   abstract val hr: Ruler
 
+  val customCSSSelectors = mutableMapOf<String, CSSAttributeManager>()
+
   fun getElements() = listOf(
     h1,
     h2,
