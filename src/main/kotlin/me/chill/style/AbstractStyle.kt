@@ -23,7 +23,7 @@ abstract class AbstractStyle {
   abstract val blockquote: BlockQuote
   abstract val img: Image
   abstract val table: Table
-  abstract val strikethrough: Strikethrough
+  abstract val del: Strikethrough
   abstract val hr: Ruler
 
   fun getElements() = listOf(
@@ -48,7 +48,7 @@ abstract class AbstractStyle {
     table.th,
     table.td,
     table.tr,
-    strikethrough,
+    del,
     hr
   )
 }

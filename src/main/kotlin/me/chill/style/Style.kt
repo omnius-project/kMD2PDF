@@ -53,7 +53,7 @@ class Style(
   override val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
   override val img = Image(baseFontSize, baseFontFamily.clone())
   override val table = Table(baseFontSize, baseFontFamily.clone())
-  override val strikethrough = Strikethrough(baseFontSize, baseFontFamily.clone())
+  override val del = Strikethrough(baseFontSize, baseFontFamily.clone())
   override val hr = Ruler(baseFontSize, baseFontFamily.clone())
 
   /**
@@ -109,7 +109,7 @@ class Style(
   /**
    * Style for [Strikethrough] element.
    */
-  fun strikethrough(style: Strikethrough.() -> Unit) = strikethrough.style()
+  fun del(style: Strikethrough.() -> Unit) = del.style()
 
   /**
    * Style for [Ruler] element.
