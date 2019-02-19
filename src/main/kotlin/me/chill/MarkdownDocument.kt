@@ -1,6 +1,5 @@
 package me.chill
 
-import me.chill.rendering.MarkdownRenderer
 import me.chill.style.AbstractStyle
 import me.chill.style.Style
 import me.chill.utility.extensions.isFileType
@@ -26,7 +25,7 @@ class MarkdownDocument(
 
   constructor(filePath: String, style: AbstractStyle = Style()) : this(File(filePath), style)
 
-  private val markdownRenderer = MarkdownRenderer(this, style)
+  private val markdownRenderer = MarkdownConverter(this, style)
   private val extensions = listOf(
     TablesExtension.create(),
     StrikethroughExtension.create()
@@ -82,7 +81,7 @@ class MarkdownDocument(
   fun toPDF(filePath: String? = null) {
     with(createTargetOutputFile(filePath)) {
       require(isFileType("pdf")) { "File ($nameWithoutExtension) must be a PDF" }
-      markdownRenderer.constructPDF(this, onComplete, onError)
+      markdownRenderer.createPDF(this, onComplete, onError)
     }
   }
 
