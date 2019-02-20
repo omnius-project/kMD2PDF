@@ -13,5 +13,3 @@ buildNumber.properties
 
 .idea/
 *.iml
-
-src/main/kotlin/me/chill/sandbox
