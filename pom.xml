@@ -6,7 +6,7 @@
 
   <groupId>com.github.woojiahao</groupId>
   <artifactId>kMD2PDF</artifactId>
-  <version>1.0.0</version>
+  <version>${revision}</version>
   <packaging>jar</packaging>
 
   <name>kMD2PDF</name>
@@ -273,6 +273,8 @@
     <plugin.nexus.staging.version>1.6.7</plugin.nexus.staging.version>
 
     <java.version>1.8</java.version>
+
+    <revision>0-SNAPSHOT</revision>
   </properties>
 
   <profiles>
