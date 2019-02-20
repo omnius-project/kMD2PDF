@@ -24,7 +24,7 @@ open class Element(
     fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
 
-  open var fontColor: Color? = Color.BLACK
+  open var textColor: Color? = Color.BLACK
   open var backgroundColor: Color? = null
   open var fontWeight = FontWeight.NORMAL
   open var textDecoration = TextDecoration.NONE
@@ -37,7 +37,7 @@ open class Element(
     CSSAttributeManager()
       .attribute("font-size", fontSize.px)
       .attribute("font-family", fontFamily.toString())
-      .attribute("color", fontColor?.cssColor())
+      .attribute("color", textColor?.cssColor())
       .attribute("background-color", backgroundColor?.cssColor())
       .attribute("font-weight", fontWeight.name.toLowerCase())
       .attribute("text-decoration", textDecoration.toCss())
