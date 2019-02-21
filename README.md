@@ -84,7 +84,7 @@ fun main() {
 ### Custom styling using style DSL
 Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SimpleStyling.kt)
 
-More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/CustomDSL)
+More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/StyleDSL)
 ```kotlin
 fun main() {
   val customStyle = createDSLStyle()

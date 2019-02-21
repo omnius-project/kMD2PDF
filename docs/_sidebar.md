@@ -1,4 +1,5 @@
 * [Home](/)
 * [Installation Guide](InstallationGuide.md)
 * [Quick Start Guide](QuickStartGuide.md)
-* [Custom DSL](CustomDSL.md)
+* [Style DSL](StyleDSL.md)
+* [Contributing](Contributing.md)
