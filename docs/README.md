@@ -6,6 +6,8 @@
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/)
 
+![](preview.png "Example export")
+
 ## About
 kMD2PDF is a library written in Kotlin that converts markdown files to PDF documents. It aims to be easy to use and 
 provide users with high customization options for the exported PDF document.
