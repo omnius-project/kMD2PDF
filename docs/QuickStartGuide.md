@@ -1,38 +1,4 @@
-[![Build Status](https://travis-ci.org/woojiahao/kMD2PDF.svg?branch=master)](https://travis-ci.org/woojiahao/kMD2PDF)
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/woojiahao/kMD2PDF/blob/master/LICENSE)
-[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/)
-
-![](art/logo.png)
-> Simple and highly customizable markdown to PDF conversion library
-
-![](art/preview.png "Example export")
-
-## Jump To
-1. [Installation Guide](https://github.com/woojiahao/kMD2PDF/tree/documentation#installation-guide)
-2. [Quick Start Guide](https://github.com/woojiahao/kMD2PDF/tree/documentation#quick-start-guide)
-
-## Installation Guide
-The repository is hosted on [Maven Central](https://search.maven.org/artifact/com.github.woojiahao/kMD2PDF). You can 
-add it to your project using the following code based on your build tool:
-
-### Maven
-```xml
-<dependency>
-  <groupId>com.github.woojiahao</groupId>
-  <artifactId>kMD2PDF</artifactId>
-  <version>0.1.2</version>
-</dependency>
-```
-
-### Gradle
-```groovy
-implementation 'com.github.woojiahao:kMD2PDF:0.1.1'
-```
-
-If you encounter errors with loading the library, visit the troubleshooting guide [here.](https://woojiahao.github.io/kMD2PDF/#/InstallationGuide?id=troubleshooting)
-
-## Quick Start Guide
+# Quick Start Guide
 All examples are taken from the [examples repository.](https://github.com/woojiahao/kMD2PDF-examples)
 
 ### Default styling
@@ -90,7 +56,7 @@ fun main() {
 ### Custom styling using style DSL
 Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SimpleStyling.kt)
 
-More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/StyleDSL)
+More on this subject can be found on the documentation site [here.](StyleDSL.md)
 ```kotlin
 fun main() {
   val customStyle = createDSLStyle()
@@ -122,10 +88,3 @@ fun createDSLStyle() = Style
       }
     }
 ```
-
-## TODO
-* [ ] Move to custom parser library
-* [ ] Add support for Table of Contents generation
-* [ ] Light and dark theme
-* [ ] Add support for list style images
-* [ ] Add image caption
