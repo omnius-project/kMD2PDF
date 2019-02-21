@@ -1,80 +1,90 @@
 # Quick Start Guide
-## Default styling
+All examples are taken from the [examples repository.](https://github.com/woojiahao/kMD2PDF-examples)
+
+### Default styling
+Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/DefaultStyling.kt)
 ```kotlin
 fun main() {
-  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md")
-  document.convertToPDF()
+  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
+  markdownDocument.toPDF()
 }
 ```
 
-## Specifying .pdf location
-The target file location must end with a `.pdf` extension
+### Specifying PDF location
+Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SpecifyingPDFLocation.kt)
 ```kotlin
 fun main() {
-  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md")
-  document.convertToPDF("C:/Users/Chill/Desktop/Document.pdf")
+  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
+  markdownDocument.toPDF("${System.getProperty("user.home")}/Desktop/exported.pdf")
 }
 ```
 
-## Custom styling using style DSL
-More information of the DSL can be found at [Custom DSL](CustomDSL.md)
+### onComplete
+Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/OnCompleteAction.kt)
 ```kotlin
-fun createDSLStyle() = PDFStyle.createStyle {
-  code {
-    fontFamily {
-      +"Fira Code"
+fun main() {
+  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
+  markdownDocument.onComplete {
+    println("Conversion success - opening document")
+
+    if (Desktop.isDesktopSupported()) {
+      Desktop.getDesktop().open(it)
+    } else {
+      System.out.println("Awt Desktop is not supported!")
     }
   }
-
-  headerOne {
-    fontColor = Color.RED
-  }
-
-  bold {
-    fontColor = Color.PINK
-  }
-
-  paragraph {
-    fontFamily {
-      +"Roboto"
-    }
-  }
-
-  link {
-    fontFamily {
-      +"Times New Romans"
-    }
-  }
+  markdownDocument.toPDF()
 }
+```
 
+### onError
+Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/OnErrorAction.kt)
+```kotlin
+fun main() {
+  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
+  markdownDocument.onError {
+    println("An error occurred")
+
+    if (it is FileNotFoundException) {
+      println("File is currently already open")
+    }
+  }
+  markdownDocument.toPDF()
+}
+```
+
+### Custom styling using style DSL
+Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SimpleStyling.kt)
+
+More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/CustomDSL)
+```kotlin
 fun main() {
   val customStyle = createDSLStyle()
-  val dslDocument = MarkdownDocument(
-    "C:/Users/Chill/Desktop/README.md", 
-    customStyle
-  )
-  dslDocument.convertToPDF()
+  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md", customStyle)
+  markdownDocument.toPDF()
 }
-```
 
-## onComplete
-Called when the conversion is completed and no errors occurred.
-```kotlin
-fun main() {
-  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md").onComplete {
-    println("Document converted successfully")
-  }
-}
-```
+fun createDSLStyle() = Style
+    .createStyle(
+        16.0,
+        FontFamily("Roboto", "Lato")
+    ) {
+      p {
+        textColor = c("455A64")
+      }
 
-## onError
-Called when the conversion encounters an error.
-```kotlin
-fun main() {
-  val document = MarkdownDocument("C:/Users/Chill/Desktop/README.md").onError {
-    if (it is FileNotFoundException) {
-      println("Cannot convert file. File is still open")
+      inlineCode {
+        fontFamily {
+          +"Fira Code"
+        }
+      }
+
+      ul {
+        listStyleType = List.ListStyleType.SQUARE
+      }
+
+      selector("tr:nth-child(even)") {
+        "background-color" to "#f2f2f2"
+      }
     }
-  }
-}
 ```
