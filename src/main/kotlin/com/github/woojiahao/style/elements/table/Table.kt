@@ -21,7 +21,7 @@ class Table(
   val td = TableData(fontSize, fontFamily.clone())
   val tr = TableRow(fontSize, fontFamily.clone())
 
-  var borderCollpase = BorderCollapse.COLLAPSE
+  var borderCollapse = BorderCollapse.COLLAPSE
 
   fun thead(style: TableHead.() -> Unit) = thead.style()
 
@@ -34,7 +34,7 @@ class Table(
   fun td(style: TableData.() -> Unit) = td.style()
 
   override fun toCss(): String {
-    attributes.attribute("border-collapse", borderCollpase.name.toLowerCase())
+    attributes.attribute("border-collapse", borderCollapse.name.toLowerCase())
     return super.toCss()
   }
 }
