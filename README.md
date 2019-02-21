@@ -10,7 +10,7 @@
 The repository is hosted on [Maven Central](https://search.maven.org/artifact/com.github.woojiahao/kMD2PDF). You can 
 add it to your project using the following code based on your build tool:
 
-## Maven
+### Maven
 ```xml
 <dependency>
   <groupId>com.github.woojiahao</groupId>
@@ -19,7 +19,7 @@ add it to your project using the following code based on your build tool:
 </dependency>
 ```
 
-## Gradle
+### Gradle
 ```groovy
 implementation 'com.github.woojiahao:kMD2PDF:0.1.1'
 ```
