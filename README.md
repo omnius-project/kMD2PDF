@@ -9,8 +9,8 @@
 ![](art/preview.png "Example export")
 
 ## Jump To
-1. [Installation Guide](https://github.com/woojiahao/kMD2PDF/tree/documentation#installation-guide)
-2. [Quick Start Guide](https://github.com/woojiahao/kMD2PDF/tree/documentation#quick-start-guide)
+1. [Installation Guide](https://github.com/woojiahao/kMD2PDF#installation-guide)
+2. [Quick Start Guide](https://github.com/woojiahao/kMD2PDF#quick-start-guide)
 
 ## Installation Guide
 The repository is hosted on [Maven Central](https://search.maven.org/artifact/com.github.woojiahao/kMD2PDF). You can 
