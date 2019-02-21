@@ -17,7 +17,7 @@ fun main() {
 ```
 
 ## Custom styling using style DSL
-More information of the DSL can be found at [Custom DSL](customDSL.md)
+More information of the DSL can be found at [Custom DSL](CustomDSL.md)
 ```kotlin
 fun createDSLStyle() = PDFStyle.createStyle {
   code {

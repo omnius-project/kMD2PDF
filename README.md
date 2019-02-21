@@ -8,7 +8,9 @@
 
 ## Installation Guide
 The repository is hosted on [Maven Central](https://search.maven.org/artifact/com.github.woojiahao/kMD2PDF). You can 
-add it to your project using the following code:
+add it to your project using the following code based on your build tool:
+
+## Maven
 ```xml
 <dependency>
   <groupId>com.github.woojiahao</groupId>
@@ -16,6 +18,13 @@ add it to your project using the following code:
   <version>0.1.2</version>
 </dependency>
 ```
+
+## Gradle
+```groovy
+implementation 'com.github.woojiahao:kMD2PDF:0.1.1'
+```
+
+If you encounter errors with loading the library, visit the troubleshooting guide [here.](https://woojiahao.github.io/kMD2PDF/#/InstallationGuide?id=troubleshooting)
 
 ## Quick Start Guide
 All examples are taken from the [examples repository.](https://github.com/woojiahao/kMD2PDF-examples)
@@ -75,7 +84,7 @@ fun main() {
 ### Custom styling using style DSL
 Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SimpleStyling.kt)
 
-More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/customDSL)
+More on this subject can be found on the documentation site [here.](https://woojiahao.github.io/kMD2PDF/#/CustomDSL)
 ```kotlin
 fun main() {
   val customStyle = createDSLStyle()
