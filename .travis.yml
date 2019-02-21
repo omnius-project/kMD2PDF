@@ -1,45 +1,9 @@
 language: java
 
-env:
-  global:
-    - secure: F9rCVe+1Do/CIpoYUAkxgaLdrwYsgjlmvYSPOSaROLhqkx69ewjTjS5CB0xxS4+XemGujfLJTpykMo7NUN1YUgfsUt5K+PslJi2w0fnsekbIYwFANqaDZvjohqbKpOhQcDenRMd/Mw8ltkgvBABLxeq0M1wwG+cwsyp2/bS8ybMpnORNYAJqGLP8JJa1e6pdqOEJwKwuRRtbHDCOCZDAwcTkepK+I2rb6r1oY/yugxlooIOw8gHrc5Khj2jMVmfvZk4Vf3o3S46ngd6YrOWVtucdrGS0H8jT0TuXkDlxDnPMV5+s3L8VjeAZ7mC3Id7r/YrQDoTu/PpA58BSlRW8ZhQHLPwrT/wmxvp3hfkyuuE2ngEHhax5qs1izLr3GSB7dMssdiVuHuQYbruvVmJ4SE3P2ZTOyTJHUmWUIgjxXnQ8cPMaWs/v93fWOOxRhZuUQlCYI8BjY9QNbqwUDR4i46p0LkuiVrmkNSanOh7YyfP8ntR+IUQRZuji9BezZloSV3bidXN8SD8bRG17hi3O9dRrZAgdYM0UTF3dTn+QW5feoxg/p3Frw0YoPP7fgMZL2A9skFJhWP/GFSI6mL1CUJ6lx0o3H3Bcu1WNHACzHoasge5T+HHSSUH2v0AkqaOK5ua1EMRkaB2t/9q92rP5bkcqrjOE4zq68+yZVWAOPdY=
-    - secure: i46GmVVdn2mWI9v3RVk0UtLUTxpG5rDoRSis7TZ0wn8NKDVM+nEj6cVngEOpRcXsoQoVeWf4W8VQdg5MInQMTsOg+wSNW+u4vK5kDhccSpt9F1kGcArob6C6Gs+sJP1Rky7D/axqPL/k9ju7E/wCjqyxd4i0so1/Mjg21TyNQdn67OPjZiGAtmo3nqkX1Et69ahZlwFHm+EL9H5zWojaMsoZX2Rocd+LxmwOckxdjlAD5BVcxODqy0tjcFX46ypkc6M0TrjlB6UGhw1NIVmCsT8H7hodaydIuhaHSsh/lyPrLToG153j/sm5HB6YmA8SxqUE0q2X6SzM9Xw2HKmYL9SZDcwJ3BgLGkNKDilb0tRQ26zUT0FD6M3lO4OqY/TWNIwrl86gfRTLjN3j+ej8IvZTrS7pF1qecaWiOP+GHb5mbpL1ZIpIUV2DBwvj6Yc8MMeTldLk9Sxp1iIrEnm6UaOQYJvxH7Gq7puCylL0Z79RybVlTjXFtrckn8hLMRbA0CQ/bHZBrmkwv0p1vBYPJ5SMw0qZEtFFNhISHV3eQnPETv9AYKB2Gc0W/EyPsX6Ky4GxArtAYMj0KmW43FjkHcp/WgSfJ4DSJ9b7sQZQQ80jaCxUjiZuyirhfslTwaMyRMH9RuN7MR6a/ta1k935H+vt+bEpVdNoSyzoaDks5sY=
-    - secure: qMzAtx7hpkREGqgu6x6bCTE7J6S9ft/bf2Puxmr2ssrwByc/HZCECDwhoLh3srwoMQFeRM+CYgTXXXKSR1Xo0JD5VtUh6NNKKBlvFiUZno3PXFAWgDUUFjILesgHY5cBK4/3pRgOJHaz/OsCck99M1jclc49/6f1ZtHxaozE8PDICtZlJo/bUM8lCKomN4ob21W0KrSUpHmVEKdv+VFaHM+twWkpVkO7F6a6OIAY3l9JRECfso39+xSqny0R25xlNuBCS4W4a5X+eClG0a8NBkd68ZedN2q1Zo5+JeYvb+3l9aHkw1BC9YnR3om7wfACqHmwyJaNerw5yrDowRk4fZhVeOp6LQcmJcx53yrcCfUQKrWxB9tfyJEzsc3d/Z3uVBrLjnZnZG5noP+xXqUCpp1l4TfeT53zEJsMTuso41UOyXrzhqFMDj2gVaixpl9Uya4m5hQuEq5UFYbIFZf9hTSaZ5W1BdCTmPV0NxT1D/iVBXKfmjIcsEXcUHaYNiupb8kkymIm9w1kRkTT+N8NK+vKj7OTi5mM9ALJ914fixOehT1+Z5S4eq6y8rx3KuNDLadFSMJplEUF/r1+xcdy8bpmQLY3wqCyllmABPwpyke/7Aoc5+6zGz24Y3zMxCqEYDTXUeiVQ7UC/3zWuO1x3iZwNqh2PbF4FxR0ZKMrMYE=
-    - secure: emO0IIpLTD5xnLJUGNEfl3g68vryvOo3r6MwV5h20K2hDMAREWj8Z+wxFtFECW9Ata4fH+MHIZfIPm9YH2psskYGSD/JdY7OrWVlglawhwdXbZDQcbf7NlZxzZ6t/m4uYTE6HyyOr3+wYv09IzZ1mUOAJhBrCVqv9Dsk3yhvI6+++GDfpHccE6LJp+KsuSnEQp6CodCM5JLBY7G5qa9AVuQgdFAleD7x96Zt+6BXmxyNkX2HoZlQzSu38FRDffr99jkytVY8PMikCOmjcgIcTmlUwc10ZjtyhC1LhDpS84dikb1kduikCt9i1011lVZNs28nI4An+8xpldjFQkPuPQtjnnKTj4KPbDbbaOSZBHmirJT1PsGaG20VUGic1uAaPzRaKC8RJA4UseR9NIMin39YSJ+rEUsRWJDxkX9766ci3u0vreqk0aqJ41UCBqfxyAJFWDhmibHCO+YbUJDEsj1HxOYtuAw2GRbiU8/W38l9jeOiplq4xQ27+s8kYwQT/D9hs83geEqmWWbp8LzFJionmYhtfItk0KEFYvC2DIyI9cgHUh77y7jsoFSbG7hwD9hmdjvzn7nvHkm0SNVSNky3T3UOULo0O2D5c+qymV4cuIJiCU6/L3G6Ovi7KjxPZUzMmSUi7ZT2otj84EKREuvtKte/uqXk7qbqxIfYvtM=
-    - EC_JAVA_VERSION="$(git describe --dirty --tags)-SNAPSHOT"
-    - MAVEN_OPTS="-Drevision=$EC_JAVA_VERSION -Dproperty=revision -DnewVersion=$EC_JAVA_VERSION -DgenerateBackupPoms=false"
-
-before_install:
-  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash ./etc/before-deploy.sh; fi'
-
 jdk: oraclejdk8
-
-install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 script:
   - mvn clean install
-
-stages:
-  - build
-  - name: snapshot
-    if: branch = master AND NOT type = pull_request
-  - name: release
-    if: tag =~ ^\d+\.\d+\.\d+$
-
-jobs:
-  include:
-    - stage: build
-      jdk: oraclejdk8
-      script: mvn -B verify
-    - stage: snapshot
-      jdk: oraclejdk8
-      script: mvn -s etc/settings.xml -B versions:set-property deploy -P release
-    - stage: release
-      jdk: oraclejdk8
-      env:
-        - EC_JAVA_VERSION=$(git describe --dirty --tags)
-        - MAVEN_OPTS="-Drevision=$EC_JAVA_VERSION -Dproperty=revision -DnewVersion=$EC_JAVA_VERSION -DgenerateBackupPoms=false"
-      script: mvn -s etc/settings.xml -B versions:set-property deploy -P release
 
 cache:
   directories:
