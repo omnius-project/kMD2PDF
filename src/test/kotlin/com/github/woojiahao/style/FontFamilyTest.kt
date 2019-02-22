@@ -1,5 +1,6 @@
 package com.github.woojiahao.style
 
+import com.github.woojiahao.style.utility.FontFamily
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -28,7 +29,8 @@ class FontFamilyTest {
 
   @Test
   fun `Emptying FontFamily will clear any fonts loaded`() {
-    val fontFamily = FontFamily("Fira Code", "Monaco", "Droid Sans Mono", "DejaVu Sans Mono")
+    val fontFamily =
+      FontFamily("Fira Code", "Monaco", "Droid Sans Mono", "DejaVu Sans Mono")
     fontFamily.checkFontFamilySize(4)
     fontFamily.emptyFontFamily()
     fontFamily.checkFontFamilySize(0)

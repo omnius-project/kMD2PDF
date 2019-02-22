@@ -32,25 +32,47 @@ class MarkdownConverter(
    * Converts the [markdownDocument] into HTML for the PDF to render.
    * [style] is rendered along with the HTML as inline styles.
    */
-  fun generateMarkdownHTML() = StringBuilder()
-    .appendHTML()
-    .html {
-      head {
-        style {
-          unsafe {
-            +"\n${this@MarkdownConverter.style.getStyles()}\n"
+  fun generateMarkdownHTML() =
+    StringBuilder()
+      .appendHTML()
+      .html {
+        head {
+          style {
+            unsafe { +"\n${this@MarkdownConverter.style.getStyles()}\n" }
+
+            unsafe {
+              raw(
+                """
+                div.header {
+                  display: block; text-align: center;
+                  position: running(header);
+                }
+                div.footer {
+                  display: block; text-align: center;
+                  position: running(footer);
+                }
+                @page {
+                  @top-center { content: element(header) }
+                }
+                @page {
+                  @bottom-center { content: element(footer) }
+                }
+              """
+              )
+            }
           }
         }
-      }
-      body {
-        div {
+        body {
+          div("header") {
 
+          }
+
+          div("footer") {
+            +"Content"
+          }
+          unsafe { +"\n${htmlRenderer.render(markdownDocument.parsedDocument).trim()}\n" }
         }
-        unsafe {
-          +htmlRenderer.render(markdownDocument.parsedDocument).trim()
-        }
-      }
-    }.toString()
+      }.toString()
 
   /**
    * Converts the given [markdownDocument] to a PDF, saving it at the location
@@ -64,6 +86,8 @@ class MarkdownConverter(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
+    println(generateMarkdownHTML())
+
     with(ITextRenderer()) {
       setDocumentFromString(generateMarkdownHTML())
       loadFontDirectories()

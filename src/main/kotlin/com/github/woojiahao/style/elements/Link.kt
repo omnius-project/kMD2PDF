@@ -1,6 +1,6 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.c
 import java.awt.Color
 

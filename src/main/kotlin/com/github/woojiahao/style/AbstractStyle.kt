@@ -1,5 +1,6 @@
 package com.github.woojiahao.style
 
+import com.github.woojiahao.style.css.CssStyle
 import com.github.woojiahao.style.elements.*
 import com.github.woojiahao.style.elements.code.CodeBlock
 import com.github.woojiahao.style.elements.code.InlineCode
@@ -56,7 +57,7 @@ abstract class AbstractStyle {
     )
   }
 
-  val customStyles = mutableMapOf<String, CSSAttributeManager>()
+  val customStyles = mutableListOf<CssStyle>()
 
   /**
    * Returns all the styles from the current implementation of [AbstractStyle].
@@ -64,10 +65,9 @@ abstract class AbstractStyle {
    * Styles for [elements] go first, then [customStyles].
    */
   fun getStyles(): String {
-    val elementStyles = elements.joinToString("\n\n") { it.toCss() }
-    val customStyles = customStyles.entries.joinToString("\n\n") {
-      StringBuilder("${it.key} {\n").append(it.value.toCss()).append("\n}")
-    }
-    return "$elementStyles\n\n$customStyles"
+    val separator = "\n\n"
+    val elementStyles = elements.joinToString(separator) { it.toCss() }
+    val customStyles = customStyles.joinToString(separator) { it.toString() }
+    return "$elementStyles$separator$customStyles"
   }
 }

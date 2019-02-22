@@ -1,6 +1,6 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.utility.FontFamily
 
 class Strikethrough(
   fontSize: Double = 16.0,

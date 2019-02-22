@@ -1,5 +1,7 @@
 package com.github.woojiahao.style
 
+import com.github.woojiahao.style.utility.Border
+import com.github.woojiahao.style.utility.BorderBox
 import org.junit.Test
 import java.awt.Color
 import kotlin.test.assertEquals
@@ -23,7 +25,12 @@ class BorderBoxTest {
         }
       }
 
-      checkAllBorderSettings(topBorder = Border(10.0, Border.BorderStyle.DASHED, Color.RED))
+      checkAllBorderSettings(topBorder = Border(
+        10.0,
+        Border.BorderStyle.DASHED,
+        Color.RED
+      )
+      )
     }
   }
 
@@ -38,7 +45,12 @@ class BorderBoxTest {
         }
       }
 
-      checkAllBorderSettings(rightBorder = Border(10.0, Border.BorderStyle.DASHED, Color.RED))
+      checkAllBorderSettings(rightBorder = Border(
+        10.0,
+        Border.BorderStyle.DASHED,
+        Color.RED
+      )
+      )
     }
   }
 
@@ -53,7 +65,12 @@ class BorderBoxTest {
         }
       }
 
-      checkAllBorderSettings(bottomBorder = Border(10.0, Border.BorderStyle.DASHED, Color.RED))
+      checkAllBorderSettings(bottomBorder = Border(
+        10.0,
+        Border.BorderStyle.DASHED,
+        Color.RED
+      )
+      )
     }
   }
 
@@ -68,7 +85,12 @@ class BorderBoxTest {
         }
       }
 
-      checkAllBorderSettings(leftBorder = Border(10.0, Border.BorderStyle.DASHED, Color.RED))
+      checkAllBorderSettings(leftBorder = Border(
+        10.0,
+        Border.BorderStyle.DASHED,
+        Color.RED
+      )
+      )
     }
   }
 
@@ -85,10 +107,26 @@ class BorderBoxTest {
       }
 
       checkAllBorderSettings(
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED)
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -109,10 +147,26 @@ class BorderBoxTest {
       }
 
       checkAllBorderSettings(
-        Border(5.0, Border.BorderStyle.DOTTED, Color.GREEN),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED)
+        Border(
+          5.0,
+          Border.BorderStyle.DOTTED,
+          Color.GREEN
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -133,10 +187,26 @@ class BorderBoxTest {
       }
 
       checkAllBorderSettings(
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(5.0, Border.BorderStyle.DOTTED, Color.GREEN),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED)
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          5.0,
+          Border.BorderStyle.DOTTED,
+          Color.GREEN
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -157,10 +227,26 @@ class BorderBoxTest {
       }
 
       checkAllBorderSettings(
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(5.0, Border.BorderStyle.DOTTED, Color.GREEN),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED)
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          5.0,
+          Border.BorderStyle.DOTTED,
+          Color.GREEN
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -181,10 +267,26 @@ class BorderBoxTest {
       }
 
       checkAllBorderSettings(
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(10.0, Border.BorderStyle.DASHED, Color.RED),
-        Border(5.0, Border.BorderStyle.DOTTED, Color.GREEN)
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          10.0,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        ),
+        Border(
+          5.0,
+          Border.BorderStyle.DOTTED,
+          Color.GREEN
+        )
       )
     }
   }

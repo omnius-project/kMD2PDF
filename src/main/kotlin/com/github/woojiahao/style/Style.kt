@@ -1,5 +1,7 @@
 package com.github.woojiahao.style
 
+import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.css.CssStyle
 import com.github.woojiahao.style.elements.*
 import com.github.woojiahao.style.elements.code.CodeBlock
 import com.github.woojiahao.style.elements.code.InlineCode
@@ -7,6 +9,7 @@ import com.github.woojiahao.style.elements.headers.*
 import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
+import com.github.woojiahao.style.utility.FontFamily
 
 /**
  * Styling for an exported PDF.
@@ -20,7 +23,9 @@ import com.github.woojiahao.style.elements.table.Table
  */
 class Style(
   private val baseFontSize: Double = 16.0,
-  private val baseFontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  private val baseFontFamily: FontFamily = FontFamily(
+    FontFamily.BaseFontFamily.SANS_SERIF
+  )
 ) : AbstractStyle() {
 
   companion object {
@@ -146,7 +151,12 @@ class Style(
    */
   fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
-  fun selector(selector: String, style: CSSAttributeManager.() -> Unit) {
-    customStyles[selector] = CSSAttributeManager().apply { style() }
+  fun selector(selector: String, style: CssAttributes.() -> Unit) {
+    customStyles.add(
+      CssStyle(
+        selector,
+        CssAttributes().apply { style() }
+      )
+    )
   }
 }

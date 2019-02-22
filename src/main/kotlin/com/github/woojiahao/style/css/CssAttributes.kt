@@ -1,14 +1,14 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.css
 
-class CSSAttributeManager {
+class CssAttributes {
   private val attributes = mutableMapOf<String, String?>()
 
-  fun <T> add(attributeName: String, attributeValue: T?): CSSAttributeManager {
+  fun <T> add(attributeName: String, attributeValue: T?): CssAttributes {
     attributes[attributeName] = attributeValue?.toString()
     return this
   }
 
-  fun remove(attributeName: String): CSSAttributeManager {
+  fun remove(attributeName: String): CssAttributes {
     attributes.remove(attributeName)
     return this
   }
@@ -18,7 +18,7 @@ class CSSAttributeManager {
   }
 
   /**
-   * Returns all non-null valued CSS attributes stored in the [CSSAttributeManager].
+   * Returns all non-null valued CSS attributes stored in the [CssAttributes].
    */
   fun toCss() =
     attributes

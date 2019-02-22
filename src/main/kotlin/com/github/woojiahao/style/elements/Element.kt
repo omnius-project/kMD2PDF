@@ -1,6 +1,10 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.*
+import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.utility.Border
+import com.github.woojiahao.style.utility.BorderBox
+import com.github.woojiahao.style.utility.Box
+import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.px
 import java.awt.Color
@@ -33,8 +37,8 @@ open class Element(
   open var padding: Box<Double>? = null
   open var margin: Box<Double>? = null
 
-  protected val attributes: CSSAttributeManager by lazy {
-    CSSAttributeManager()
+  protected val attributes: CssAttributes by lazy {
+    CssAttributes()
       .add("font-size", fontSize.px)
       .add("font-family", fontFamily.toString())
       .add("color", textColor?.cssColor())

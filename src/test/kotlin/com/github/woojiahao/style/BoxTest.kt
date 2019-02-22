@@ -1,5 +1,6 @@
 package com.github.woojiahao.style
 
+import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.utility.px
 import org.junit.Test
 import kotlin.test.assertEquals

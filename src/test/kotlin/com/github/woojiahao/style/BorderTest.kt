@@ -1,6 +1,7 @@
 package com.github.woojiahao.style
 
-import com.github.woojiahao.style.Border.BorderStyle.*
+import com.github.woojiahao.style.utility.Border
+import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.c
 import org.junit.Test
 import java.awt.Color

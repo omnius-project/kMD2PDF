@@ -1,4 +1,4 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
 /**
  * Box of measurements for all directions.

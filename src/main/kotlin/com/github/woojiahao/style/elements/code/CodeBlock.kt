@@ -1,6 +1,6 @@
 package com.github.woojiahao.style.elements.code
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.utility.FontFamily
 
 class CodeBlock(
   fontSize: Double = 16.0,

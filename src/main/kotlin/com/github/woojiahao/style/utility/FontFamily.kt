@@ -1,4 +1,4 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
 /**
  * Handles the font families to be rendered. A set of [fonts] can be given during object

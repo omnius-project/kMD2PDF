@@ -1,6 +1,6 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
-import com.github.woojiahao.style.Border.BorderStyle.*
+import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.px
 import java.awt.Color
