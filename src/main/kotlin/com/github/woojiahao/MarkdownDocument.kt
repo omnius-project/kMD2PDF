@@ -8,7 +8,6 @@ import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.node.Node
 import org.commonmark.parser.Parser
 import java.io.File
-import com.itextpdf.text.Document as ITextDocument
 import org.commonmark.node.Document as CommonMarkDocument
 
 /**
