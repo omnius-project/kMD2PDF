@@ -14,6 +14,7 @@ import java.io.FileOutputStream
 /**
  * Converts a [markdownDocument] to a PDF, applying the supplied [style] to the PDF.
  */
+// TODO: Release the coupling between this and MarkdownDocument
 class MarkdownConverter(
   private val markdownDocument: MarkdownDocument,
   private val style: AbstractStyle
@@ -39,37 +40,9 @@ class MarkdownConverter(
         head {
           style {
             unsafe { +"\n${this@MarkdownConverter.style.getStyles()}\n" }
-
-            unsafe {
-              raw(
-                """
-                div.header {
-                  display: block; text-align: center;
-                  position: running(header);
-                }
-                div.footer {
-                  display: block; text-align: center;
-                  position: running(footer);
-                }
-                @page {
-                  @top-center { content: element(header) }
-                }
-                @page {
-                  @bottom-center { content: element(footer) }
-                }
-              """
-              )
-            }
           }
         }
         body {
-          div("header") {
-
-          }
-
-          div("footer") {
-            +"Content"
-          }
           unsafe { +"\n${htmlRenderer.render(markdownDocument.parsedDocument).trim()}\n" }
         }
       }.toString()
@@ -86,8 +59,6 @@ class MarkdownConverter(
     onComplete: ((File) -> Unit)? = null,
     onError: ((Exception) -> Unit)? = null
   ) {
-    println(generateMarkdownHTML())
-
     with(ITextRenderer()) {
       setDocumentFromString(generateMarkdownHTML())
       loadFontDirectories()
