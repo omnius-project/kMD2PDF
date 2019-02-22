@@ -17,6 +17,9 @@ class CSSAttributeManager {
     attributes[this] = attributeValue?.toString()
   }
 
+  /**
+   * Returns all non-null valued CSS attributes stored in the [CSSAttributeManager].
+   */
   fun toCss() =
     attributes
       .entries
