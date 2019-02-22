@@ -34,7 +34,7 @@ class Table(
   fun td(style: TableData.() -> Unit) = td.style()
 
   override fun toCss(): String {
-    attributes.attribute("border-collapse", borderCollapse.name.toLowerCase())
+    attributes.add("border-collapse", borderCollapse.name.toLowerCase())
     return super.toCss()
   }
 }

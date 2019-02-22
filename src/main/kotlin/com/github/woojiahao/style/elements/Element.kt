@@ -35,19 +35,19 @@ open class Element(
 
   protected val attributes: CSSAttributeManager by lazy {
     CSSAttributeManager()
-      .attribute("font-size", fontSize.px)
-      .attribute("font-family", fontFamily.toString())
-      .attribute("color", textColor?.cssColor())
-      .attribute("background-color", backgroundColor?.cssColor())
-      .attribute("font-weight", fontWeight.name.toLowerCase())
-      .attribute("text-decoration", textDecoration.toCss())
-      .attribute("border-radius", borderRadius.toCss { it.px })
-      .attribute("padding", padding?.toCss { it.px })
-      .attribute("margin", margin?.toCss { it.px })
-      .attribute("border-top", border.top.toString())
-      .attribute("border-right", border.right.toString())
-      .attribute("border-bottom", border.bottom.toString())
-      .attribute("border-left", border.left.toString())
+      .add("font-size", fontSize.px)
+      .add("font-family", fontFamily.toString())
+      .add("color", textColor?.cssColor())
+      .add("background-color", backgroundColor?.cssColor())
+      .add("font-weight", fontWeight.name.toLowerCase())
+      .add("text-decoration", textDecoration.toCss())
+      .add("border-radius", borderRadius.toCss { it.px })
+      .add("padding", padding?.toCss { it.px })
+      .add("margin", margin?.toCss { it.px })
+      .add("border-top", border.top.toString())
+      .add("border-right", border.right.toString())
+      .add("border-bottom", border.bottom.toString())
+      .add("border-left", border.left.toString())
   }
 
   fun fontFamily(load: FontFamily.() -> Unit) {

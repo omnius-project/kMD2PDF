@@ -28,31 +28,46 @@ abstract class AbstractStyle {
   abstract val del: Strikethrough
   abstract val hr: Ruler
 
-  val customCSSSelectors = mutableMapOf<String, CSSAttributeManager>()
+  val elements by lazy {
+    listOf(
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      inlineCode,
+      codeBlock,
+      strong,
+      p,
+      a,
+      ul,
+      ol,
+      blockquote,
+      img,
+      table,
+      table.thead,
+      table.tbody,
+      table.th,
+      table.td,
+      table.tr,
+      del,
+      hr
+    )
+  }
 
-  fun getElements() = listOf(
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    inlineCode,
-    codeBlock,
-    strong,
-    p,
-    a,
-    ul,
-    ol,
-    blockquote,
-    img,
-    table,
-    table.thead,
-    table.tbody,
-    table.th,
-    table.td,
-    table.tr,
-    del,
-    hr
-  )
+  val customStyles = mutableMapOf<String, CSSAttributeManager>()
+
+  /**
+   * Returns all the styles from the current implementation of [AbstractStyle].
+   *
+   * Styles for [elements] go first, then [customStyles].
+   */
+  fun getStyles(): String {
+    val elementStyles = elements.joinToString("\n\n") { it.toCss() }
+    val customStyles = customStyles.entries.joinToString("\n\n") {
+      StringBuilder("${it.key} {\n").append(it.value.toCss()).append("\n}")
+    }
+    return "$elementStyles\n\n$customStyles"
+  }
 }

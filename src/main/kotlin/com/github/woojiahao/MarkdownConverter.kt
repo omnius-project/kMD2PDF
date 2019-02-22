@@ -32,17 +32,20 @@ class MarkdownConverter(
    * Converts the [markdownDocument] into HTML for the PDF to render.
    * [style] is rendered along with the HTML as inline styles.
    */
-  fun toHTML() = StringBuilder()
+  fun generateMarkdownHTML() = StringBuilder()
     .appendHTML()
     .html {
       head {
         style {
           unsafe {
-            +"\n${extractStyle()}\n"
+            +"\n${this@MarkdownConverter.style.getStyles()}\n"
           }
         }
       }
       body {
+        div {
+
+        }
         unsafe {
           +htmlRenderer.render(markdownDocument.parsedDocument).trim()
         }
@@ -62,7 +65,7 @@ class MarkdownConverter(
     onError: ((Exception) -> Unit)? = null
   ) {
     with(ITextRenderer()) {
-      setDocumentFromString(toHTML())
+      setDocumentFromString(generateMarkdownHTML())
       loadFontDirectories()
       layout()
       try {
@@ -72,26 +75,6 @@ class MarkdownConverter(
         onError?.invoke(e)
       }
     }
-  }
-
-  private fun extractStyle(): String {
-    val standardElementCSS = style.getElements().joinToString("\n\n") { it.toCss() }
-    val customCSSSelectorsCSS = style
-      .customCSSSelectors
-      .map {
-        val selector = it.key
-        val attributes = it.value.toCss()
-        StringBuilder("$selector {\n")
-          .append(attributes)
-          .append("\n}")
-          .toString()
-      }
-      .joinToString("\n\n")
-    return StringBuilder()
-      .append(standardElementCSS)
-      .append("\n\n")
-      .append(customCSSSelectorsCSS)
-      .toString()
   }
 
   /**

@@ -45,8 +45,8 @@ open class List(
   open var listStylePosition = ListStylePosition.OUTSIDE
 
   override fun toCss(): String {
-    attributes.attribute("list-style-type", listStyleType.toCss())
-    attributes.attribute("list-style-position", listStylePosition.name.toLowerCase())
+    attributes.add("list-style-type", listStyleType.toCss())
+    attributes.add("list-style-position", listStylePosition.name.toLowerCase())
     return super.toCss()
   }
 }

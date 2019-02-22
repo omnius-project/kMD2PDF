@@ -147,6 +147,6 @@ class Style(
   fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
   fun selector(selector: String, style: CSSAttributeManager.() -> Unit) {
-    customCSSSelectors[selector] = CSSAttributeManager().apply { style() }
+    customStyles[selector] = CSSAttributeManager().apply { style() }
   }
 }

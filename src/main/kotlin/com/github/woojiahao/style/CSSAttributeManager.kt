@@ -3,12 +3,12 @@ package com.github.woojiahao.style
 class CSSAttributeManager {
   private val attributes = mutableMapOf<String, String?>()
 
-  fun <T> attribute(attributeName: String, attributeValue: T?): CSSAttributeManager {
+  fun <T> add(attributeName: String, attributeValue: T?): CSSAttributeManager {
     attributes[attributeName] = attributeValue?.toString()
     return this
   }
 
-  fun removeAttribute(attributeName: String): CSSAttributeManager {
+  fun remove(attributeName: String): CSSAttributeManager {
     attributes.remove(attributeName)
     return this
   }
