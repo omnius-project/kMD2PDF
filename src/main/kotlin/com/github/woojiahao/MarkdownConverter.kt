@@ -15,7 +15,7 @@ import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
-  private val style: Style,
+  private val documentStyle: Style,
   private val targetLocation: File
 ) {
 
@@ -26,13 +26,14 @@ class MarkdownConverter private constructor(
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
+    .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(style.getStyles())
+      println(generateHtml())
 
-      setDocumentFromString(generateMarkdownHTML())
+      setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
       return try {
@@ -44,19 +45,21 @@ class MarkdownConverter private constructor(
     }
   }
 
-  fun generateMarkdownHTML() =
+  fun generateHtml() =
     StringBuilder()
       .appendHTML()
       .html {
         head {
           style {
-            unsafe { +"\n${this@MarkdownConverter.style.getStyles()}\n" }
+            unsafe { +wrapHtmlContent(documentStyle.getStyles()) }
           }
         }
         body {
-          unsafe { +"\n${htmlRenderer.render(markdownDocument.parsedDocument).trim()}\n" }
+          unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
         }
       }.toString()
+
+  private fun wrapHtmlContent(content: String) = "\n$content\n"
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
