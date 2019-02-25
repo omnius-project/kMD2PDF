@@ -26,6 +26,7 @@ class MarkdownConverter private constructor(
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
+    .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
   fun convert(): KResult<File, Exception> {
