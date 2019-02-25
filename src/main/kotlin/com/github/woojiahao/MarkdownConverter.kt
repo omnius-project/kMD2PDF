@@ -1,6 +1,7 @@
 package com.github.woojiahao
 
-import com.github.woojiahao.style.AbstractStyle
+import com.github.woojiahao.style.Style
+import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -11,13 +12,12 @@ import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
 import java.io.FileOutputStream
 
-/**
- * Converts a [markdownDocument] to a PDF, applying the supplied [style] to the PDF.
- */
-// TODO: Release the coupling between this and MarkdownDocument
-class MarkdownConverter(
+class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
-  private val style: AbstractStyle
+  private val style: Style,
+  private val onComplete: (File) -> Unit,
+  private val onError: (Exception) -> Unit,
+  private val targetLocation: File
 ) {
 
   private val extensions = listOf(
@@ -29,10 +29,21 @@ class MarkdownConverter(
     .extensions(extensions)
     .build()
 
-  /**
-   * Converts the [markdownDocument] into HTML for the PDF to render.
-   * [style] is rendered along with the HTML as inline styles.
-   */
+  fun convert() {
+    with(ITextRenderer()) {
+      println(generateMarkdownHTML())
+      setDocumentFromString(generateMarkdownHTML())
+      loadFontDirectories()
+      layout()
+      try {
+        createPDF(FileOutputStream(targetLocation))
+        onComplete(targetLocation)
+      } catch (e: Exception) {
+        onError(e)
+      }
+    }
+  }
+
   fun generateMarkdownHTML() =
     StringBuilder()
       .appendHTML()
@@ -47,38 +58,6 @@ class MarkdownConverter(
         }
       }.toString()
 
-  /**
-   * Converts the given [markdownDocument] to a PDF, saving it at the location
-   * specified by [targetFile].
-   *
-   * Optionally pass [onComplete] and [onError] to be invoked when the file is
-   * converted or when it encounters an error.
-   */
-  fun createPDF(
-    targetFile: File,
-    onComplete: ((File) -> Unit)? = null,
-    onError: ((Exception) -> Unit)? = null
-  ) {
-    with(ITextRenderer()) {
-      setDocumentFromString(generateMarkdownHTML())
-      loadFontDirectories()
-      layout()
-      try {
-        createPDF(FileOutputStream(targetFile))
-        onComplete?.invoke(targetFile)
-      } catch (e: Exception) {
-        onError?.invoke(e)
-      }
-    }
-  }
-
-  /**
-   * Loads all available font directories into an [ITextRenderer] to be used with
-   * the styles.
-   *
-   * If no font directories are located, a warning is made to the user, selected
-   * fonts will not render.
-   */
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
     val hasNoFontDirectory = fontDirectories.none { File(it).exists() }
@@ -86,5 +65,63 @@ class MarkdownConverter(
       println("Font folders could not be located on your system, fonts will default")
     }
     fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
+  }
+
+  open class Builder {
+    private var markdownDocument: MarkdownDocument? = null
+    private var style = Style()
+    private var onComplete: (File) -> Unit = { }
+    private var onError: (Exception) -> Unit = { }
+    private var targetLocation: String? = null
+
+    fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
+      this.markdownDocument = markdownDocument
+      return this
+    }
+
+    fun style(style: Style): Builder {
+      this.style = style
+      return this
+    }
+
+    fun onComplete(onComplete: (File) -> Unit): Builder {
+      this.onComplete = onComplete
+      return this
+    }
+
+    fun onError(onError: (Exception) -> Unit): Builder {
+      this.onError = onError
+      return this
+    }
+
+    fun targetLocation(targetLocation: String): Builder {
+      this.targetLocation = targetLocation
+      return this
+    }
+
+    fun build(): MarkdownConverter {
+      check(markdownDocument != null) { "Markdown document must be set using markdownDocument()" }
+
+      val targetFile = createTargetOutputFile(targetLocation)
+      check(targetFile.isFileType("pdf")) { "Target location must have a .pdf extension" }
+
+      return MarkdownConverter(
+        markdownDocument!!,
+        style,
+        onComplete,
+        onError,
+        targetFile
+      )
+    }
+
+    private fun createTargetOutputFile(filePath: String?) =
+      filePath?.let { File(it) } ?: createFileRelativeToDocument()
+
+    private fun createFileRelativeToDocument(): File {
+      with(markdownDocument!!.file) {
+        check(this.parentFile != null) { "File cannot have no parent folder" }
+        return File(this.parentFile, "$nameWithoutExtension.pdf")
+      }
+    }
   }
 }
