@@ -14,25 +14,36 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
 
   override fun render(node: Node?) {
     with(node as Image) {
-      html.line()
-      html.tag("figure")
-      html.line()
-      html.tag(
-        "img", mapOf(
-          "src" to destination,
-          "alt" to title
+      if (title == null) {
+        html.line()
+        html.tag(
+          "img", mapOf(
+            "src" to destination
+          )
         )
-      )
-      html.tag("/img")
-      html.line()
-      html.tag("br")
-      html.tag("/br")
-      html.tag("figcaption")
-      html.raw("<b>Figure:</b> $title")
-      html.tag("/figcaption")
-      html.line()
-      html.tag("/figure")
-      html.line()
+        html.tag("/img")
+        html.line()
+      } else {
+        html.line()
+        html.tag("figure")
+        html.line()
+        html.tag(
+          "img", mapOf(
+            "src" to destination,
+            "alt" to title
+          )
+        )
+        html.tag("/img")
+        html.line()
+        html.tag("br")
+        html.tag("/br")
+        html.tag("figcaption")
+        html.raw("<b>Figure:</b> $title")
+        html.tag("/figcaption")
+        html.line()
+        html.tag("/figure")
+        html.line()
+      }
     }
   }
 }
