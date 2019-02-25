@@ -275,6 +275,12 @@
       <artifactId>commonmark-ext-gfm-strikethrough</artifactId>
       <version>${commonmark.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.github.kittinunf.result</groupId>
+      <artifactId>result</artifactId>
+      <version>${result.version}</version>
+    </dependency>
   </dependencies>
 
   <properties>
@@ -288,6 +294,7 @@
     <flying.saucer.version>9.1.16</flying.saucer.version>
     <apache.commons.version>3.8.1</apache.commons.version>
     <kotlin.html.version>0.6.12</kotlin.html.version>
+    <result.version>2.1.0</result.version>
 
     <plugin.compiler.version>3.5.1</plugin.compiler.version>
     <plugin.jar.version>2.6</plugin.jar.version>
