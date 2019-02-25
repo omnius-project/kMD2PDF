@@ -47,9 +47,12 @@ open class List(
 
   open var listStylePosition = ListStylePosition.OUTSIDE
 
+  var listStyleImage: String? = null
+
   override fun toCss(): String {
     val listAttributes = CssAttributes()
       .add("list-style-type", listStyleType.toCss())
+      .add("list-style-image", listStyleImage?.let { "url($it)" })
       .add("list-style-position", listStylePosition.name.toLowerCase())
     val listSelector = CssSelector(elementName, listAttributes)
     css.add(listSelector)
