@@ -11,12 +11,11 @@ import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
 import java.io.FileOutputStream
+import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
   private val style: Style,
-  private val onComplete: (File) -> Unit,
-  private val onError: (Exception) -> Unit,
   private val targetLocation: File
 ) {
 
@@ -29,17 +28,16 @@ class MarkdownConverter private constructor(
     .extensions(extensions)
     .build()
 
-  fun convert() {
+  fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(generateMarkdownHTML())
       setDocumentFromString(generateMarkdownHTML())
       loadFontDirectories()
       layout()
-      try {
+      return try {
         createPDF(FileOutputStream(targetLocation))
-        onComplete(targetLocation)
+        KResult.success(targetLocation)
       } catch (e: Exception) {
-        onError(e)
+        KResult.error(e)
       }
     }
   }
@@ -70,8 +68,6 @@ class MarkdownConverter private constructor(
   open class Builder {
     private var markdownDocument: MarkdownDocument? = null
     private var style = Style()
-    private var onComplete: (File) -> Unit = { }
-    private var onError: (Exception) -> Unit = { }
     private var targetLocation: String? = null
 
     fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
@@ -81,16 +77,6 @@ class MarkdownConverter private constructor(
 
     fun style(style: Style): Builder {
       this.style = style
-      return this
-    }
-
-    fun onComplete(onComplete: (File) -> Unit): Builder {
-      this.onComplete = onComplete
-      return this
-    }
-
-    fun onError(onError: (Exception) -> Unit): Builder {
-      this.onError = onError
       return this
     }
 
@@ -108,8 +94,6 @@ class MarkdownConverter private constructor(
       return MarkdownConverter(
         markdownDocument!!,
         style,
-        onComplete,
-        onError,
         targetFile
       )
     }
