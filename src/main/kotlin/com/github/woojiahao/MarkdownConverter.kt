@@ -30,6 +30,8 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
+      println(style.getStyles())
+
       setDocumentFromString(generateMarkdownHTML())
       loadFontDirectories()
       layout()

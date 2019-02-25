@@ -1,6 +1,7 @@
 package com.github.woojiahao.style.elements
 
 import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.Border
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
@@ -37,22 +38,7 @@ open class Element(
   open var padding: Box<Double>? = null
   open var margin: Box<Double>? = null
 
-  protected val attributes: CssAttributes by lazy {
-    CssAttributes()
-      .add("font-size", fontSize.px)
-      .add("font-family", fontFamily.toString())
-      .add("color", textColor?.cssColor())
-      .add("background-color", backgroundColor?.cssColor())
-      .add("font-weight", fontWeight.name.toLowerCase())
-      .add("text-decoration", textDecoration.toCss())
-      .add("border-radius", borderRadius.toCss { it.px })
-      .add("padding", padding?.toCss { it.px })
-      .add("margin", margin?.toCss { it.px })
-      .add("border-top", border.top.toString())
-      .add("border-right", border.right.toString())
-      .add("border-bottom", border.bottom.toString())
-      .add("border-left", border.left.toString())
-  }
+  protected val css = mutableListOf<CssSelector>()
 
   fun fontFamily(load: FontFamily.() -> Unit) {
     fontFamily.emptyFontFamily()
@@ -61,9 +47,24 @@ open class Element(
 
   fun border(load: BorderBox.() -> Unit) = border.load()
 
-  open fun toCss() =
-    StringBuilder("$elementName {\n")
-      .append(attributes.toCss())
-      .append("\n}")
-      .toString()
+  open fun toCss(): String {
+    val globalAttributes = with(CssAttributes()) {
+      add("font-size", fontSize.px)
+      add("font-family", fontFamily.toString())
+      add("color", textColor?.cssColor())
+      add("background-color", backgroundColor?.cssColor())
+      add("font-weight", fontWeight.name.toLowerCase())
+      add("text-decoration", textDecoration.toCss())
+      add("border-radius", borderRadius.toCss { it.px })
+      add("padding", padding?.toCss { it.px })
+      add("margin", margin?.toCss { it.px })
+      add("border-top", border.top.toString())
+      add("border-right", border.right.toString())
+      add("border-bottom", border.bottom.toString())
+      add("border-left", border.left.toString())
+    }
+    css.add(CssSelector(elementName, globalAttributes))
+    
+    return css.joinToString("\n\n") { it.toString() }
+  }
 }

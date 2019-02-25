@@ -17,9 +17,6 @@ class CssAttributes {
     attributes[this] = attributeValue?.toString()
   }
 
-  /**
-   * Returns all non-null valued CSS attributes stored in the [CssAttributes].
-   */
   fun toCss() =
     attributes
       .entries

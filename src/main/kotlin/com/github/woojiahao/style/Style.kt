@@ -1,7 +1,7 @@
 package com.github.woojiahao.style
 
 import com.github.woojiahao.style.css.CssAttributes
-import com.github.woojiahao.style.css.CssStyle
+import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.elements.*
 import com.github.woojiahao.style.elements.code.CodeBlock
 import com.github.woojiahao.style.elements.code.InlineCode
@@ -70,7 +70,7 @@ class Style(
     hr
   )
 
-  val customStyles = mutableListOf<CssStyle>()
+  val customStyles = mutableListOf<CssSelector>()
 
 
   inline fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
@@ -111,7 +111,7 @@ class Style(
 
   inline fun selector(selector: String, style: CssAttributes.() -> Unit) {
     customStyles.add(
-      CssStyle(
+      CssSelector(
         selector,
         CssAttributes().apply { style() }
       )
