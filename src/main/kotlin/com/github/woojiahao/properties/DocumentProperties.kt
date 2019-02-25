@@ -2,18 +2,21 @@ package com.github.woojiahao.properties
 
 import com.github.woojiahao.style.utility.Box
 
+/**
+ * [size], [margins], [leftPageMargins], [rightPageMargins] are all measured in inches
+ */
 class DocumentProperties private constructor(
   val size: DocumentSize,
-  val margins: Box<Double>,
-  val leftPageMargins: Box<Double>,
-  val rightPageMargins: Box<Double>
+  val margins: Box<Double>?,
+  val leftPageMargins: Box<Double>?,
+  val rightPageMargins: Box<Double>?
 ) {
 
   class Builder {
     private var size = DocumentSize()
-    private var margins = Box(0.0)
-    private var leftPageMargins = Box(0.0)
-    private var rightPageMargins = Box(0.0)
+    private var margins: Box<Double>? = null
+    private var leftPageMargins: Box<Double>? = null
+    private var rightPageMargins: Box<Double>? = null
 
     fun size(size: DocumentSize): Builder {
       this.size = size
