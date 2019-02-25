@@ -1,5 +1,7 @@
 package com.github.woojiahao
 
+import com.github.woojiahao.properties.DocumentProperties
+import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
@@ -16,7 +18,8 @@ import com.github.kittinunf.result.Result as KResult
 class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
-  private val targetLocation: File
+  private val targetLocation: File,
+  private val documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
@@ -29,9 +32,11 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
+  private val pagePropertiesManager = PagePropertiesManager(documentProperties)
+
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(generateHtml())
+      println(pagePropertiesManager.toCss())
 
       setDocumentFromString(generateHtml())
       loadFontDirectories()
@@ -51,7 +56,10 @@ class MarkdownConverter private constructor(
       .html {
         head {
           style {
-            unsafe { +wrapHtmlContent(documentStyle.getStyles()) }
+            unsafe {
+              +wrapHtmlContent(documentStyle.getStyles())
+              +wrapHtmlContent(pagePropertiesManager.toCss())
+            }
           }
         }
         body {
@@ -74,6 +82,7 @@ class MarkdownConverter private constructor(
     private var markdownDocument: MarkdownDocument? = null
     private var style = Style()
     private var targetLocation: String? = null
+    private var documentProperties = DocumentProperties.Builder().build()
 
     fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
       this.markdownDocument = markdownDocument
@@ -90,6 +99,11 @@ class MarkdownConverter private constructor(
       return this
     }
 
+    fun documentProperties(documentProperties: DocumentProperties): Builder {
+      this.documentProperties = documentProperties
+      return this
+    }
+
     fun build(): MarkdownConverter {
       check(markdownDocument != null) { "Markdown document must be set using markdownDocument()" }
 
@@ -99,7 +113,8 @@ class MarkdownConverter private constructor(
       return MarkdownConverter(
         markdownDocument!!,
         style,
-        targetFile
+        targetFile,
+        documentProperties
       )
     }
 
