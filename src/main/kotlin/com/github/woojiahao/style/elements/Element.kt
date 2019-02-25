@@ -50,7 +50,7 @@ open class Element(
   open fun toCss(): String {
     val globalAttributes = with(CssAttributes()) {
       add("font-size", fontSize.px)
-      add("font-family", fontFamily.toString())
+      add("font-family", fontFamily)
       add("color", textColor?.cssColor())
       add("background-color", backgroundColor?.cssColor())
       add("font-weight", fontWeight.name.toLowerCase())
@@ -58,13 +58,12 @@ open class Element(
       add("border-radius", borderRadius.toCss { it.px })
       add("padding", padding?.toCss { it.px })
       add("margin", margin?.toCss { it.px })
-      add("border-top", border.top.toString())
-      add("border-right", border.right.toString())
-      add("border-bottom", border.bottom.toString())
-      add("border-left", border.left.toString())
+      add("border-top", border.top)
+      add("border-right", border.right)
+      add("border-bottom", border.bottom)
+      add("border-left", border.left)
     }
     css.add(CssSelector(elementName, globalAttributes))
-    
     return css.joinToString("\n\n") { it.toString() }
   }
 }
