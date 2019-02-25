@@ -1,5 +1,7 @@
 package com.github.woojiahao
 
+import com.github.woojiahao.properties.DocumentPropertiesBuilderDsl
+import com.github.woojiahao.properties.documentProperties
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
@@ -23,4 +25,14 @@ inline fun MarkdownConverterBuilderDsl.style(
 ) {
   val customStyle = Style.createStyle(baseFontSize, baseFontFamily) { style() }
   this.style(customStyle)
+}
+
+inline fun MarkdownConverterBuilderDsl.documentProperties(
+  properties: DocumentPropertiesBuilderDsl.() -> Unit
+) {
+  val documentProperties = with(DocumentPropertiesBuilderDsl()) {
+    properties()
+    build()
+  }
+  documentProperties(documentProperties)
 }
