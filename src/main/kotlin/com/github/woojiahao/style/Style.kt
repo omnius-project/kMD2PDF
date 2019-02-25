@@ -60,6 +60,7 @@ class Style(
     ol,
     blockquote,
     img,
+    img.figCaption,
     table,
     table.thead,
     table.tbody,

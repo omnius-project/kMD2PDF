@@ -17,16 +17,18 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
       html.line()
       html.tag("figure")
       html.line()
-      html.tag("img", mapOf(
-        "src" to destination,
-        "alt" to title
-      ))
+      html.tag(
+        "img", mapOf(
+          "src" to destination,
+          "alt" to title
+        )
+      )
       html.tag("/img")
       html.line()
+      html.tag("br")
+      html.tag("/br")
       html.tag("figcaption")
-      html.tag("p")
-      html.text("Figure: ${title}")
-      html.tag("/p")
+      html.raw("<b>Figure:</b> $title")
       html.tag("/figcaption")
       html.line()
       html.tag("/figure")
