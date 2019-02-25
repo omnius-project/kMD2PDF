@@ -13,24 +13,24 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
 
   override fun render(node: Node?) {
-    val image = node as Image
-    val imageAttributes = mapOf(
-      "src" to image.destination,
-      "alt" to image.title
-    )
-    html.line()
-    html.tag("figure")
-    html.line()
-    html.tag("img", imageAttributes)
-    html.tag("/img")
-    html.line()
-    html.tag("figcaption")
-    html.tag("p")
-    html.text(image.title)
-    html.tag("/p")
-    html.tag("/figcaption")
-    html.line()
-    html.tag("/figure")
-    html.line()
+    with(node as Image) {
+      html.line()
+      html.tag("figure")
+      html.line()
+      html.tag("img", mapOf(
+        "src" to destination,
+        "alt" to title
+      ))
+      html.tag("/img")
+      html.line()
+      html.tag("figcaption")
+      html.tag("p")
+      html.text("Figure: ${title}")
+      html.tag("/p")
+      html.tag("/figcaption")
+      html.line()
+      html.tag("/figure")
+      html.line()
+    }
   }
 }
