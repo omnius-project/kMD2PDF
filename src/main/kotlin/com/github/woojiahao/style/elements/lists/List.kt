@@ -1,12 +1,15 @@
 package com.github.woojiahao.style.elements.lists
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.elements.Element
+import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 open class List(
-  elementName: String,
+  private val elementName: String,
   fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontFamily: FontFamily = FontFamily(SANS_SERIF)
 ) : Element(elementName, fontSize, fontFamily) {
 
   enum class ListStylePosition {
@@ -45,8 +48,11 @@ open class List(
   open var listStylePosition = ListStylePosition.OUTSIDE
 
   override fun toCss(): String {
-    attributes.add("list-style-type", listStyleType.toCss())
-    attributes.add("list-style-position", listStylePosition.name.toLowerCase())
+    val listAttributes = CssAttributes()
+      .add("list-style-type", listStyleType.toCss())
+      .add("list-style-position", listStylePosition.name.toLowerCase())
+    val listSelector = CssSelector(elementName, listAttributes)
+    css.add(listSelector)
     return super.toCss()
   }
 }

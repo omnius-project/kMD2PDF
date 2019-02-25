@@ -1,6 +1,6 @@
 package com.github.woojiahao.style.css
 
-class CssStyle(
+class CssSelector(
   private val selector: String,
   private val attributes: CssAttributes = CssAttributes()
 ) {

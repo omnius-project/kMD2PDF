@@ -1,5 +1,7 @@
 package com.github.woojiahao.style.elements.table
 
+import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.elements.Element
 
@@ -34,7 +36,10 @@ class Table(
   fun td(style: TableData.() -> Unit) = td.style()
 
   override fun toCss(): String {
-    attributes.add("border-collapse", borderCollapse.name.toLowerCase())
+    val tableAttributes = CssAttributes()
+      .add("border-collapse", borderCollapse.name.toLowerCase())
+    val tableSelector = CssSelector("table", tableAttributes)
+    css.add(tableSelector)
     return super.toCss()
   }
 }
