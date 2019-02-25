@@ -1,8 +1,8 @@
 package com.github.woojiahao
 
-import com.github.woojiahao.properties.DocumentSize
+import com.github.woojiahao.properties.DocumentProperties
+import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import kotlinx.html.*
@@ -19,9 +19,7 @@ class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  private val documentSize: DocumentSize,
-  private val leftMargins: Box<Double>,
-  private val rightMargins: Box<Double>
+  private val documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
@@ -34,8 +32,12 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
+  private val pagePropertiesManager = PagePropertiesManager(documentProperties)
+
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
+      println(pagePropertiesManager.toCss())
+
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
@@ -54,7 +56,10 @@ class MarkdownConverter private constructor(
       .html {
         head {
           style {
-            unsafe { +wrapHtmlContent(documentStyle.getStyles()) }
+            unsafe {
+              +wrapHtmlContent(documentStyle.getStyles())
+              +wrapHtmlContent(pagePropertiesManager.toCss())
+            }
           }
         }
         body {
@@ -77,25 +82,7 @@ class MarkdownConverter private constructor(
     private var markdownDocument: MarkdownDocument? = null
     private var style = Style()
     private var targetLocation: String? = null
-
-    private var documentSize = DocumentSize()
-    private var leftMargins = Box(0.0)
-    private var rightMargins = Box(0.0)
-
-    fun documentSize(documentSize: DocumentSize): Builder {
-      this.documentSize = documentSize
-      return this
-    }
-
-    fun leftMargins(leftMargins: Box<Double>): Builder {
-      this.leftMargins = leftMargins
-      return this
-    }
-
-    fun rightMargins(rightMargins: Box<Double>): Builder {
-      this.rightMargins = rightMargins
-      return this
-    }
+    private var documentProperties = DocumentProperties.Builder().build()
 
     fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
       this.markdownDocument = markdownDocument
@@ -112,6 +99,11 @@ class MarkdownConverter private constructor(
       return this
     }
 
+    fun documentProperties(documentProperties: DocumentProperties): Builder {
+      this.documentProperties = documentProperties
+      return this
+    }
+
     fun build(): MarkdownConverter {
       check(markdownDocument != null) { "Markdown document must be set using markdownDocument()" }
 
@@ -122,9 +114,7 @@ class MarkdownConverter private constructor(
         markdownDocument!!,
         style,
         targetFile,
-        documentSize,
-        leftMargins,
-        rightMargins
+        documentProperties
       )
     }
 
