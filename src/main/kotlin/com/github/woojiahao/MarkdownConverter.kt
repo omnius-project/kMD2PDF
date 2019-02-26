@@ -19,7 +19,7 @@ class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  private val documentProperties: DocumentProperties
+  documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
@@ -32,12 +32,10 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
-  private val pagePropertiesManager = PagePropertiesManager(documentProperties)
+  private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(pagePropertiesManager.toCss())
-
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
@@ -63,7 +61,25 @@ class MarkdownConverter private constructor(
           }
         }
         body {
-          unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+          with(documentStyle.header) {
+            div("header-left") { +left.getContents() }
+
+            div("header-center") { +center.getContents() }
+
+            div("header-right") { +right.getContents() }
+          }
+
+          with(documentStyle.footer) {
+            div("footer-left") { +left.getContents() }
+
+            div("footer-center") { +center.getContents() }
+
+            div("footer-right") { +right.getContents() }
+          }
+
+          div("content") {
+            unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+          }
         }
       }.toString()
 

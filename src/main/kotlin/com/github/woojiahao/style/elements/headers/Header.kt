@@ -1,7 +1,7 @@
 package com.github.woojiahao.style.elements.headers
 
-import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.elements.Element
+import com.github.woojiahao.style.utility.FontFamily
 
 open class Header(
   headerName: String,

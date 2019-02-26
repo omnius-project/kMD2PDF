@@ -8,6 +8,8 @@ class CssAttributes {
     return this
   }
 
+  fun append(attributes: CssAttributes) = this.attributes.putAll(attributes.attributes)
+
   fun remove(attributeName: String): CssAttributes {
     attributes.remove(attributeName)
     return this

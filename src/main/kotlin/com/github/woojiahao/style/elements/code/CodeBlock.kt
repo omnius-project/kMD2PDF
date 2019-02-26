@@ -1,8 +1,7 @@
 package com.github.woojiahao.style.elements.code
 
-import com.github.woojiahao.style.css.CssAttributes
-import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.utility.cssSelector
 
 class CodeBlock(
   fontSize: Double = 16.0,
@@ -10,10 +9,11 @@ class CodeBlock(
 ) : Code("pre", fontSize, fontFamily) {
 
   override fun toCss(): String {
-    val codeBlockAttributes = CssAttributes()
-      .add("font-family", fontFamily)
-    val codeBlockSelector = CssSelector("pre > code", codeBlockAttributes)
-    css.add(codeBlockSelector)
+    css.add(cssSelector("pre > code") {
+      attributes {
+        "font-family" to fontFamily
+      }
+    })
     return super.toCss()
   }
 }

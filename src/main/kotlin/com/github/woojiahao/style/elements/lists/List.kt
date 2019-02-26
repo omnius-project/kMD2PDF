@@ -1,10 +1,9 @@
 package com.github.woojiahao.style.elements.lists
 
-import com.github.woojiahao.style.css.CssAttributes
-import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
+import com.github.woojiahao.utility.cssSelector
 
 open class List(
   private val elementName: String,
@@ -50,12 +49,13 @@ open class List(
   var listStyleImage: String? = null
 
   override fun toCss(): String {
-    val listAttributes = CssAttributes()
-      .add("list-style-type", listStyleType.toCss())
-      .add("list-style-image", listStyleImage?.let { "url($it)" })
-      .add("list-style-position", listStylePosition.name.toLowerCase())
-    val listSelector = CssSelector(elementName, listAttributes)
-    css.add(listSelector)
+    css.add(cssSelector(elementName) {
+      attributes {
+        "list-style-type" to listStyleType.toCss()
+        "list-style-image" to listStyleImage?.let { "url($it)" }
+        "list-style-position" to listStylePosition.name.toLowerCase()
+      }      
+    })
     return super.toCss()
   }
 }
