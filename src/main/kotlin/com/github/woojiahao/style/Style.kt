@@ -5,6 +5,7 @@ import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.elements.*
 import com.github.woojiahao.style.elements.code.CodeBlock
 import com.github.woojiahao.style.elements.code.InlineCode
+import com.github.woojiahao.style.elements.document.DocumentFooter
 import com.github.woojiahao.style.elements.document.DocumentHeader
 import com.github.woojiahao.style.elements.headers.*
 import com.github.woojiahao.style.elements.lists.OrderedList
@@ -46,6 +47,7 @@ class Style(
   val hr = Ruler(baseFontSize, baseFontFamily.clone())
 
   val header = DocumentHeader(baseFontSize, baseFontFamily.clone())
+  val footer = DocumentFooter(baseFontSize, baseFontFamily.clone())
 
   val elements = listOf(
     h1,
@@ -75,7 +77,11 @@ class Style(
     header,
     header.left,
     header.right,
-    header.center
+    header.center,
+    footer,
+    footer.left,
+    footer.right,
+    footer.center
   )
 
   val customStyles = mutableListOf<CssSelector>()
@@ -118,6 +124,8 @@ class Style(
   inline fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
   inline fun header(style: DocumentHeader.() -> Unit) = header.style()
+
+  inline fun footer(style: DocumentFooter.() -> Unit) = footer.style()
 
   inline fun selector(selector: String, style: CssAttributes.() -> Unit) {
     customStyles.add(

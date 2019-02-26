@@ -27,6 +27,18 @@ class PagePropertiesManager(documentProperties: DocumentProperties) {
       this += cssSelector("@top-right") {
         attributes { "content" to "element(header-right)" }
       }
+
+      this += cssSelector("@bottom-left") {
+        attributes { "content" to "element(footer-left)" }
+      }
+
+      this += cssSelector("@bottom-center") {
+        attributes { "content" to "element(footer-center)" }
+      }
+
+      this += cssSelector("@bottom-right") {
+        attributes { "content" to "element(footer-right)" }
+      }
     }
   }
 

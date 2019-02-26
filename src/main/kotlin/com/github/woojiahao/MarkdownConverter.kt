@@ -37,8 +37,6 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(pagePropertiesManager.toCss())
-
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
@@ -59,33 +57,35 @@ class MarkdownConverter private constructor(
           style {
             unsafe {
               +wrapHtmlContent(documentStyle.getStyles())
-
-              +cssSelector(".running") {
+              +cssSelector(".header-left, .header-center, .header-right") {
                 attributes {
                   "display" to "block"
                 }
               }.toCss()
-
               +wrapHtmlContent(pagePropertiesManager.toCss())
             }
           }
         }
         body {
-          with (documentStyle.header) {
-            div("running header-left") {
-              +left.getContents()
-            }
+          with(documentStyle.header) {
+            div("header-left") { +left.getContents() }
 
-            div("running header-center") {
-              +center.getContents()
-            }
+            div("header-center") { +center.getContents() }
 
-            div("running header-right") {
-              +right.getContents()
-            }
-
+            div("header-right") { +right.getContents() }
           }
-          unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+
+          with(documentStyle.footer) {
+            div("footer-left") { +left.getContents() }
+
+            div("footer-center") { +center.getContents() }
+
+            div("footer-right") { +right.getContents() }
+          }
+
+          div("content") {
+            unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+          }
         }
       }.toString()
 
