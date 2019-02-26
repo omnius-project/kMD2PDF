@@ -38,17 +38,8 @@ open class Element(
   open var padding: Box<Double>? = null
   open var margin: Box<Double>? = null
 
-  protected val css = mutableListOf<CssSelector>()
-
-  fun fontFamily(load: FontFamily.() -> Unit) {
-    fontFamily.emptyFontFamily()
-    fontFamily.load()
-  }
-
-  fun border(load: BorderBox.() -> Unit) = border.load()
-
-  open fun toCss(): String {
-    val globalCss = cssSelector(elementName) {
+  val globalCss by lazy {
+    cssSelector(elementName) {
       attributes {
         "font-size" to fontSize.px
         "font-family" to fontFamily
@@ -65,6 +56,18 @@ open class Element(
         "border-left" to border.left
       }
     }
+  }
+
+  protected val css = mutableListOf<CssSelector>()
+
+  fun fontFamily(load: FontFamily.() -> Unit) {
+    fontFamily.emptyFontFamily()
+    fontFamily.load()
+  }
+
+  fun border(load: BorderBox.() -> Unit) = border.load()
+
+  open fun toCss(): String {
     css.add(globalCss)
     return css.joinToString("\n\n") { it.toCss() }
   }

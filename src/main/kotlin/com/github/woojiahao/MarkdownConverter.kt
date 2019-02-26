@@ -32,7 +32,7 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { ImageNodeRenderer(it) }
     .build()
 
-  private val pagePropertiesManager = PagePropertiesManager(documentProperties)
+  private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
