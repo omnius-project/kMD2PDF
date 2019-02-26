@@ -1,5 +1,6 @@
 package com.github.woojiahao.utility
 
+import com.github.woojiahao.style.css.CssSelector
 import java.awt.Color
 
 /**
@@ -30,3 +31,5 @@ fun c(hexCode: String): Color? {
  * Converts a [Color] to the rgb format for CSS.
  */
 fun Color.cssColor() = "rgb($red, $green, $blue)"
+
+fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) = CssSelector(selectorName).apply { style() }

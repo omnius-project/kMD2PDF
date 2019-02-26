@@ -5,6 +5,7 @@ import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.elements.*
 import com.github.woojiahao.style.elements.code.CodeBlock
 import com.github.woojiahao.style.elements.code.InlineCode
+import com.github.woojiahao.style.elements.document.DocumentHeader
 import com.github.woojiahao.style.elements.headers.*
 import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
@@ -44,6 +45,8 @@ class Style(
   val del = Strikethrough(baseFontSize, baseFontFamily.clone())
   val hr = Ruler(baseFontSize, baseFontFamily.clone())
 
+  val header = DocumentHeader(baseFontSize, baseFontFamily.clone())
+
   val elements = listOf(
     h1,
     h2,
@@ -68,7 +71,11 @@ class Style(
     table.td,
     table.tr,
     del,
-    hr
+    hr,
+    header,
+    header.left,
+    header.right,
+    header.center
   )
 
   val customStyles = mutableListOf<CssSelector>()
@@ -110,6 +117,8 @@ class Style(
 
   inline fun h6(style: HeaderSix.() -> Unit) = h6.style()
 
+  inline fun header(style: DocumentHeader.() -> Unit) = header.style()
+
   inline fun selector(selector: String, style: CssAttributes.() -> Unit) {
     customStyles.add(
       CssSelector(
@@ -122,7 +131,7 @@ class Style(
   fun getStyles(): String {
     val separator = "\n\n"
     val elementStyles = elements.joinToString(separator) { it.toCss() }
-    val customStyles = customStyles.joinToString(separator) { it.toString() }
+    val customStyles = customStyles.joinToString(separator) { it.toCss() }
     return "$elementStyles$separator$customStyles"
   }
 }

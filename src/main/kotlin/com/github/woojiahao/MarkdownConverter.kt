@@ -3,6 +3,7 @@ package com.github.woojiahao
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import kotlinx.html.*
@@ -58,11 +59,32 @@ class MarkdownConverter private constructor(
           style {
             unsafe {
               +wrapHtmlContent(documentStyle.getStyles())
+
+              +cssSelector(".running") {
+                attributes {
+                  "display" to "block"
+                }
+              }.toCss()
+
               +wrapHtmlContent(pagePropertiesManager.toCss())
             }
           }
         }
         body {
+          with (documentStyle.header) {
+            div("running header-left") {
+              +left.getContents()
+            }
+
+            div("running header-center") {
+              +center.getContents()
+            }
+
+            div("running header-right") {
+              +right.getContents()
+            }
+
+          }
           unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
         }
       }.toString()

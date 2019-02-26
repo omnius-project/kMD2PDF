@@ -64,6 +64,6 @@ open class Element(
       add("border-left", border.left)
     }
     css.add(CssSelector(elementName, globalAttributes))
-    return css.joinToString("\n\n") { it.toString() }
+    return css.joinToString("\n\n") { it.toCss() }
   }
 }
