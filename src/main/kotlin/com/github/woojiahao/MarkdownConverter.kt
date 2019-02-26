@@ -20,7 +20,7 @@ class MarkdownConverter private constructor(
   private val markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  private val documentProperties: DocumentProperties
+  documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
@@ -57,11 +57,6 @@ class MarkdownConverter private constructor(
           style {
             unsafe {
               +wrapHtmlContent(documentStyle.getStyles())
-              +cssSelector(".header-left, .header-center, .header-right") {
-                attributes {
-                  "display" to "block"
-                }
-              }.toCss()
               +wrapHtmlContent(pagePropertiesManager.toCss())
             }
           }
