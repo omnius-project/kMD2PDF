@@ -3,7 +3,6 @@ package com.github.woojiahao
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import kotlinx.html.*

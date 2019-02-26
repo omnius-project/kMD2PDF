@@ -1,10 +1,10 @@
 package com.github.woojiahao.style.elements.table
 
+import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.style.utility.Border
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.elements.Element
 import java.awt.Color
 
 /**

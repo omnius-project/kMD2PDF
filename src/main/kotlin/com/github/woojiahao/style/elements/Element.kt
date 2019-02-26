@@ -1,12 +1,12 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.css.CssAttributes
 import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.Border
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.cssColor
+import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.px
 import java.awt.Color
 
@@ -48,22 +48,24 @@ open class Element(
   fun border(load: BorderBox.() -> Unit) = border.load()
 
   open fun toCss(): String {
-    val globalAttributes = with(CssAttributes()) {
-      add("font-size", fontSize.px)
-      add("font-family", fontFamily)
-      add("color", textColor?.cssColor())
-      add("background-color", backgroundColor?.cssColor())
-      add("font-weight", fontWeight.name.toLowerCase())
-      add("text-decoration", textDecoration.toCss())
-      add("border-radius", borderRadius.toCss { it.px })
-      add("padding", padding?.toCss { it.px })
-      add("margin", margin?.toCss { it.px })
-      add("border-top", border.top)
-      add("border-right", border.right)
-      add("border-bottom", border.bottom)
-      add("border-left", border.left)
+    val globalCss = cssSelector(elementName) {
+      attributes {
+        "font-size" to fontSize.px
+        "font-family" to fontFamily
+        "color" to textColor?.cssColor()
+        "background-color" to backgroundColor?.cssColor()
+        "font-weight" to fontWeight.name.toLowerCase()
+        "text-decoration" to textDecoration.toCss()
+        "border-radius" to borderRadius.toCss { it.px }
+        "padding" to padding?.toCss { it.px }
+        "margin" to margin?.toCss { it.px }
+        "border-top" to border.top
+        "border-right" to border.right
+        "border-bottom" to border.bottom
+        "border-left" to border.left
+      }
     }
-    css.add(CssSelector(elementName, globalAttributes))
+    css.add(globalCss)
     return css.joinToString("\n\n") { it.toCss() }
   }
 }

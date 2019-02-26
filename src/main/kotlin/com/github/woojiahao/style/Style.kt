@@ -12,7 +12,8 @@ import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
 import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.*
+import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
+import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 class Style(
   baseFontSize: Double = 16.0,

@@ -32,4 +32,5 @@ fun c(hexCode: String): Color? {
  */
 fun Color.cssColor() = "rgb($red, $green, $blue)"
 
-fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) = CssSelector(selectorName).apply { style() }
+inline fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) =
+  CssSelector(selectorName).apply { style() }
