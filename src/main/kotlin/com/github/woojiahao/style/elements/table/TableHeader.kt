@@ -11,8 +11,8 @@ import java.awt.Color
  * <th></th> element.
  */
 class TableHeader(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("th", fontSize, fontFamily) {
   override var border = BorderBox(
     Border(

@@ -7,7 +7,7 @@ import com.github.woojiahao.utility.c
 
 open class Code(
   elementName: String,
-  fontSize: Double = 16.0,
+  fontSize: Double,
   fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.MONOSPACE)
 ) : Element(elementName, fontSize, fontFamily) {
   override var textColor = c("FF3D00")

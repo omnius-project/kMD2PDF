@@ -7,6 +7,6 @@ import com.github.woojiahao.style.utility.FontFamily
  * <thead></thead> element.
  */
 class TableHead(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("thead", fontSize, fontFamily)

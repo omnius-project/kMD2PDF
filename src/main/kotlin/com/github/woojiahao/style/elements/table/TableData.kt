@@ -11,8 +11,8 @@ import java.awt.Color
  * <td></td> element.
  */
 class TableData(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("td", fontSize, fontFamily) {
   override var border = BorderBox(
     Border(

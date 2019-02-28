@@ -4,7 +4,7 @@ import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.cssSelector
 
 class CodeBlock(
-  fontSize: Double = 16.0,
+  fontSize: Double,
   fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.MONOSPACE)
 ) : Code("pre", fontSize, fontFamily) {
 

@@ -1,12 +1,11 @@
 package com.github.woojiahao.style.elements.document
 
 import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 import com.github.woojiahao.utility.cssSelector
 
 class DocumentFooter(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : DocumentArea("footer", fontSize, fontFamily) {
 
 

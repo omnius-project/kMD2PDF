@@ -6,8 +6,8 @@ import com.github.woojiahao.style.utility.FontFamily
 import java.awt.Color.BLACK
 
 class Ruler(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("hr", fontSize, fontFamily) {
   override var border = BorderBox(
     Border(

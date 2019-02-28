@@ -2,13 +2,12 @@ package com.github.woojiahao.style.elements.lists
 
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 import com.github.woojiahao.utility.cssSelector
 
 open class List(
   private val elementName: String,
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element(elementName, fontSize, fontFamily) {
 
   enum class ListStylePosition {
@@ -54,7 +53,7 @@ open class List(
         "list-style-type" to listStyleType.toCss()
         "list-style-image" to listStyleImage?.let { "url($it)" }
         "list-style-position" to listStylePosition.name.toLowerCase()
-      }      
+      }
     })
     return super.toCss()
   }

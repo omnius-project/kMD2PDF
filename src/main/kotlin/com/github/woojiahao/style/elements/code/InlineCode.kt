@@ -6,6 +6,6 @@ import com.github.woojiahao.style.utility.FontFamily
  * Inline <code> element styles.
  */
 class InlineCode(
-  fontSize: Double = 16.0,
+  fontSize: Double,
   fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.MONOSPACE)
 ) : Code("p code", fontSize, fontFamily)

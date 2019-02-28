@@ -3,8 +3,8 @@ package com.github.woojiahao.style.elements.lists
 import com.github.woojiahao.style.utility.FontFamily
 
 class UnorderedList(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : List("ul", fontSize, fontFamily) {
   override var listStyleType = List.ListStyleType.CIRCLE
 }

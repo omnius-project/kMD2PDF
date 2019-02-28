@@ -8,8 +8,8 @@ import com.github.woojiahao.utility.cssSelector
  * <table></table> element
  */
 class Table(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("table", fontSize, fontFamily) {
 
   enum class BorderCollapse {

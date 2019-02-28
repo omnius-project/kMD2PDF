@@ -7,8 +7,8 @@ import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.c
 
 class BlockQuote(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
+  fontSize: Double,
+  fontFamily: FontFamily
 ) : Element("blockquote", fontSize, fontFamily) {
   override var backgroundColor = c("BBDEFB")
   override var padding: Box<Double>? =
