@@ -5,10 +5,9 @@ import com.github.woojiahao.style.utility.FontFamily
 
 open class Header(
   headerName: String,
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF),
+  fontSize: Double,
+  fontFamily: FontFamily,
   headerScaleFactor: Double = 1.0
 ) : Element(headerName, fontSize, fontFamily) {
-  override var fontWeight = FontWeight.BOLD
-  override var fontSize = super.fontSize * headerScaleFactor
+    override var fontSize = super.fontSize.times(headerScaleFactor)
 }

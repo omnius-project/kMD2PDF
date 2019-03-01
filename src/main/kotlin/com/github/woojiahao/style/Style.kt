@@ -16,77 +16,83 @@ import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 class Style(
-  baseFontSize: Double = 16.0,
-  baseFontFamily: FontFamily = FontFamily(SANS_SERIF)
+  fontSize: Double = 16.0,
+  private val font: FontFamily = FontFamily(SANS_SERIF),
+  private val monospaceFont: FontFamily = FontFamily(MONOSPACE)
 ) {
 
   companion object {
     inline fun createStyle(
-      baseFontSize: Double = 16.0,
-      baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
+      fontSize: Double = 16.0,
+      font: FontFamily = FontFamily(SANS_SERIF),
+      monospaceFont: FontFamily = FontFamily(MONOSPACE),
       style: Style.() -> Unit
-    ) = Style(baseFontSize, baseFontFamily.clone()).apply { style() }
+    ) = Style(fontSize, font, monospaceFont).apply { style() }
   }
 
-  val h1 = HeaderOne(baseFontSize, baseFontFamily.clone())
-  val h2 = HeaderTwo(baseFontSize, baseFontFamily.clone())
-  val h3 = HeaderThree(baseFontSize, baseFontFamily.clone())
-  val h4 = HeaderFour(baseFontSize, baseFontFamily.clone())
-  val h5 = HeaderFive(baseFontSize, baseFontFamily.clone())
-  val h6 = HeaderSix(baseFontSize, baseFontFamily.clone())
-  val inlineCode = InlineCode(baseFontSize, FontFamily(MONOSPACE).clone())
-  val codeBlock = CodeBlock(baseFontSize, FontFamily(MONOSPACE).clone())
-  val strong = Bold(baseFontSize, baseFontFamily.clone())
-  val p = Paragraph(baseFontSize, baseFontFamily.clone())
-  val a = Link(baseFontSize, baseFontFamily.clone())
-  val ul = UnorderedList(baseFontSize, baseFontFamily.clone())
-  val ol = OrderedList(baseFontSize, baseFontFamily.clone())
-  val blockquote = BlockQuote(baseFontSize, baseFontFamily.clone())
-  val img = Image(baseFontSize, baseFontFamily.clone())
-  val table = Table(baseFontSize, baseFontFamily.clone())
-  val del = Strikethrough(baseFontSize, baseFontFamily.clone())
-  val hr = Ruler(baseFontSize, baseFontFamily.clone())
+  private val baseFont
+    get() = font.clone()
 
-  val header = DocumentHeader(baseFontSize, baseFontFamily.clone())
-  val footer = DocumentFooter(baseFontSize, baseFontFamily.clone())
+  private val baseMonospaceFont
+    get() = monospaceFont.clone()
+
+  val h1 = HeaderOne(fontSize, baseFont)
+  val h2 = HeaderTwo(fontSize, baseFont)
+  val h3 = HeaderThree(fontSize, baseFont)
+  val h4 = HeaderFour(fontSize, baseFont)
+  val h5 = HeaderFive(fontSize, baseFont)
+  val h6 = HeaderSix(fontSize, baseFont)
+  val inlineCode = InlineCode(fontSize, baseMonospaceFont)
+  val codeBlock = CodeBlock(fontSize, baseMonospaceFont)
+  val strong = Bold(fontSize, baseFont)
+  val p = Paragraph(fontSize, baseFont)
+  val a = Link(fontSize, baseFont)
+  val ul = UnorderedList(fontSize, baseFont)
+  val ol = OrderedList(fontSize, baseFont)
+  val blockquote = BlockQuote(fontSize, baseFont)
+  val img = Image(fontSize, baseFont)
+  val table = Table(fontSize, baseFont)
+  val del = Strikethrough(fontSize, baseFont)
+  val hr = Ruler(fontSize, baseFont)
+  val header = DocumentHeader(fontSize, baseFont)
+  val footer = DocumentFooter(fontSize, baseFont)
 
   val elements = listOf(
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    inlineCode,
-    codeBlock,
-    strong,
-    p,
-    a,
-    ul,
-    ol,
-    blockquote,
-    img,
-    img.figCaption,
-    table,
-    table.thead,
-    table.tbody,
-    table.th,
-    table.td,
-    table.tr,
-    del,
-    hr,
-    header,
-    header.left,
-    header.right,
-    header.center,
-    footer,
-    footer.left,
-    footer.right,
-    footer.center
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      inlineCode,
+      codeBlock,
+      strong,
+      p,
+      a,
+      ul,
+      ol,
+      blockquote,
+      img,
+      img.figCaption,
+      table,
+      table.thead,
+      table.tbody,
+      table.th,
+      table.td,
+      table.tr,
+      del,
+      hr,
+      header,
+      header.left,
+      header.right,
+      header.center,
+      footer,
+      footer.left,
+      footer.right,
+      footer.center
   )
 
   val customStyles = mutableListOf<CssSelector>()
-
 
   inline fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()
 
@@ -129,12 +135,7 @@ class Style(
   inline fun footer(style: DocumentFooter.() -> Unit) = footer.style()
 
   inline fun selector(selector: String, style: CssAttributes.() -> Unit) {
-    customStyles.add(
-      CssSelector(
-        selector,
-        CssAttributes().apply { style() }
-      )
-    )
+    customStyles += CssSelector(selector, CssAttributes().apply { style() })
   }
 
   fun getStyles(): String {

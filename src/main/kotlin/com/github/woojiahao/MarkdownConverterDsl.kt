@@ -3,6 +3,7 @@ package com.github.woojiahao
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 @DslMarker
@@ -18,12 +19,12 @@ inline fun markdownConverter(converter: MarkdownConverterBuilderDsl.() -> Unit) 
   }
 
 inline fun MarkdownConverterBuilderDsl.style(
-  baseFontSize: Double = 16.0,
-  baseFontFamily: FontFamily = FontFamily(SANS_SERIF),
+  fontSize: Double = 16.0,
+  font: FontFamily = FontFamily(SANS_SERIF),
+  monospaceFont: FontFamily = FontFamily(MONOSPACE),
   style: Style.() -> Unit
 ) {
-  val customStyle = Style.createStyle(baseFontSize, baseFontFamily) { style() }
-  this.style(customStyle)
+  this.style(Style.createStyle(fontSize, font, monospaceFont) { style() })
 }
 
 inline fun MarkdownConverterBuilderDsl.documentProperties(
