@@ -6,15 +6,12 @@ import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.c
 
-class BlockQuote(
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element("blockquote", fontSize, fontFamily) {
+class BlockQuote(fontSize: Double, fontFamily: FontFamily) : Element("blockquote", fontSize, fontFamily) {
   override var backgroundColor = c("BBDEFB")
   override var padding: Box<Double>? =
     Box(10.0, 20.0)
   override var margin: Box<Double>? = Box(0.0)
-  override var border = BorderBox(
+  override var border: BorderBox? = BorderBox(
     Border(),
     Border(),
     Border(),

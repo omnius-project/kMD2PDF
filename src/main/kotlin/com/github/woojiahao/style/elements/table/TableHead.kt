@@ -6,7 +6,4 @@ import com.github.woojiahao.style.utility.FontFamily
 /**
  * <thead></thead> element.
  */
-class TableHead(
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element("thead", fontSize, fontFamily)
+class TableHead(fontSize: Double, fontFamily: FontFamily) : Element("thead", fontSize, fontFamily)

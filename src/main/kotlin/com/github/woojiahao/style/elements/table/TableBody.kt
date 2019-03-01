@@ -6,7 +6,4 @@ import com.github.woojiahao.style.utility.FontFamily
 /**
  * <tbody></tbody> element.
  */
-class TableBody(
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element("tbody", fontSize, fontFamily)
+class TableBody(fontSize: Double, fontFamily: FontFamily) : Element("tbody", fontSize, fontFamily)

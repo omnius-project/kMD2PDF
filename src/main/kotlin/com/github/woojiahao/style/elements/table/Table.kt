@@ -7,20 +7,17 @@ import com.github.woojiahao.utility.cssSelector
 /**
  * <table></table> element
  */
-class Table(
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element("table", fontSize, fontFamily) {
+class Table(fontSize: Double, fontFamily: FontFamily) : Element("table", fontSize, fontFamily) {
 
   enum class BorderCollapse {
     SEPARATE, COLLAPSE
   }
 
-  val th = TableHeader(fontSize, fontFamily.clone())
-  val thead = TableHead(fontSize, fontFamily.clone())
-  val tbody = TableBody(fontSize, fontFamily.clone())
-  val td = TableData(fontSize, fontFamily.clone())
-  val tr = TableRow(fontSize, fontFamily.clone())
+  val th = TableHeader(fontSize, fontFamily)
+  val thead = TableHead(fontSize, fontFamily)
+  val tbody = TableBody(fontSize, fontFamily)
+  val td = TableData(fontSize, fontFamily)
+  val tr = TableRow(fontSize, fontFamily)
 
   var borderCollapse = BorderCollapse.COLLAPSE
 

@@ -8,7 +8,7 @@ import com.github.woojiahao.utility.c
 open class Code(
   elementName: String,
   fontSize: Double,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.MONOSPACE)
+  fontFamily: FontFamily
 ) : Element(elementName, fontSize, fontFamily) {
   override var textColor = c("FF3D00")
   override var backgroundColor = c("#F5F5F5")

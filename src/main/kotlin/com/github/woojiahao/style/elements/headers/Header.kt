@@ -9,6 +9,5 @@ open class Header(
   fontFamily: FontFamily,
   headerScaleFactor: Double = 1.0
 ) : Element(headerName, fontSize, fontFamily) {
-  override var fontWeight = FontWeight.BOLD
-  override var fontSize = super.fontSize * headerScaleFactor
+    override var fontSize = super.fontSize.times(headerScaleFactor)
 }
