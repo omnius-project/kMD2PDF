@@ -40,8 +40,6 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      println(generateHtml())
-
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
@@ -63,10 +61,16 @@ class MarkdownConverter private constructor(
             unsafe {
               +wrapHtmlContent(documentStyle.getStyles())
               +wrapHtmlContent(pagePropertiesManager.toCss())
+              +cssSelector(".task-list") {
+                attributes {
+                  "list-style-type" to "none"
+                  "margin-left" to 0.px
+                  "padding-left" to 0.px
+                }
+              }.toCss()
               +cssSelector(".task-list-item") {
                 attributes {
                   "list-style-type" to "none"
-                  "list-style-position" to "outside"
                   "margin" to 0.px
                   "padding" to 0.px
                 }

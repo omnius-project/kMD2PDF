@@ -1,5 +1,7 @@
 package com.github.woojiahao
 
+import kotlinx.html.*
+import kotlinx.html.stream.appendHTML
 import org.commonmark.node.BulletList
 import org.commonmark.node.Node
 import org.commonmark.node.Paragraph
@@ -19,52 +21,50 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   override fun render(node: Node?) {
     val bulletList = node as BulletList
 
-    html.tag("ul")
-    html.line()
-    populateList(bulletList)
-    html.tag("/ul")
-    html.line()
-  }
+    val list = StringBuilder().appendHTML().ul {
+      bulletList.iterateNodeChildren {
+        val listItemContent = (it.firstChild.firstChild as Text).literal.trim()
 
-  private fun populateList(list: BulletList) {
-    var listItem = list.firstChild
-    while (listItem != null) {
-      val next = listItem.next
-      val listItemContent = ((listItem.firstChild as Paragraph).firstChild as Text).literal.trim()
+        val isTaskItem = taskItemRegex.containsMatchIn(listItemContent)
 
-      val isTaskItem = taskItemRegex.containsMatchIn(listItemContent)
+        if (isTaskItem) {
+          classes = setOf("task-list")
 
-      if (isTaskItem) {
-        with(taskItemRegex.matchEntire(listItemContent)) {
-          this ?: return
+          val match = taskItemRegex.matchEntire(listItemContent)
+          match ?: return@iterateNodeChildren
 
-          val taskCompletionStatus = groups[1]?.value ?: return
-          val taskDescription = groups[2]?.value ?: return
+          val taskCompletionStatus = match.groups[1]?.value ?: return@iterateNodeChildren
+          val taskDescription = match.groups[2]?.value ?: return@iterateNodeChildren
 
           val isTaskCompleted = taskCompletionStatus.toLowerCase() == "x"
 
-          val checkboxSettings = mutableMapOf(
-            "type" to "checkbox",
-            "disabled" to "disabled"
-          )
+          li("task-list-item") {
+            unsafe {
+              val inputString = StringBuilder("<input type=\"checkbox\" disabled=\"disabled\"")
+              if (isTaskCompleted) inputString.append(" checked=\"checked\"")
+              inputString.append("></input>")
+              raw(inputString.toString())
+            }
 
-          if (isTaskCompleted) checkboxSettings["checked"] = "checked"
-
-          html.tag("li", mapOf("class" to "task-list-item"))
-
-          html.tag("input", checkboxSettings)
-          html.tag("/input")
-
-          html.text(taskDescription)
+            +taskDescription
+          }
+        } else {
+          li {
+            +listItemContent
+          }
         }
-      } else {
-        html.tag("li")
-        html.text(listItemContent)
       }
+    }
 
-      html.tag("/li")
-      html.line()
+    html.raw(list.toString())
+    html.line()
+  }
 
+  private fun Node.iterateNodeChildren(operation: (Node) -> Unit) {
+    var listItem = firstChild
+    while (listItem != null) {
+      val next = listItem.next
+      operation(listItem)
       listItem = next
     }
   }
