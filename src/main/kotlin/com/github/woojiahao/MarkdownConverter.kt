@@ -3,8 +3,10 @@ package com.github.woojiahao
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
+import com.github.woojiahao.utility.px
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
@@ -13,6 +15,7 @@ import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
 import java.io.FileOutputStream
+import javax.management.Query.div
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
@@ -30,12 +33,15 @@ class MarkdownConverter private constructor(
     .builder()
     .extensions(extensions)
     .nodeRendererFactory { ImageNodeRenderer(it) }
+    .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
+      println(generateHtml())
+
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
@@ -57,6 +63,19 @@ class MarkdownConverter private constructor(
             unsafe {
               +wrapHtmlContent(documentStyle.getStyles())
               +wrapHtmlContent(pagePropertiesManager.toCss())
+              +cssSelector(".task-list-item") {
+                attributes {
+                  "list-style-type" to "none"
+                  "list-style-position" to "outside"
+                  "margin" to 0.px
+                  "padding" to 0.px
+                }
+              }.toCss()
+              +cssSelector(".task-list-item > input[type='checkbox']") {
+                attributes {
+                  "margin-right" to 10.px
+                }
+              }.toCss()
             }
           }
         }
