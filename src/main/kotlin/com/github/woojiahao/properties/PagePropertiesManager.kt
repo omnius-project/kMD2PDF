@@ -1,9 +1,14 @@
 package com.github.woojiahao.properties
 
+import com.github.woojiahao.style.Settings
+import com.github.woojiahao.style.Settings.Theme.*
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssAttributes
 import com.github.woojiahao.style.elements.document.DocumentText
+import com.github.woojiahao.utility.c
+import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
+import java.awt.Color
 
 class PagePropertiesManager(documentProperties: DocumentProperties, style: Style) {
 
@@ -16,6 +21,10 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
     attributes {
       "size" to size.size
       "margin" to margins?.toCss { "${it}in" }
+      "background-color" to when (style.settings.theme) {
+        DARK -> c("212121")?.cssColor()
+        LIGHT -> Color.WHITE.cssColor()
+      }
     }
 
     nested {

@@ -28,5 +28,5 @@ class CssProperty<T>(defaultValue: T, private val theme: Theme = Theme.LIGHT) {
 inline fun <T> cssProperty(
   defaultValue: T,
   theme: Theme = Theme.LIGHT,
-  configuration: CssProperty<T>.() -> Unit
+  configuration: CssProperty<T>.() -> Unit = {  }
 ) = CssProperty(defaultValue, theme).apply { configuration() }
