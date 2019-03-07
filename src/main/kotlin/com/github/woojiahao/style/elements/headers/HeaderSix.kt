@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class HeaderSix(fontSize: Double, fontFamily: FontFamily) : Header("h6", fontSize, fontFamily, 0.67)
+class HeaderSix(settings: Settings) : Header("h6", settings, 0.67)

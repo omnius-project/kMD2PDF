@@ -1,5 +1,6 @@
 package com.github.woojiahao.style.elements
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
@@ -11,8 +12,7 @@ import java.awt.Color
 
 open class Element(
   private val elementName: String,
-  open var fontSize: Double,
-  open var fontFamily: FontFamily
+  settings: Settings
 ) {
 
   enum class FontWeight {
@@ -25,6 +25,8 @@ open class Element(
     fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
 
+  open var fontSize: Double = settings.fontSize
+  open var fontFamily: FontFamily = settings.font
   open var textColor: Color? = Color.BLACK
   open var backgroundColor: Color? = null
   open var fontWeight: FontWeight? = null

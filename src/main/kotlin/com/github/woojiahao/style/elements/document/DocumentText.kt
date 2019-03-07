@@ -1,13 +1,12 @@
 package com.github.woojiahao.style.elements.document
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.elements.Element
-import com.github.woojiahao.style.utility.FontFamily
 
 class DocumentText(
   elementName: String,
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element(elementName, fontSize, fontFamily) {
+  settings: Settings
+) : Element(elementName, settings) {
 
   private val contents = mutableListOf<String>()
   var hasPageNumber = false

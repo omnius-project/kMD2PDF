@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class HeaderOne(fontSize: Double, fontFamily: FontFamily) : Header("h1", fontSize, fontFamily, 2.0)
+class HeaderOne(settings: Settings) : Header("h1", settings, 2.0)

@@ -1,14 +1,10 @@
 package com.github.woojiahao.style.elements.lists
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.elements.Element
-import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.cssSelector
 
-open class List(
-  private val elementName: String,
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element(elementName, fontSize, fontFamily) {
+open class List(private val elementName: String, settings: Settings) : Element(elementName, settings) {
 
   enum class ListStylePosition {
     INSIDE, OUTSIDE

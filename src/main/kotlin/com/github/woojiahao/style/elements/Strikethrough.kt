@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class Strikethrough(fontSize: Double, fontFamily: FontFamily) : Element("del", fontSize, fontFamily)
+class Strikethrough(settings: Settings) : Element("del", settings)

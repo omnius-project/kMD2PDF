@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class HeaderFour(fontSize: Double, fontFamily: FontFamily) : Header("h4", fontSize, fontFamily)
+class HeaderFour(settings: Settings) : Header("h4", settings)

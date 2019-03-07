@@ -1,22 +1,21 @@
 package com.github.woojiahao.style.elements.document
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.elements.Element
-import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.utility.cssSelector
 
 open class DocumentArea(
   elementName: String,
-  fontSize: Double,
-  fontFamily: FontFamily
-) : Element(elementName, fontSize, fontFamily) {
+  settings: Settings
+) : Element(elementName, settings) {
 
   private val leftSelector = "$elementName-left"
   private val rightSelector = "$elementName-right"
   private val centerSelector = "$elementName-center"
 
-  val left = DocumentText(".$leftSelector", fontSize, fontFamily)
-  val right = DocumentText(".$rightSelector", fontSize, fontFamily)
-  val center = DocumentText(".$centerSelector", fontSize, fontFamily)
+  val left = DocumentText(".$leftSelector", settings)
+  val right = DocumentText(".$rightSelector", settings)
+  val center = DocumentText(".$centerSelector", settings)
 
   fun left(style: DocumentText.() -> Unit) = left.style()
   fun right(style: DocumentText.() -> Unit) = right.style()

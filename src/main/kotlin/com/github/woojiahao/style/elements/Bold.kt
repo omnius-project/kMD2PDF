@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class Bold(fontSize: Double, fontFamily: FontFamily) : Element("strong", fontSize, fontFamily)
+class Bold(settings: Settings) : Element("strong", settings)

@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class Paragraph(fontSize: Double, fontFamily: FontFamily) : Element("p", fontSize, fontFamily)
+class Paragraph(settings: Settings) : Element("p", settings)

@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class HeaderFive(fontSize: Double, fontFamily: FontFamily) : Header("h5", fontSize, fontFamily, 0.83)
+class HeaderFive(settings: Settings) : Header("h5", settings, 0.83)
