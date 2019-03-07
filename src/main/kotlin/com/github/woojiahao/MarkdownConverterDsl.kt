@@ -1,10 +1,8 @@
 package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
-import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 @DslMarker
 annotation class MarkdownConverterDsl
@@ -19,12 +17,10 @@ inline fun markdownConverter(converter: MarkdownConverterBuilderDsl.() -> Unit) 
   }
 
 inline fun MarkdownConverterBuilderDsl.style(
-  fontSize: Double = 16.0,
-  font: FontFamily = FontFamily(SANS_SERIF),
-  monospaceFont: FontFamily = FontFamily(MONOSPACE),
+  settings: Settings = Settings(),
   style: Style.() -> Unit
 ) {
-  this.style(Style.createStyle(fontSize, font, monospaceFont) { style() })
+  this.style(Style.createStyle(settings) { style() })
 }
 
 inline fun MarkdownConverterBuilderDsl.documentProperties(

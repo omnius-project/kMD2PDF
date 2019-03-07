@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class FigCaption(fontSize: Double, fontFamily: FontFamily) : Element("figcaption", fontSize, fontFamily)
+class FigCaption(settings: Settings) : Element("figcaption", settings)

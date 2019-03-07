@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.code
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class InlineCode(fontSize: Double, fontFamily: FontFamily) : Code("p code", fontSize, fontFamily)
+class InlineCode(settings: Settings) : Code("p code", settings)

@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.document
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class DocumentFooter(fontSize: Double, fontFamily: FontFamily) : DocumentArea("footer", fontSize, fontFamily)
+class DocumentFooter(settings: Settings) : DocumentArea("footer", settings)

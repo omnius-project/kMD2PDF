@@ -1,5 +1,5 @@
 package com.github.woojiahao.style.elements.document
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.Settings
 
-class DocumentHeader(fontSize: Double, fontFamily: FontFamily) : DocumentArea("header", fontSize, fontFamily)
+class DocumentHeader(settings: Settings) : DocumentArea("header", settings)
