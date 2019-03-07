@@ -2,6 +2,8 @@ package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
+import com.github.woojiahao.renderers.ImageNodeRenderer
+import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
@@ -15,7 +17,6 @@ import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
 import java.io.FileOutputStream
-import javax.management.Query.div
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
