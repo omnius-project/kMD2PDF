@@ -12,7 +12,7 @@ import com.github.woojiahao.utility.cssSelector
 import java.awt.Color
 
 class BlockQuote(settings: Settings) : Element("blockquote", settings) {
-  override var backgroundColor = c("FAFAFA")
+  override var backgroundColor = c("EEEEEE")
   override var textColor by cssProperty<Color?>(Color.BLACK, settings.theme)
   override var padding: Box<Double>? = Box(10.0, 20.0)
   override var border by cssProperty<BorderBox?>(BorderBox(

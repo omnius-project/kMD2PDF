@@ -15,7 +15,7 @@ import java.awt.Color
  */
 class TableData(settings: Settings) : Element("td", settings) {
   override var border by cssProperty<BorderBox?>(BorderBox(Border(1.0, SOLID, Color.BLACK)), settings.theme) {
-    darkThemeProperty = BorderBox(Border(1.0, SOLID, c("FAFAFA")))
+    darkTheme = BorderBox(Border(1.0, SOLID, c("EEEEEE")))
   }
   override var padding: Box<Double>? = Box(5.0)
 }

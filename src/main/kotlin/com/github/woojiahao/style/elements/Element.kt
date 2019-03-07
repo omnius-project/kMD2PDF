@@ -27,7 +27,7 @@ open class Element(private val elementName: String, settings: Settings) {
   open var fontSize by cssProperty(settings.fontSize, settings.theme)
   open var fontFamily by cssProperty(settings.font, settings.theme)
   open var textColor by cssProperty(c("212121"), settings.theme) {
-    darkThemeProperty = c("FAFAFA")
+      darkTheme = c("EEEEEE")
   }
   open var backgroundColor by cssProperty<Color?>(null, settings.theme)
   open var fontWeight by cssProperty<FontWeight?>(null, settings.theme)

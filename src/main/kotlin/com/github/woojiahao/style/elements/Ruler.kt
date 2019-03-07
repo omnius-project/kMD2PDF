@@ -10,6 +10,6 @@ import java.awt.Color.BLACK
 
 class Ruler(settings: Settings) : Element("hr", settings) {
   override var border by cssProperty<BorderBox?>(BorderBox(Border(1.0, SOLID, BLACK)), settings.theme) {
-    darkThemeProperty = BorderBox(Border(1.0, SOLID, c("FAFAFA")))
+    darkTheme = BorderBox(Border(1.0, SOLID, c("EEEEEE")))
   }
 }

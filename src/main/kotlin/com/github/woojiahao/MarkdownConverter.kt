@@ -4,7 +4,9 @@ import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
@@ -15,6 +17,7 @@ import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
+import java.awt.Color
 import java.io.File
 import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
@@ -40,6 +43,7 @@ class MarkdownConverter private constructor(
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
+    println(generateHtml())
     with(ITextRenderer()) {
       setDocumentFromString(generateHtml())
       loadFontDirectories()
@@ -60,27 +64,30 @@ class MarkdownConverter private constructor(
         head {
           style {
             unsafe {
-              +wrapHtmlContent(documentStyle.getStyles())
-              +wrapHtmlContent(pagePropertiesManager.toCss())
-              +cssSelector(".task-list") {
+              +wrapDocumentContent(documentStyle.getStyles())
+              +wrapDocumentContent(pagePropertiesManager.toCss())
+              +wrapDocumentContent(cssSelector(".task-list") {
                 attributes {
                   "list-style-type" to "none"
                   "margin-left" to 0.px
                   "padding-left" to 0.px
                 }
-              }.toCss()
-              +cssSelector(".task-list-item") {
+              }.toCss())
+              +wrapDocumentContent(cssSelector(".task-list-item") {
                 attributes {
                   "list-style-type" to "none"
                   "margin" to 0.px
                   "padding" to 0.px
                 }
-              }.toCss()
-              +cssSelector(".task-list-item > input[type='checkbox']") {
+              }.toCss())
+              +wrapDocumentContent(cssSelector(".task-list-item > input[type='checkbox']") {
                 attributes {
                   "margin-right" to 10.px
+                  if (documentStyle.settings.theme == Settings.Theme.DARK) {
+                    "background-color" to Color.WHITE.cssColor()
+                  }
                 }
-              }.toCss()
+              }.toCss())
             }
           }
         }
@@ -102,12 +109,12 @@ class MarkdownConverter private constructor(
           }
 
           div("content") {
-            unsafe { +wrapHtmlContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+            unsafe { +wrapDocumentContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
           }
         }
       }.toString()
 
-  private fun wrapHtmlContent(content: String) = "\n$content\n"
+  private fun wrapDocumentContent(content: String) = "\n$content\n"
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
