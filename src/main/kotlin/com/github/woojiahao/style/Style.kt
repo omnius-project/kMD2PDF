@@ -12,7 +12,7 @@ import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
 
-class Style(settings: Settings = Settings()) {
+class Style(val settings: Settings = Settings()) {
 
   companion object {
     inline fun createStyle(settings: Settings = Settings(), style: Style.() -> Unit) =
@@ -47,10 +47,10 @@ class Style(settings: Settings = Settings()) {
     h4,
     h5,
     h6,
+    p,
     inlineCode,
     codeBlock,
     strong,
-    p,
     a,
     ul,
     ol,

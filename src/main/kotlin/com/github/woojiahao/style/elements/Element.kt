@@ -2,18 +2,17 @@ package com.github.woojiahao.style.elements
 
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.CssSelector
+import com.github.woojiahao.style.css.cssProperty
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.px
 import java.awt.Color
 
-open class Element(
-  private val elementName: String,
-  settings: Settings
-) {
+open class Element(private val elementName: String, settings: Settings) {
 
   enum class FontWeight {
     NORMAL, BOLD, BOLDER, LIGHTER
@@ -25,16 +24,18 @@ open class Element(
     fun toCss() = this.name.replace("_", "-").toLowerCase()
   }
 
-  open var fontSize: Double = settings.fontSize
-  open var fontFamily: FontFamily = settings.font
-  open var textColor: Color? = Color.BLACK
-  open var backgroundColor: Color? = null
-  open var fontWeight: FontWeight? = null
-  open var textDecoration: TextDecoration? = null
-  open var border: BorderBox? = null
-  open var borderRadius: Box<Double>? = null
-  open var padding: Box<Double>? = null
-  open var margin: Box<Double>? = null
+  open var fontSize by cssProperty(settings.fontSize, settings.theme)
+  open var fontFamily by cssProperty(settings.font, settings.theme)
+  open var textColor by cssProperty(c("212121"), settings.theme) {
+      darkTheme = c("EEEEEE")
+  }
+  open var backgroundColor by cssProperty<Color?>(null, settings.theme)
+  open var fontWeight by cssProperty<FontWeight?>(null, settings.theme)
+  open var textDecoration by cssProperty<TextDecoration?>(null, settings.theme)
+  open var border by cssProperty<BorderBox?>(null, settings.theme)
+  open var borderRadius by cssProperty<Box<Double>?>(null, settings.theme)
+  open var padding by cssProperty<Box<Double>?>(null, settings.theme)
+  open var margin by cssProperty<Box<Double>?>(null, settings.theme)
 
   val globalCss by lazy {
     cssSelector(elementName) {

@@ -1,10 +1,9 @@
-package com.github.woojiahao
+package com.github.woojiahao.renderers
 
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.node.BulletList
 import org.commonmark.node.Node
-import org.commonmark.node.Paragraph
 import org.commonmark.node.Text
 import org.commonmark.renderer.NodeRenderer
 import org.commonmark.renderer.html.HtmlNodeRendererContext
