@@ -15,6 +15,7 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
+import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.awt.Color
@@ -23,7 +24,7 @@ import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
-  private val markdownDocument: MarkdownDocument,
+  markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
   documentProperties: DocumentProperties
@@ -33,6 +34,12 @@ class MarkdownConverter private constructor(
     TablesExtension.create(),
     StrikethroughExtension.create()
   )
+
+  private val parser = Parser
+    .builder()
+    .extensions(extensions)
+    .build()
+
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
@@ -40,10 +47,11 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
+  private val parsedDocument = parser.parse(markdownDocument.file.readText())
+
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
-    println(generateHtml())
     with(ITextRenderer()) {
       setDocumentFromString(generateHtml())
       loadFontDirectories()
@@ -109,7 +117,7 @@ class MarkdownConverter private constructor(
           }
 
           div("content") {
-            unsafe { +wrapDocumentContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+            unsafe { +wrapDocumentContent(htmlRenderer.render(parsedDocument).trim()) }
           }
         }
       }.toString()
