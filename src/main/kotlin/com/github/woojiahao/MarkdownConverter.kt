@@ -126,13 +126,13 @@ class MarkdownConverter private constructor(
   }
 
   open class Builder {
-    private var markdownDocument: MarkdownDocument? = null
+    private var document: MarkdownDocument? = null
     private var style = Style()
     private var targetLocation: String? = null
     private var documentProperties = DocumentProperties.Builder().build()
 
-    fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
-      this.markdownDocument = markdownDocument
+    fun document(document: MarkdownDocument): Builder {
+      this.document = document
       return this
     }
 
@@ -152,13 +152,13 @@ class MarkdownConverter private constructor(
     }
 
     fun build(): MarkdownConverter {
-      check(markdownDocument != null) { "Markdown document must be set using markdownDocument()" }
+      check(document != null) { "Markdown document must be set using document()" }
 
       val targetFile = createTargetOutputFile(targetLocation)
       check(targetFile.isFileType("pdf")) { "Target location must have a .pdf extension" }
 
       return MarkdownConverter(
-        markdownDocument!!,
+        document!!,
         style,
         targetFile,
         documentProperties
@@ -169,7 +169,7 @@ class MarkdownConverter private constructor(
       filePath?.let { File(it) } ?: createFileRelativeToDocument()
 
     private fun createFileRelativeToDocument(): File {
-      with(markdownDocument!!.file) {
+      with(document!!.file) {
         check(this.parentFile != null) { "File cannot have no parent folder" }
         return File(this.parentFile, "$nameWithoutExtension.pdf")
       }
