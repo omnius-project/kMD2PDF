@@ -6,6 +6,7 @@ import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
@@ -35,11 +36,6 @@ class MarkdownConverter private constructor(
     StrikethroughExtension.create()
   )
 
-  private val parser = Parser
-    .builder()
-    .extensions(extensions)
-    .build()
-
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
@@ -47,9 +43,20 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
-  private val parsedDocument = parser.parse(markdownDocument.file.readText())
+  private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+
+  private val parsedDocument = Parser
+    .builder()
+    .extensions(extensions)
+    .build()
+    .parse(markdownDocument.file.readText())
+    .apply { accept(tableOfContentsVisitor) }
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
+
+  init {
+    tableOfContentsVisitor.tableOfContents.print()
+  }
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {

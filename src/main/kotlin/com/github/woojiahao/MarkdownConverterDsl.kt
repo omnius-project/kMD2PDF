@@ -3,12 +3,19 @@ package com.github.woojiahao
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.toc.TableOfContentsSettings
 
 @DslMarker
 annotation class MarkdownConverterDsl
 
 @MarkdownConverterDsl
 class MarkdownConverterBuilderDsl : MarkdownConverter.Builder()
+
+@DslMarker
+annotation class DocumentPropertiesDsl
+
+@DocumentPropertiesDsl
+class DocumentPropertiesBuilderDsl : DocumentProperties.Builder()
 
 inline fun markdownConverter(converter: MarkdownConverterBuilderDsl.() -> Unit) =
   with(MarkdownConverterBuilderDsl()) {
@@ -24,7 +31,13 @@ inline fun MarkdownConverterBuilderDsl.style(
 }
 
 inline fun MarkdownConverterBuilderDsl.documentProperties(
-  properties: DocumentProperties.Builder.() -> Unit
+  properties: DocumentPropertiesBuilderDsl.() -> Unit
+) = with(DocumentPropertiesBuilderDsl()) {
+  documentProperties(apply { properties() }.build())
+}
+
+inline fun DocumentPropertiesBuilderDsl.tableOfContents(
+  properties: TableOfContentsSettings.() -> Unit
 ) {
-  documentProperties(DocumentProperties.Builder().apply { properties() }.build())
+  tableOfContentsSettings(TableOfContentsSettings().apply { properties() })
 }

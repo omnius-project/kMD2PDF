@@ -1,6 +1,7 @@
 package com.github.woojiahao.properties
 
 import com.github.woojiahao.style.utility.Box
+import com.github.woojiahao.toc.TableOfContentsSettings
 
 /**
  * [size], [margins], [leftPageMargins], [rightPageMargins] are all measured in inches
@@ -9,14 +10,16 @@ class DocumentProperties private constructor(
   val size: DocumentSize,
   val margins: Box<Double>?,
   val leftPageMargins: Box<Double>?,
-  val rightPageMargins: Box<Double>?
+  val rightPageMargins: Box<Double>?,
+  val tableOfContentsSettings: TableOfContentsSettings
 ) {
 
-  class Builder {
+  open class Builder {
     private var size = DocumentSize()
     private var margins: Box<Double>? = null
     private var leftPageMargins: Box<Double>? = null
     private var rightPageMargins: Box<Double>? = null
+    private var tableOfContentsSettings = TableOfContentsSettings()
 
     fun size(size: DocumentSize): Builder {
       this.size = size
@@ -38,6 +41,17 @@ class DocumentProperties private constructor(
       return this
     }
 
-    fun build() = DocumentProperties(size, margins, leftPageMargins, rightPageMargins)
+    fun tableOfContentsSettings(tableOfContentsSettings: TableOfContentsSettings): Builder {
+      this.tableOfContentsSettings = tableOfContentsSettings
+      return this
+    }
+
+    fun build() = DocumentProperties(
+      size,
+      margins,
+      leftPageMargins,
+      rightPageMargins,
+      tableOfContentsSettings
+    )
   }
 }
