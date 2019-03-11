@@ -40,7 +40,7 @@ class MarkdownDocumentTest {
   fun `Default markdown should render to default PDF`() {
     val file = generateDefaultMarkdownFile()
     val markdownDocument = MarkdownDocument(file)
-//    markdownDocument.toPDF()
+//    document.toPDF()
   }
 
   private fun generateDefaultMarkdownFile() =

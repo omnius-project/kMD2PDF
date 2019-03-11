@@ -6,6 +6,8 @@ import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.toc.TableOfContentsVisitor
+import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
@@ -15,6 +17,7 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
+import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
 import java.awt.Color
@@ -23,16 +26,17 @@ import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
-  private val markdownDocument: MarkdownDocument,
+  markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  documentProperties: DocumentProperties
+  private val documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
     TablesExtension.create(),
     StrikethroughExtension.create()
   )
+
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
@@ -40,10 +44,18 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
+  private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+
+  private val parsedDocument = Parser
+    .builder()
+    .extensions(extensions)
+    .build()
+    .parse(markdownDocument.file.readText())
+    .apply { accept(tableOfContentsVisitor) }
+
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
-    println(generateHtml())
     with(ITextRenderer()) {
       setDocumentFromString(generateHtml())
       loadFontDirectories()
@@ -88,10 +100,29 @@ class MarkdownConverter private constructor(
                   }
                 }
               }.toCss())
+              +wrapDocumentContent(cssSelector(".table-of-contents") {
+                attributes {
+                  "page-break-after" to "always"
+                }
+              }.toCss())
             }
           }
         }
         body {
+          with(documentProperties.tableOfContentsSettings) {
+            if (isVisible) {
+              div("table-of-contents") {
+                h1 { +"Table of contents" }
+                unsafe {
+                  raw(generateTableOfContents(
+                    tableOfContentsVisitor.getTableOfContents(),
+                    this@with)
+                  )
+                }
+              }
+            }
+          }
+
           with(documentStyle.header) {
             div("header-left") { +left.getContents() }
 
@@ -109,10 +140,11 @@ class MarkdownConverter private constructor(
           }
 
           div("content") {
-            unsafe { +wrapDocumentContent(htmlRenderer.render(markdownDocument.parsedDocument).trim()) }
+            unsafe { +wrapDocumentContent(htmlRenderer.render(parsedDocument).trim()) }
           }
         }
-      }.toString()
+      }
+      .toString()
 
   private fun wrapDocumentContent(content: String) = "\n$content\n"
 
@@ -126,13 +158,13 @@ class MarkdownConverter private constructor(
   }
 
   open class Builder {
-    private var markdownDocument: MarkdownDocument? = null
+    private var document: MarkdownDocument? = null
     private var style = Style()
     private var targetLocation: String? = null
     private var documentProperties = DocumentProperties.Builder().build()
 
-    fun markdownDocument(markdownDocument: MarkdownDocument): Builder {
-      this.markdownDocument = markdownDocument
+    fun document(document: MarkdownDocument): Builder {
+      this.document = document
       return this
     }
 
@@ -152,13 +184,13 @@ class MarkdownConverter private constructor(
     }
 
     fun build(): MarkdownConverter {
-      check(markdownDocument != null) { "Markdown document must be set using markdownDocument()" }
+      check(document != null) { "Markdown document must be set using document()" }
 
       val targetFile = createTargetOutputFile(targetLocation)
       check(targetFile.isFileType("pdf")) { "Target location must have a .pdf extension" }
 
       return MarkdownConverter(
-        markdownDocument!!,
+        document!!,
         style,
         targetFile,
         documentProperties
@@ -169,7 +201,7 @@ class MarkdownConverter private constructor(
       filePath?.let { File(it) } ?: createFileRelativeToDocument()
 
     private fun createFileRelativeToDocument(): File {
-      with(markdownDocument!!.file) {
+      with(document!!.file) {
         check(this.parentFile != null) { "File cannot have no parent folder" }
         return File(this.parentFile, "$nameWithoutExtension.pdf")
       }
