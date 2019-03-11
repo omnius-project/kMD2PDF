@@ -92,6 +92,22 @@ markdownConverter {
 Alongside the changes made to the settings system, you can now specify a global monospace font that will be used by 
 both inline code and code blocks. This is set using the `monospaceFont` property within the `settings` block.
 
+### onComplete/onError changes
+Instead of forcing the user to handle the success/failure conversion once, they are now able to handle it as many times
+as they wish using `success` and `failure`, brought about through the use of `Result` which the `convert` method returns
+from the `MarkdownConverter`.
+
+```kotlin
+val result = converter.convert()
+result.success {
+  if (isDesktopSupported()) getDesktop().open(it)
+}
+
+result.failure {
+  if (it is FileNotFoundException) println("File still open")
+}
+```
+
 ## Headers and footers
 With 0.2.0, you are now able to customize the header and footers of exported documents, allowing for the inclusion of 
 additional details on the documents for every single page.
