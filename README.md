@@ -40,8 +40,11 @@ All examples are taken from the [examples repository.](https://github.com/omnius
 Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/omnius-project/basic/DefaultStyling.kt)
 ```kotlin
 fun main() {
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
-  markdownDocument.toPDF()
+  val document = MarkdownDocument("resources/markdown-all-in-one.md")
+  val converter = markdownConverter {
+    document(markdownDocument)
+  }
+  converter.convert()
 }
 ```
 
@@ -126,13 +129,13 @@ fun createDSLStyle() = Style
 
 ## Previews
 ##### Side by side
-![](art/preview.png)
+![](art/previews/preview.png)
 
 ##### Light theme
-![](art/light-theme-preview.png)
+![](art/previews/light-theme-preview.png)
 
 ##### Dark theme
-![](art/dark-theme-preview.png)
+![](art/previews/dark-theme-preview.png)
 
 ##### Auto table of contents
-![](art/table-of-contents-preview.png)
+![](art/previews/table-of-contents-preview.png)
