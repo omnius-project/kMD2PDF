@@ -6,7 +6,7 @@
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/)
 
-**Note:** Version 0.2.0 has been released! Check out the changelog to see what's new!
+**Note:** Version 0.2.0 has been released! Check out the [changelog](Changelog.md) to see what's new!
 
 ![](images/preview.png)
 View more previews [here](Previews.md)
@@ -17,13 +17,4 @@ provide users with high customization options for the exported PDF document.
 
 ## Libraries Used
 * [Commonmark Java](https://github.com/atlassian/commonmark-java)
-* [Dokka](https://github.com/Kotlin/dokka)
-* [itextpdf](https://github.com/itext/itextpdf)
 * [flyingsaucer](https://github.com/flyingsaucerproject/flyingsaucer)
-
-## TODO
-* [ ] Move to custom parser library
-* [ ] Add support for Table of Contents generation
-* [ ] Light and dark theme
-* [ ] Add support for list style images
-* [ ] Add image caption
