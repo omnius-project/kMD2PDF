@@ -7,6 +7,7 @@ import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.toc.TableOfContentsVisitor
+import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
@@ -28,7 +29,7 @@ class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  documentProperties: DocumentProperties
+  private val documentProperties: DocumentProperties
 ) {
 
   private val extensions = listOf(
@@ -53,10 +54,6 @@ class MarkdownConverter private constructor(
     .apply { accept(tableOfContentsVisitor) }
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
-
-  init {
-    tableOfContentsVisitor.tableOfContents.print()
-  }
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
@@ -103,10 +100,29 @@ class MarkdownConverter private constructor(
                   }
                 }
               }.toCss())
+              +wrapDocumentContent(cssSelector(".table-of-contents") {
+                attributes {
+                  "page-break-after" to "always"
+                }
+              }.toCss())
             }
           }
         }
         body {
+          with(documentProperties.tableOfContentsSettings) {
+            if (isVisible) {
+              div("table-of-contents") {
+                h1 { +"Table of contents" }
+                unsafe {
+                  raw(generateTableOfContents(
+                    tableOfContentsVisitor.getTableOfContents(),
+                    this@with)
+                  )
+                }
+              }
+            }
+          }
+
           with(documentStyle.header) {
             div("header-left") { +left.getContents() }
 
@@ -127,7 +143,8 @@ class MarkdownConverter private constructor(
             unsafe { +wrapDocumentContent(htmlRenderer.render(parsedDocument).trim()) }
           }
         }
-      }.toString()
+      }
+      .toString()
 
   private fun wrapDocumentContent(content: String) = "\n$content\n"
 
