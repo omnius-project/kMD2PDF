@@ -13,37 +13,48 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
 
   override fun render(node: Node?) {
-    with(node as Image) {
-      if (title == null) {
-        html.line()
-        html.tag(
-          "img", mapOf(
-            "src" to destination
-          )
-        )
-        html.tag("/img")
-        html.line()
-      } else {
-        html.line()
-        html.tag("figure")
-        html.line()
-        html.tag(
-          "img", mapOf(
-            "src" to destination,
-            "alt" to title
-          )
-        )
-        html.tag("/img")
-        html.line()
-        html.tag("br")
-        html.tag("/br")
-        html.tag("figcaption")
-        html.raw("<b>Figure:</b> $title")
-        html.tag("/figcaption")
-        html.line()
-        html.tag("/figure")
-        html.line()
-      }
+    val image = node as Image
+    val destination = image.destination
+    val title = image.title
+
+    val imageAttributes = loadImageAttributes(title, destination)
+
+    title?.let { loadImageWithCaption(imageAttributes) } ?: loadImage(imageAttributes)
+  }
+
+  private fun loadImageAttributes(title: String?, destination: String?): Map<String, String?> {
+    val imageAttributes = mutableMapOf("src" to destination)
+    title?.let { imageAttributes["alt"] = it }
+    return imageAttributes.toMap()
+  }
+
+  private fun loadImage(imageAttributes: Map<String, String?>) {
+    with(html) {
+      line()
+      tag("img", imageAttributes)
+      tag("/img")
+      line()
+    }
+  }
+
+  private fun loadImageWithCaption(imageAttributes: Map<String, String?>) {
+    val caption = imageAttributes["alt"]
+
+    with(html) {
+      line()
+      tag("figure")
+      line()
+      tag("img", imageAttributes)
+      tag("/img")
+      line()
+      tag("br")
+      tag("/br")
+      tag("figcaption")
+      raw("<b>Figure:</b> $caption")
+      tag("/figcaption")
+      line()
+      tag("/figure")
+      line()
     }
   }
 }

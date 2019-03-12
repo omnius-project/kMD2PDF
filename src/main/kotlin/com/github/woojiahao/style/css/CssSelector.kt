@@ -12,11 +12,14 @@ class CssSelector(
   fun nested(nested: MutableList<CssSelector>.() -> Unit) = nestedCssSelectors.nested()
 
   fun toCss(): String {
-    val css = StringBuilder("$selector {\n").append(attributes.toCss())
+    val cssContents = mutableListOf(
+      "$selector {",
+      attributes.toCss()
+    )
     if (nestedCssSelectors.isNotEmpty()) {
-      css.append("\n").append(nestedCssSelectors.joinToString("\n") { it.toCss() })
+      cssContents += nestedCssSelectors.joinToString("\n") { it.toCss() }
     }
-    css.append("\n}")
-    return css.toString()
+    cssContents += "}"
+    return cssContents.joinToString("\n")
   }
 }

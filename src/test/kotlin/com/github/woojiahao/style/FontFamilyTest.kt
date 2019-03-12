@@ -32,7 +32,7 @@ class FontFamilyTest {
     val fontFamily =
       FontFamily("Fira Code", "Monaco", "Droid Sans Mono", "DejaVu Sans Mono")
     fontFamily.checkFontFamilySize(4)
-    fontFamily.emptyFontFamily()
+    fontFamily.clear()
     fontFamily.checkFontFamilySize(0)
   }
 
@@ -65,11 +65,11 @@ class FontFamilyTest {
   }
 
   private fun FontFamily.checkFontFamilySize(expectedSize: Int) {
-    assertEquals(expectedSize, getFonts().size)
+    assertEquals(expectedSize, fonts.size)
   }
 
   private fun FontFamily.checkFontList(vararg fonts: String) {
-    assertEquals(fonts.toList(), getFonts())
+    assertEquals(fonts.toList(), this.fonts)
   }
 
   private fun FontFamily.addFont(func: FontFamily.() -> Unit) {
