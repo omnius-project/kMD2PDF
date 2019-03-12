@@ -29,7 +29,7 @@ class BorderTest {
       border {
         4.1 dashed c("EDE7F6")
       }
-      clearBorder()
+      clear()
       checkBorderSettings(0.0, NONE, Color.BLACK)
     }
   }

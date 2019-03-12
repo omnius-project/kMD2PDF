@@ -5,12 +5,9 @@ import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.px
 import java.awt.Color
 
-/**
- * Single side border.
- */
 data class Border(
   var borderWidth: Double = 0.0,
-  var borderStyle: BorderStyle = BorderStyle.NONE,
+  var borderStyle: BorderStyle = NONE,
   var borderColor: Color? = Color.BLACK
 ) {
 
@@ -27,66 +24,29 @@ data class Border(
     HIDDEN
   }
 
-  /**
-   * Sets border to be [DOTTED].
-   */
-  infix fun Double.dotted(color: Color?) = setBorder(this, DOTTED, color)
+  infix fun Double.dotted(color: Color?) = set(this, DOTTED, color)
 
-  /**
-   * Sets border to be [DASHED].
-   */
-  infix fun Double.dashed(color: Color?) = setBorder(this, DASHED, color)
+  infix fun Double.dashed(color: Color?) = set(this, DASHED, color)
 
-  /**
-   * Sets border to be [SOLID].
-   */
-  infix fun Double.solid(color: Color?) = setBorder(this, SOLID, color)
+  infix fun Double.solid(color: Color?) = set(this, SOLID, color)
 
-  /**
-   * Sets border to be [DOUBLE].
-   */
-  infix fun Double.double(color: Color?) = setBorder(this, DOUBLE, color)
+  infix fun Double.double(color: Color?) = set(this, DOUBLE, color)
 
-  /**
-   * Sets border to be [GROOVE].
-   */
-  infix fun Double.groove(color: Color?) = setBorder(this, GROOVE, color)
+  infix fun Double.groove(color: Color?) = set(this, GROOVE, color)
 
-  /**
-   * Sets border to be [RIDGE].
-   */
-  infix fun Double.ridge(color: Color?) = setBorder(this, RIDGE, color)
+  infix fun Double.ridge(color: Color?) = set(this, RIDGE, color)
 
-  /**
-   * Sets border to be [INSET].
-   */
-  infix fun Double.inset(color: Color?) = setBorder(this, INSET, color)
+  infix fun Double.inset(color: Color?) = set(this, INSET, color)
 
-  /**
-   * Sets border to be [OUTSET].
-   */
-  infix fun Double.outset(color: Color?) = setBorder(this, OUTSET, color)
+  infix fun Double.outset(color: Color?) = set(this, OUTSET, color)
 
-  /**
-   * Sets border to be [NONE].
-   */
-  infix fun Double.none(color: Color?) = setBorder(this, NONE, color)
+  infix fun Double.none(color: Color?) = set(this, NONE, color)
 
-  /**
-   * Sets border to be [HIDDEN].
-   */
-  infix fun Double.hidden(color: Color?) = setBorder(this, HIDDEN, color)
+  infix fun Double.hidden(color: Color?) = set(this, HIDDEN, color)
 
-  /**
-   * Resets the border to defaults of [borderWidth] - 0.0, [borderStyle] - [NONE],
-   * [borderColor] - [Color.BLACK], [borderRadius] - `Box(0.0)`.
-   */
-  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK)
+  fun clear() = set(0.0, NONE, Color.BLACK)
 
-  /**
-   * Sets the border preferences.
-   */
-  private fun setBorder(
+  private fun set(
     borderWidth: Double,
     borderStyle: BorderStyle,
     borderColor: Color?
