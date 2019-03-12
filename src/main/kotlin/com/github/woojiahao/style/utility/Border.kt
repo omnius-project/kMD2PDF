@@ -24,26 +24,6 @@ data class Border(
     HIDDEN
   }
 
-  infix fun Double.dotted(color: Color?) = set(this, DOTTED, color)
-
-  infix fun Double.dashed(color: Color?) = set(this, DASHED, color)
-
-  infix fun Double.solid(color: Color?) = set(this, SOLID, color)
-
-  infix fun Double.double(color: Color?) = set(this, DOUBLE, color)
-
-  infix fun Double.groove(color: Color?) = set(this, GROOVE, color)
-
-  infix fun Double.ridge(color: Color?) = set(this, RIDGE, color)
-
-  infix fun Double.inset(color: Color?) = set(this, INSET, color)
-
-  infix fun Double.outset(color: Color?) = set(this, OUTSET, color)
-
-  infix fun Double.none(color: Color?) = set(this, NONE, color)
-
-  infix fun Double.hidden(color: Color?) = set(this, HIDDEN, color)
-
   fun clear() = set(0.0, NONE, Color.BLACK)
 
   private fun set(
@@ -58,3 +38,23 @@ data class Border(
 
   override fun toString() = "${borderWidth.px} ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
 }
+
+infix fun Double.dotted(color: Color?) = Border(this, DOTTED, color)
+
+infix fun Double.dashed(color: Color?) = Border(this, DASHED, color)
+
+infix fun Double.solid(color: Color?) = Border(this, SOLID, color)
+
+infix fun Double.double(color: Color?) = Border(this, DOUBLE, color)
+
+infix fun Double.groove(color: Color?) = Border(this, GROOVE, color)
+
+infix fun Double.ridge(color: Color?) = Border(this, RIDGE, color)
+
+infix fun Double.inset(color: Color?) = Border(this, INSET, color)
+
+infix fun Double.outset(color: Color?) = Border(this, OUTSET, color)
+
+infix fun Double.none(color: Color?) = Border(this, NONE, color)
+
+infix fun Double.hidden(color: Color?) = Border(this, HIDDEN, color)
