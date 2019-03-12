@@ -5,9 +5,7 @@ import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 
 class Settings {
-  enum class Theme {
-    DARK, LIGHT
-  }
+  enum class Theme { DARK, LIGHT }
 
   var fontSize = 16.0
 

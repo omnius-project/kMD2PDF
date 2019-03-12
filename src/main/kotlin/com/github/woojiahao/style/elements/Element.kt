@@ -60,7 +60,7 @@ open class Element(private val elementName: String, settings: Settings) {
   protected val css = mutableListOf<CssSelector>()
 
   fun fontFamily(load: FontFamily.() -> Unit) {
-    fontFamily.emptyFontFamily()
+    fontFamily.clear()
     fontFamily.load()
   }
 
