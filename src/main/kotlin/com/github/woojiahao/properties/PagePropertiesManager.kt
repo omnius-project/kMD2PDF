@@ -1,7 +1,7 @@
 package com.github.woojiahao.properties
 
-import com.github.woojiahao.style.Settings
-import com.github.woojiahao.style.Settings.Theme.*
+import com.github.woojiahao.style.Settings.Theme.DARK
+import com.github.woojiahao.style.Settings.Theme.LIGHT
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssAttributes
 import com.github.woojiahao.style.elements.document.DocumentText
@@ -20,7 +20,7 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
   private val parentPageSelector = cssSelector("@page") {
     attributes {
       "size" to size.size
-      "margin" to margins?.toCss { "${it}in" }
+      "margin" to margins?.toCss { it.toString() }
       "background-color" to when (style.settings.theme) {
         DARK -> c("212121")?.cssColor()
         LIGHT -> Color.WHITE.cssColor()
@@ -56,13 +56,13 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
 
   private val leftPageSelector = cssSelector("@page :left") {
     attributes {
-      "margin" to leftPageMargins?.toCss { "${it}in" }
+      "margin" to leftPageMargins?.toCss { it.toString() }
     }
   }
 
   private val rightPageSelector = cssSelector("@page :right") {
     attributes {
-      "margin" to rightPageMargins?.toCss { "${it}in" }
+      "margin" to rightPageMargins?.toCss { it.toString() }
     }
   }
 

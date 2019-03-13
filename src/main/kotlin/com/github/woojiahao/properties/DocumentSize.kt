@@ -1,6 +1,7 @@
 package com.github.woojiahao.properties
 
 import com.github.woojiahao.properties.DocumentOrientation.PORTRAIT
+import com.github.woojiahao.style.utility.Measurement
 
 class DocumentSize {
 
@@ -11,8 +12,8 @@ class DocumentSize {
     size = "${pageSize.sizeName} ${orientation.name.toLowerCase()}"
   }
 
-  constructor(width: Double, height: Double) {
-    size = "${width}in ${height}in"
+  constructor(width: Measurement<Double>, height: Measurement<Double>) {
+    size = "$width $height"
   }
 
   constructor(auto: Boolean = true) {
