@@ -21,7 +21,7 @@ class CssAttributes {
     attributes
       .entries
       .filter { it.value != null }
-      .joinToString("\n") { "\t${it.key}: ${it.value};" }
+      .joinToString("\n") { "\t${it.key}: ${it.value.toString()};" }
 
   private fun <T> addAttribute(name: String, value: T?) {
     attributes[name] = value?.toString()

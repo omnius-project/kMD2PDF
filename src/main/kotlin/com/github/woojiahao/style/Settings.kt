@@ -3,11 +3,12 @@ package com.github.woojiahao.style
 import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
+import com.github.woojiahao.style.utility.px
 
 class Settings {
   enum class Theme { DARK, LIGHT }
 
-  var fontSize = 16.0
+  var fontSize = 16.0.px
 
   var theme = Theme.LIGHT
 

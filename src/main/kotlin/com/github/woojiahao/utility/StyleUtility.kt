@@ -4,12 +4,6 @@ import com.github.woojiahao.style.css.CssSelector
 import java.awt.Color
 
 /**
- * Returns a number in pixel format.
- */
-val <T : Number> T.px
-  get() = "${this}px"
-
-/**
  * Returns a matching [Color] based on the given [hexCode].
  */
 fun c(hexCode: String): Color? {
