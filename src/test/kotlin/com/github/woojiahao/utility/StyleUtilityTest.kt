@@ -5,16 +5,6 @@ import java.awt.Color
 import kotlin.test.assertEquals
 
 class StyleUtilityTest {
-  @Test
-  fun `px returns an integer in pixel format for CSS`() {
-    assertEquals("10px", 10.px)
-  }
-
-  @Test
-  fun `px returns a double in pixel format for CSS`() {
-    assertEquals("7.6px", 7.6.px)
-  }
-
   @Test(expected = IllegalArgumentException::class)
   fun `c throws IllegalArgumentException if hex code is more than 6 characters long`() {
     c("FFFFFF8")
