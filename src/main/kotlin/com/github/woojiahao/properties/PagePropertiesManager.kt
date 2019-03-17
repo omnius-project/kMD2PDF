@@ -1,5 +1,6 @@
 package com.github.woojiahao.properties
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Settings.Theme.DARK
 import com.github.woojiahao.style.Settings.Theme.LIGHT
 import com.github.woojiahao.style.Style
@@ -21,7 +22,7 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
     attributes {
       "size" to size.size
       "margin" to margins?.toCss { it.toString() }
-      "background-color" to when (style.settings.theme) {
+      "background-color" to when (Settings.theme) {
         DARK -> c("212121")?.cssColor()
         LIGHT -> Color.WHITE.cssColor()
       }

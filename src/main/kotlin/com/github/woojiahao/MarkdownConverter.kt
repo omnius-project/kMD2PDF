@@ -95,7 +95,7 @@ class MarkdownConverter private constructor(
               +wrapDocumentContent(cssSelector(".task-list-item > input[type='checkbox']") {
                 attributes {
                   "margin-right" to 10.px
-                  if (documentStyle.settings.theme == Settings.Theme.DARK) {
+                  if (Settings.theme == Settings.Theme.DARK) {
                     "background-color" to Color.WHITE.cssColor()
                   }
                 }
