@@ -1,6 +1,5 @@
 package com.github.woojiahao.style.elements.table
 
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.cssProperty
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.style.utility.*
@@ -11,7 +10,7 @@ import java.awt.Color
 /**
  * <th></th> element.
  */
-class TableHeader(settings: Settings) : Element("th", settings) {
+class TableHeader : Element("th") {
   override var border by cssProperty<BorderBox?>(BorderBox(Border(1.0, SOLID, Color.BLACK)), settings.theme) {
     darkTheme = BorderBox(Border(1.0, SOLID, c("EEEEEE")))
   }

@@ -1,6 +1,5 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.css.cssProperty
 import com.github.woojiahao.style.utility.BorderBox
@@ -12,7 +11,7 @@ import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import java.awt.Color
 
-open class Element(private val elementName: String, private val settings: Settings) {
+open class Element(private val elementName: String) {
 
   enum class FontWeight { NORMAL, BOLD, BOLDER, LIGHTER }
 

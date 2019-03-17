@@ -1,12 +1,8 @@
 package com.github.woojiahao.style.elements.document
 
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.elements.Element
 
-class DocumentText(
-  elementName: String,
-  settings: Settings
-) : Element(elementName, settings) {
+class DocumentText(elementName: String) : Element(elementName) {
 
   private val contents = mutableListOf<String>()
   var hasPageNumber = false

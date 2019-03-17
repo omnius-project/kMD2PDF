@@ -12,33 +12,33 @@ import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
 
-class Style(val settings: Settings = Settings()) {
+class Style {
 
   companion object {
-    inline fun createStyle(settings: Settings = Settings(), style: Style.() -> Unit) =
-      Style(settings).apply { style() }
+    inline fun createStyle(style: Style.() -> Unit) =
+      Style().apply { style() }
   }
 
-  val h1 = HeaderOne(settings)
-  val h2 = HeaderTwo(settings)
-  val h3 = HeaderThree(settings)
-  val h4 = HeaderFour(settings)
-  val h5 = HeaderFive(settings)
-  val h6 = HeaderSix(settings)
-  val inlineCode = InlineCode(settings)
-  val codeBlock = CodeBlock(settings)
-  val strong = Bold(settings)
-  val p = Paragraph(settings)
-  val a = Link(settings)
-  val ul = UnorderedList(settings)
-  val ol = OrderedList(settings)
-  val blockquote = BlockQuote(settings)
-  val img = Image(settings)
-  val table = Table(settings)
-  val del = Strikethrough(settings)
-  val hr = Ruler(settings)
-  val header = DocumentHeader(settings)
-  val footer = DocumentFooter(settings)
+  val h1 = HeaderOne()
+  val h2 = HeaderTwo()
+  val h3 = HeaderThree()
+  val h4 = HeaderFour()
+  val h5 = HeaderFive()
+  val h6 = HeaderSix()
+  val inlineCode = InlineCode()
+  val codeBlock = CodeBlock()
+  val strong = Bold()
+  val p = Paragraph()
+  val a = Link()
+  val ul = UnorderedList()
+  val ol = OrderedList()
+  val blockquote = BlockQuote()
+  val img = Image()
+  val table = Table()
+  val del = Strikethrough()
+  val hr = Ruler()
+  val header = DocumentHeader()
+  val footer = DocumentFooter()
 
   val elements = listOf(
     h1,
