@@ -3,10 +3,7 @@ package com.github.woojiahao.style.elements
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.css.CssSelector
-import com.github.woojiahao.style.utility.BorderBox
-import com.github.woojiahao.style.utility.Box
-import com.github.woojiahao.style.utility.FontFamily
-import com.github.woojiahao.style.utility.Measurement
+import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
@@ -28,7 +25,7 @@ open class Element(elementName: String) {
   open var backgroundColor by CssProperty<Color?>()
   open var fontWeight by CssProperty<FontWeight?>()
   open var textDecoration by CssProperty<TextDecoration?>()
-  open var border by CssProperty<BorderBox?>()
+  open var border by CssProperty(BorderBox(Border()))
   open var borderRadius by CssProperty<Box<Measurement<Double>>?>()
   open var padding by CssProperty<Box<Measurement<Double>>?>()
   open var margin by CssProperty<Box<Measurement<Double>>?>()
