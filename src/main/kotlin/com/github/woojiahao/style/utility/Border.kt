@@ -4,6 +4,7 @@ import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.cssColor
 import java.awt.Color
 
+// TODO: borderWidth to Measurement<Double>
 data class Border(
   var borderWidth: Double = 0.0,
   var borderStyle: BorderStyle = NONE,

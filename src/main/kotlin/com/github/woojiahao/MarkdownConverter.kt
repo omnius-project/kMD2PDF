@@ -57,6 +57,7 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
+      print(generateHtml())
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
