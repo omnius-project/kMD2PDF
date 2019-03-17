@@ -40,7 +40,7 @@ open class List(private val elementName: String) : Element(elementName) {
 
   open var listStylePosition = ListStylePosition.OUTSIDE
 
-  var listStyleImage: String? = null
+  open var listStyleImage: String? = null
 
   override fun toCss(): String {
     css.add(cssSelector(elementName) {

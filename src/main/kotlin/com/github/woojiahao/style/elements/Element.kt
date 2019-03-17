@@ -1,7 +1,8 @@
 package com.github.woojiahao.style.elements
 
+import com.github.woojiahao.style.Settings
+import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.css.CssSelector
-import com.github.woojiahao.style.css.cssProperty
 import com.github.woojiahao.style.utility.BorderBox
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.FontFamily
@@ -11,7 +12,7 @@ import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.cssSelector
 import java.awt.Color
 
-open class Element(private val elementName: String) {
+open class Element(elementName: String) {
 
   enum class FontWeight { NORMAL, BOLD, BOLDER, LIGHTER }
 
@@ -21,21 +22,21 @@ open class Element(private val elementName: String) {
     fun toCss() = name.replace("_", "-").toLowerCase()
   }
 
-  open var fontSize = createProperty(settings.fontSize)
-  open var fontFamily = createProperty(settings.font)
-  open var textColor = createProperty(c("212121"), c("EEEEEE"))
-  open var backgroundColor = createProperty<Color?>(null)
-  open var fontWeight = createProperty<FontWeight?>(null)
-  open var textDecoration = createProperty<TextDecoration?>(null)
-  open var border = createProperty<BorderBox?>(null)
-  open var borderRadius = createProperty<Box<Measurement<Double>>?>(null)
-  open var padding = createProperty<Box<Measurement<Double>>?>(null)
-  open var margin = createProperty<Box<Measurement<Double>>?>(null)
+  open var fontSize by CssProperty(fallback = Settings.fontSize)
+  open var fontFamily by CssProperty<FontFamily?>(fallback = Settings.font)
+  open var textColor by CssProperty(c("212121"), c("EEEEEE"))
+  open var backgroundColor by CssProperty<Color?>()
+  open var fontWeight by CssProperty<FontWeight?>()
+  open var textDecoration by CssProperty<TextDecoration?>()
+  open var border by CssProperty<BorderBox?>()
+  open var borderRadius by CssProperty<Box<Measurement<Double>>?>()
+  open var padding by CssProperty<Box<Measurement<Double>>?>()
+  open var margin by CssProperty<Box<Measurement<Double>>?>()
 
   val globalCss by lazy {
     cssSelector(elementName) {
       attributes {
-        "font-size" to fontSize
+        "font-size" to fontSize?.let { it }
         "font-family" to fontFamily
         "color" to textColor?.cssColor()
         "background-color" to backgroundColor?.cssColor()
@@ -55,8 +56,8 @@ open class Element(private val elementName: String) {
   protected val css = mutableListOf<CssSelector>()
 
   fun fontFamily(load: FontFamily.() -> Unit) {
-    fontFamily.clear()
-    fontFamily.load()
+    fontFamily?.clear()
+    fontFamily?.load()
   }
 
   fun border(load: BorderBox.() -> Unit) = border?.load()
@@ -64,10 +65,5 @@ open class Element(private val elementName: String) {
   open fun toCss(): String {
     css.add(globalCss)
     return css.joinToString("\n\n") { it.toCss() }
-  }
-
-  private fun <T> createProperty(default: T, darkTheme: T = default): T {
-    val property by cssProperty(default, settings.theme) { this.darkTheme = darkTheme }
-    return property
   }
 }

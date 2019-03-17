@@ -15,8 +15,7 @@ import com.github.woojiahao.style.elements.table.Table
 class Style {
 
   companion object {
-    inline fun createStyle(style: Style.() -> Unit) =
-      Style().apply { style() }
+    inline fun createStyle(style: Style.() -> Unit) = Style().apply { style() }
   }
 
   val h1 = HeaderOne()

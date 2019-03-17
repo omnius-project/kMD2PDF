@@ -3,9 +3,6 @@ package com.github.woojiahao.style.elements.table
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.cssSelector
 
-/**
- * <table></table> element
- */
 class Table : Element("table") {
 
   enum class BorderCollapse {
@@ -31,11 +28,7 @@ class Table : Element("table") {
   fun td(style: TableData.() -> Unit) = td.style()
 
   override fun toCss(): String {
-    css.add(cssSelector("table") {
-      attributes {
-        "border-collapse" to borderCollapse.name.toLowerCase()
-      }
-    })
+    css.add(cssSelector("table") { attributes { "border-collapse" to borderCollapse.name.toLowerCase() } })
     return super.toCss()
   }
 }
