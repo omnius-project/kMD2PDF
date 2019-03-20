@@ -4,7 +4,7 @@ import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.style.utility.Measurement.Type.*
 
-open class Header(headerName: String, private val headerScaleFactor: Double = 1.0) : Element(headerName) {
+open class Heading(headerName: String, private val headerScaleFactor: Double = 1.0) : Element(headerName) {
   init {
     fontSize = calculateScaledFontSize()
   }

@@ -1,3 +1,3 @@
 package com.github.woojiahao.style.elements.headers
 
-class HeaderOne : Header("h1", 2.0)
+class HeadingFive : Heading("h5", 0.83)
