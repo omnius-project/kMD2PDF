@@ -1,11 +1,11 @@
 package com.github.woojiahao.style.elements
 
 import com.github.woojiahao.style.css.CssProperty
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.style.utility.Border.BorderStyle.SOLID
 import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
-import com.github.woojiahao.utility.cssSelector
 import java.awt.Color
 
 class BlockQuote : Element("blockquote") {

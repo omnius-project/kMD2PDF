@@ -5,10 +5,10 @@ import com.github.woojiahao.style.Settings.Theme.DARK
 import com.github.woojiahao.style.Settings.Theme.LIGHT
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssAttributes
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.document.DocumentText
 import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
-import com.github.woojiahao.utility.cssSelector
 import java.awt.Color
 
 class PagePropertiesManager(documentProperties: DocumentProperties, style: Style) {

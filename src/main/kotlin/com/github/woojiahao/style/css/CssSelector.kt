@@ -1,9 +1,6 @@
 package com.github.woojiahao.style.css
 
-class CssSelector(
-  private val selector: String,
-  val attributes: CssAttributes = CssAttributes()
-) {
+class CssSelector(private val selector: String, val attributes: CssAttributes = CssAttributes()) {
 
   private val nestedCssSelectors by lazy { mutableListOf<CssSelector>() }
 
@@ -23,3 +20,6 @@ class CssSelector(
     return cssContents.joinToString("\n")
   }
 }
+
+inline fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) =
+  CssSelector(selectorName).apply { style() }

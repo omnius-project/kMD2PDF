@@ -6,11 +6,11 @@ import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.utility.px
 import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.cssColor
-import com.github.woojiahao.utility.cssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import kotlinx.html.*
