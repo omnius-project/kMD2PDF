@@ -11,7 +11,7 @@ class TableData : Element("td") {
   init {
     val border by CssProperty<BorderBox?>(
       BorderBox(Border(1.0, SOLID, Color.BLACK)),
-      BorderBox(Border(1.0, SOLID, c("EEEEEE")))
+      BorderBox(Border(1.0, SOLID, c("EE")))
     )
     this.border = border
 

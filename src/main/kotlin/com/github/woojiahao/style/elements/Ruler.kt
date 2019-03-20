@@ -11,7 +11,7 @@ class Ruler : Element("hr") {
   init {
     val border by CssProperty<BorderBox?>(
       BorderBox(Border(1.0, SOLID, BLACK)),
-      BorderBox(Border(1.0, SOLID, c("EEEEEE")))
+      BorderBox(Border(1.0, SOLID, c("EE")))
     )
     this.border = border
   }

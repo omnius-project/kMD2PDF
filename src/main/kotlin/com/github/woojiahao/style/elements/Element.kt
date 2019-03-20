@@ -21,7 +21,7 @@ open class Element(private val elementName: String) {
 
   var fontSize by CssProperty(fallback = Settings.fontSize)
   var fontFamily by CssProperty<FontFamily?>(fallback = Settings.font)
-  var textColor by CssProperty(c("212121"), c("EEEEEE"))
+  var textColor by CssProperty(c("21"), c("EE"))
   var backgroundColor by CssProperty<Color?>()
   var fontWeight by CssProperty<FontWeight?>()
   var textDecoration by CssProperty<TextDecoration?>()
