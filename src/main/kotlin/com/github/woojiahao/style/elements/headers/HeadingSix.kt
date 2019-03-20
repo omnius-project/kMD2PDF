@@ -1,3 +1,3 @@
 package com.github.woojiahao.style.elements.headers
 
-class HeaderFour : Header("h4")
+class HeadingSix : Heading("h6", 0.67)

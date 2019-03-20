@@ -18,12 +18,12 @@ class Style {
     inline fun createStyle(style: Style.() -> Unit) = Style().apply { style() }
   }
 
-  val h1 = HeaderOne()
-  val h2 = HeaderTwo()
-  val h3 = HeaderThree()
-  val h4 = HeaderFour()
-  val h5 = HeaderFive()
-  val h6 = HeaderSix()
+  val h1 = HeadingOne()
+  val h2 = HeadingTwo()
+  val h3 = HeadingThree()
+  val h4 = HeadingFour()
+  val h5 = HeadingFive()
+  val h6 = HeadingSix()
   val inlineCode = InlineCode()
   val codeBlock = CodeBlock()
   val strong = Bold()
@@ -100,17 +100,17 @@ class Style {
 
   inline fun hr(style: Ruler.() -> Unit) = hr.style()
 
-  inline fun h1(style: HeaderOne.() -> Unit) = h1.style()
+  inline fun h1(style: HeadingOne.() -> Unit) = h1.style()
 
-  inline fun h2(style: HeaderTwo.() -> Unit) = h2.style()
+  inline fun h2(style: HeadingTwo.() -> Unit) = h2.style()
 
-  inline fun h3(style: HeaderThree.() -> Unit) = h3.style()
+  inline fun h3(style: HeadingThree.() -> Unit) = h3.style()
 
-  inline fun h4(style: HeaderFour.() -> Unit) = h4.style()
+  inline fun h4(style: HeadingFour.() -> Unit) = h4.style()
 
-  inline fun h5(style: HeaderFive.() -> Unit) = h5.style()
+  inline fun h5(style: HeadingFive.() -> Unit) = h5.style()
 
-  inline fun h6(style: HeaderSix.() -> Unit) = h6.style()
+  inline fun h6(style: HeadingSix.() -> Unit) = h6.style()
 
   inline fun header(style: DocumentHeader.() -> Unit) = header.style()
 
