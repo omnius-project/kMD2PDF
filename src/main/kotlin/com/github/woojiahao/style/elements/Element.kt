@@ -9,7 +9,7 @@ import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
 import java.awt.Color
 
-open class Element(elementName: String) {
+open class Element(private val elementName: String) {
 
   enum class FontWeight { NORMAL, BOLD, BOLDER, LIGHTER }
 
@@ -19,19 +19,19 @@ open class Element(elementName: String) {
     fun toCss() = name.replace("_", "-").toLowerCase()
   }
 
-  open var fontSize by CssProperty(fallback = Settings.fontSize)
-  open var fontFamily by CssProperty<FontFamily?>(fallback = Settings.font)
-  open var textColor by CssProperty(c("212121"), c("EEEEEE"))
-  open var backgroundColor by CssProperty<Color?>()
-  open var fontWeight by CssProperty<FontWeight?>()
-  open var textDecoration by CssProperty<TextDecoration?>()
-  open var border by CssProperty(BorderBox(Border()))
-  open var borderRadius by CssProperty<Box<Measurement<Double>>?>()
-  open var padding by CssProperty<Box<Measurement<Double>>?>()
-  open var margin by CssProperty<Box<Measurement<Double>>?>()
+  var fontSize by CssProperty(fallback = Settings.fontSize)
+  var fontFamily by CssProperty<FontFamily?>(fallback = Settings.font)
+  var textColor by CssProperty(c("212121"), c("EEEEEE"))
+  var backgroundColor by CssProperty<Color?>()
+  var fontWeight by CssProperty<FontWeight?>()
+  var textDecoration by CssProperty<TextDecoration?>()
+  var border by CssProperty(fallback = BorderBox(Border()))
+  var borderRadius by CssProperty(fallback = Box(0.0.px))
+  var padding by CssProperty<Box<Measurement<Double>>?>()
+  var margin by CssProperty<Box<Measurement<Double>>?>()
 
-  val globalCss by lazy {
-    cssSelector(elementName) {
+  val globalCss
+    get() = cssSelector(elementName) {
       attributes {
         "font-size" to fontSize?.let { it }
         "font-family" to fontFamily
@@ -48,7 +48,6 @@ open class Element(elementName: String) {
         "border-left" to border?.left
       }
     }
-  }
 
   protected val css = mutableListOf<CssSelector>()
 

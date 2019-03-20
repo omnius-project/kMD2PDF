@@ -5,7 +5,9 @@ import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.style.utility.Measurement.Type.*
 
 open class Header(headerName: String, private val headerScaleFactor: Double = 1.0) : Element(headerName) {
-  override var fontSize = calculateScaledFontSize()
+  init {
+    fontSize = calculateScaledFontSize()
+  }
 
   private fun calculateScaledFontSize(): Measurement<Double>? {
     val scaledSize = super.fontSize?.value?.times(headerScaleFactor)

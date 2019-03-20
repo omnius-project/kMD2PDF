@@ -8,10 +8,13 @@ import com.github.woojiahao.utility.c
 import java.awt.Color
 
 class TableData : Element("td") {
-  override var border by CssProperty<BorderBox?>(
-    BorderBox(Border(1.0, SOLID, Color.BLACK)),
-    BorderBox(Border(1.0, SOLID, c("EEEEEE")))
-  )
+  init {
+    val border by CssProperty<BorderBox?>(
+      BorderBox(Border(1.0, SOLID, Color.BLACK)),
+      BorderBox(Border(1.0, SOLID, c("EEEEEE")))
+    )
+    this.border = border
 
-  override var padding: Box<Measurement<Double>>? = Box(5.0.px)
+    padding = Box(5.0.px)
+  }
 }

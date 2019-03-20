@@ -36,11 +36,11 @@ open class List(private val elementName: String) : Element(elementName) {
     fun toCss() = name.toLowerCase().replace("_", "-")
   }
 
-  open var listStyleType = ListStyleType.CIRCLE
+  var listStyleType = ListStyleType.CIRCLE
 
-  open var listStylePosition = ListStylePosition.OUTSIDE
+  var listStylePosition = ListStylePosition.OUTSIDE
 
-  open var listStyleImage: String? = null
+  var listStyleImage: String? = null
 
   override fun toCss(): String {
     css.add(cssSelector(elementName) {

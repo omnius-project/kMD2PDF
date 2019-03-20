@@ -6,7 +6,9 @@ import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.px
 
 class CodeBlock : Code("pre") {
-  override var padding: Box<Measurement<Double>>? = Box(10.0.px)
+  init {
+    padding = Box(10.0.px)
+  }
 
   override fun toCss(): String {
     css.add(cssSelector("pre > code") { attributes { "font-family" to fontFamily } })

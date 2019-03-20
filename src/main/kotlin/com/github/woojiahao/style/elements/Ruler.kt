@@ -8,8 +8,11 @@ import com.github.woojiahao.utility.c
 import java.awt.Color.BLACK
 
 class Ruler : Element("hr") {
-  override var border by CssProperty<BorderBox?>(
-    BorderBox(Border(1.0, SOLID, BLACK)),
-    BorderBox(Border(1.0, SOLID, c("EEEEEE")))
-  )
+  init {
+    val border by CssProperty<BorderBox?>(
+      BorderBox(Border(1.0, SOLID, BLACK)),
+      BorderBox(Border(1.0, SOLID, c("EEEEEE")))
+    )
+    this.border = border
+  }
 }
