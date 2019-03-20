@@ -1,6 +1,5 @@
 package com.github.woojiahao.utility
 
-import com.github.woojiahao.style.css.CssSelector
 import java.awt.Color
 
 /**
