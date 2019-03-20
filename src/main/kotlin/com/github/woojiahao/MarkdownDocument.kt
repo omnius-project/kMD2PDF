@@ -1,10 +1,6 @@
 package com.github.woojiahao
 
 import com.github.woojiahao.utility.extensions.isFileType
-import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
-import org.commonmark.ext.gfm.tables.TablesExtension
-import org.commonmark.node.Node
-import org.commonmark.parser.Parser
 import java.io.File
 import org.commonmark.node.Document as CommonMarkDocument
 
