@@ -27,6 +27,7 @@ class Style {
   val inlineCode = InlineCode()
   val codeBlock = CodeBlock()
   val strong = Bold()
+  val em = Emphasis()
   val p = Paragraph()
   val a = Link()
   val ul = UnorderedList()
@@ -50,6 +51,7 @@ class Style {
     inlineCode,
     codeBlock,
     strong,
+    em,
     a,
     ul,
     ol,
@@ -81,6 +83,8 @@ class Style {
   inline fun codeBlock(style: CodeBlock.() -> Unit) = codeBlock.style()
 
   inline fun strong(style: Bold.() -> Unit) = strong.style()
+
+  inline fun em(style: Emphasis.() -> Unit) = em.style()
 
   inline fun p(style: Paragraph.() -> Unit) = p.style()
 
