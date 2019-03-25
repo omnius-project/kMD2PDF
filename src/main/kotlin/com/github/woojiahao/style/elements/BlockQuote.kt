@@ -18,7 +18,7 @@ class BlockQuote : Element("blockquote") {
         Border(),
         Border(),
         Border(),
-        Border(5.0, SOLID, c("E0E0E0"))
+        Border(5.0.px, SOLID, c("E0E0E0"))
       )
     )
     this.border = border

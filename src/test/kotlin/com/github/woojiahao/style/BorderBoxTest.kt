@@ -1,9 +1,6 @@
 package com.github.woojiahao.style
 
-import com.github.woojiahao.style.utility.Border
-import com.github.woojiahao.style.utility.BorderBox
-import com.github.woojiahao.style.utility.dashed
-import com.github.woojiahao.style.utility.dotted
+import com.github.woojiahao.style.utility.*
 import org.junit.Test
 import java.awt.Color
 import kotlin.test.assertEquals
@@ -22,14 +19,15 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        top(10.0 dashed Color.RED)
+        top(10.0.px dashed Color.RED)
       }
 
-      checkAllBorderSettings(topBorder = Border(
-        10.0,
-        Border.BorderStyle.DASHED,
-        Color.RED
-      )
+      checkAllBorderSettings(
+        topBorder = Border(
+          10.0.px,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -40,14 +38,15 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        right(10.0 dashed Color.RED)
+        right(10.0.px dashed Color.RED)
       }
 
-      checkAllBorderSettings(rightBorder = Border(
-        10.0,
-        Border.BorderStyle.DASHED,
-        Color.RED
-      )
+      checkAllBorderSettings(
+        rightBorder = Border(
+          10.0.px,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -58,14 +57,15 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        bottom(10.0 dashed Color.RED)
+        bottom(10.0.px dashed Color.RED)
       }
 
-      checkAllBorderSettings(bottomBorder = Border(
-        10.0,
-        Border.BorderStyle.DASHED,
-        Color.RED
-      )
+      checkAllBorderSettings(
+        bottomBorder = Border(
+          10.0.px,
+          Border.BorderStyle.DASHED,
+          Color.RED
+        )
       )
     }
   }
@@ -76,12 +76,12 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        left(10.0 dashed Color.RED)
+        left(10.0.px dashed Color.RED)
       }
 
       checkAllBorderSettings(
         leftBorder = Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         )
@@ -96,27 +96,27 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        all(10.0 dashed Color.RED)
+        all(10.0.px dashed Color.RED)
       }
 
       checkAllBorderSettings(
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         )
@@ -130,29 +130,29 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        all(10.0 dashed Color.RED)
+        all(10.0.px dashed Color.RED)
 
-        top(5.0 dotted Color.GREEN)
+        top(5.0.px dotted Color.GREEN)
       }
 
       checkAllBorderSettings(
         Border(
-          5.0,
+          5.0.px,
           Border.BorderStyle.DOTTED,
           Color.GREEN
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         )
@@ -166,29 +166,29 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        all(10.0 dashed Color.RED)
+        all(10.0.px dashed Color.RED)
 
-        right(5.0 dotted Color.GREEN)
+        right(5.0.px dotted Color.GREEN)
       }
 
       checkAllBorderSettings(
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          5.0,
+          5.0.px,
           Border.BorderStyle.DOTTED,
           Color.GREEN
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         )
@@ -202,29 +202,29 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        all(10.0 dashed Color.RED)
+        all(10.0.px dashed Color.RED)
 
-        bottom(5.0 dotted Color.GREEN)
+        bottom(5.0.px dotted Color.GREEN)
       }
 
       checkAllBorderSettings(
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          5.0,
+          5.0.px,
           Border.BorderStyle.DOTTED,
           Color.GREEN
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         )
@@ -238,28 +238,28 @@ class BorderBoxTest {
       checkAllBorderSettings()
 
       border {
-        all(10.0 dashed Color.RED)
-        left(5.0 dotted Color.GREEN)
+        all(10.0.px dashed Color.RED)
+        left(5.0.px dotted Color.GREEN)
       }
 
       checkAllBorderSettings(
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          10.0,
+          10.0.px,
           Border.BorderStyle.DASHED,
           Color.RED
         ),
         Border(
-          5.0,
+          5.0.px,
           Border.BorderStyle.DOTTED,
           Color.GREEN
         )
@@ -297,7 +297,7 @@ class BorderBoxTest {
   }
 
   private fun Border.checkBorderSettings(
-    borderWidth: Double = 0.0,
+    borderWidth: Measurement<Double> = 0.0.px,
     borderStyle: Border.BorderStyle = Border.BorderStyle.NONE,
     borderColor: Color? = Color.BLACK
   ) {

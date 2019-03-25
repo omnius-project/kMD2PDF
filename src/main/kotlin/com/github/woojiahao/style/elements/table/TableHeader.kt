@@ -13,8 +13,8 @@ import java.awt.Color
 class TableHeader : Element("th") {
   init {
     val border by CssProperty<BorderBox?>(
-      BorderBox(Border(1.0, SOLID, Color.BLACK)),
-      BorderBox(Border(1.0, SOLID, c("EE")))
+      BorderBox(Border(1.0.px, SOLID, Color.BLACK)),
+      BorderBox(Border(1.0.px, SOLID, c("EE")))
     )
     this.border = border
 
