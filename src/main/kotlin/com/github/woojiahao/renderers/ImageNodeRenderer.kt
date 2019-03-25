@@ -52,6 +52,8 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
       tag("figcaption")
       text(caption)
       tag("/figcaption")
+      tag("br")
+      tag("/br")
       line()
       tag("/figure")
       line()
