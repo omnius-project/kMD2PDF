@@ -68,7 +68,8 @@ class BorderTest {
     borderStyle: Border.BorderStyle,
     borderColor: Color?
   ) {
-    assertEquals(borderWidth, this.borderWidth)
+    assertEquals(borderWidth.value, this.borderWidth.value)
+    assertEquals(borderWidth.type.measurement, this.borderWidth.type.measurement)
     assertEquals(borderStyle, this.borderStyle)
     assertEquals(borderColor, this.borderColor)
   }
