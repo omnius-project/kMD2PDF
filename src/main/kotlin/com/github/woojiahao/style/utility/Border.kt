@@ -4,9 +4,8 @@ import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.cssColor
 import java.awt.Color
 
-// TODO: borderWidth to Measurement<Double>
 data class Border(
-  var borderWidth: Double = 0.0,
+  var borderWidth: Measurement<Double> = 0.0.px,
   var borderStyle: BorderStyle = NONE,
   var borderColor: Color? = Color.BLACK
 ) {
@@ -24,10 +23,10 @@ data class Border(
     HIDDEN
   }
 
-  fun clear() = set(0.0, NONE, Color.BLACK)
+  fun clear() = set(0.0.px, NONE, Color.BLACK)
 
   private fun set(
-    borderWidth: Double,
+    borderWidth: Measurement<Double>,
     borderStyle: BorderStyle,
     borderColor: Color?
   ) {
@@ -36,25 +35,25 @@ data class Border(
     this.borderColor = borderColor
   }
 
-  override fun toString() = "${borderWidth.px} ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
+  override fun toString() = "$borderWidth ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
 }
 
-infix fun Double.dotted(color: Color?) = Border(this, DOTTED, color)
+infix fun Measurement<Double>.dotted(color: Color?) = Border(this, DOTTED, color)
 
-infix fun Double.dashed(color: Color?) = Border(this, DASHED, color)
+infix fun Measurement<Double>.dashed(color: Color?) = Border(this, DASHED, color)
 
-infix fun Double.solid(color: Color?) = Border(this, SOLID, color)
+infix fun Measurement<Double>.solid(color: Color?) = Border(this, SOLID, color)
 
-infix fun Double.double(color: Color?) = Border(this, DOUBLE, color)
+infix fun Measurement<Double>.double(color: Color?) = Border(this, DOUBLE, color)
 
-infix fun Double.groove(color: Color?) = Border(this, GROOVE, color)
+infix fun Measurement<Double>.groove(color: Color?) = Border(this, GROOVE, color)
 
-infix fun Double.ridge(color: Color?) = Border(this, RIDGE, color)
+infix fun Measurement<Double>.ridge(color: Color?) = Border(this, RIDGE, color)
 
-infix fun Double.inset(color: Color?) = Border(this, INSET, color)
+infix fun Measurement<Double>.inset(color: Color?) = Border(this, INSET, color)
 
-infix fun Double.outset(color: Color?) = Border(this, OUTSET, color)
+infix fun Measurement<Double>.outset(color: Color?) = Border(this, OUTSET, color)
 
-infix fun Double.none(color: Color?) = Border(this, NONE, color)
+infix fun Measurement<Double>.none(color: Color?) = Border(this, NONE, color)
 
-infix fun Double.hidden(color: Color?) = Border(this, HIDDEN, color)
+infix fun Measurement<Double>.hidden(color: Color?) = Border(this, HIDDEN, color)
