@@ -50,7 +50,7 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
       tag("br")
       tag("/br")
       tag("figcaption")
-      raw("<b>Figure:</b> $caption")
+      text(caption)
       tag("/figcaption")
       line()
       tag("/figure")
