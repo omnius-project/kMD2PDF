@@ -2,6 +2,7 @@ package com.github.woojiahao.style.elements.code
 
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.CssProperty
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.c
 
