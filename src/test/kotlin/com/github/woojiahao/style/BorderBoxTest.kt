@@ -301,8 +301,7 @@ class BorderBoxTest {
     borderStyle: Border.BorderStyle = Border.BorderStyle.NONE,
     borderColor: Color? = Color.BLACK
   ) {
-    assertEquals(borderWidth.value, this.borderWidth.value)
-    assertEquals(borderWidth.type.measurement, this.borderWidth.type.measurement)
+    assertEquals(borderWidth, this.borderWidth)
     assertEquals(borderStyle, this.borderStyle)
     assertEquals(borderColor, this.borderColor)
   }
