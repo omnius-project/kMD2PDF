@@ -14,7 +14,7 @@ class BorderTest {
   @Test
   fun `Default border is 0 width, black color, NONE and 0 radius`() {
     with(Border()) {
-      checkBorderSettings(0.0, NONE, Color.BLACK)
+      checkBorderSettings(0.0.px, NONE, Color.BLACK)
     }
   }
 
@@ -30,15 +30,15 @@ class BorderTest {
   fun `clearBorder resets border to default`() {
     with(Border()) {
       border {
-        4.1 dashed c("EDE7F6")
+        4.1.px dashed c("EDE7F6")
       }
       clear()
-      checkBorderSettings(0.0, NONE, Color.BLACK)
+      checkBorderSettings(0.0.px, NONE, Color.BLACK)
     }
   }
 
   private fun Border.BorderStyle.testDSL() {
-    val borderWidth = 2.0
+    val borderWidth = 2.0.px
     val borderColor = Color.RED
 
     with(Border()) {
@@ -64,11 +64,12 @@ class BorderTest {
   private fun Border.border(load: Border.() -> Unit) = apply { load() }
 
   private fun Border.checkBorderSettings(
-    borderWidth: Double,
+    borderWidth: Measurement<Double>,
     borderStyle: Border.BorderStyle,
     borderColor: Color?
   ) {
-    assertEquals(borderWidth, this.borderWidth)
+    assertEquals(borderWidth.value, this.borderWidth.value)
+    assertEquals(borderWidth.type.measurement, this.borderWidth.type.measurement)
     assertEquals(borderStyle, this.borderStyle)
     assertEquals(borderColor, this.borderColor)
   }

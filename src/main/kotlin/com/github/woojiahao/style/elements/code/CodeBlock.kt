@@ -2,7 +2,6 @@ package com.github.woojiahao.style.elements.code
 
 import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.utility.Box
-import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.px
 
 class CodeBlock : Code("pre") {
@@ -11,7 +10,18 @@ class CodeBlock : Code("pre") {
   }
 
   override fun toCss(): String {
-    css.add(cssSelector("pre > code") { attributes { "font-family" to fontFamily } })
+    css += cssSelector("pre > code") {
+      attributes {
+        "font-family" to fontFamily
+      }
+    }
+
+    css += cssSelector("pre") {
+      attributes {
+        "white-space" to "pre-wrap"
+      }
+    }
+
     return super.toCss()
   }
 }

@@ -1,6 +1,7 @@
 package com.github.woojiahao.style.css
 
-import com.github.woojiahao.style.Settings.Theme
+import com.github.woojiahao.style.Settings.Theme.DARK
+import com.github.woojiahao.style.Settings.Theme.LIGHT
 import com.github.woojiahao.style.Settings.theme
 import kotlin.reflect.KProperty
 
@@ -12,16 +13,16 @@ class CssProperty<T>(
 
   operator fun getValue(thisRef: Any?, property: KProperty<*>) =
     when (theme) {
-      Theme.LIGHT -> light ?: fallback
-      Theme.DARK -> dark ?: fallback
-    }
+      LIGHT -> light
+      DARK -> dark
+    } ?: fallback
 
   operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
     when (theme) {
-      Theme.LIGHT -> {
+      LIGHT -> {
         this.light = value
       }
-      Theme.DARK -> {
+      DARK -> {
         this.dark = value
       }
     }
