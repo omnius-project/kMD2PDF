@@ -1,5 +1,6 @@
 package com.github.woojiahao.properties
 
+import com.github.woojiahao.FigcaptionSettings
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.toc.TableOfContentsSettings
@@ -9,7 +10,8 @@ class DocumentProperties private constructor(
   val margins: Box<Measurement<Double>>?,
   val leftPageMargins: Box<Measurement<Double>>?,
   val rightPageMargins: Box<Measurement<Double>>?,
-  val tableOfContentsSettings: TableOfContentsSettings
+  val tableOfContentsSettings: TableOfContentsSettings,
+  val figcaptionSettings: FigcaptionSettings
 ) {
 
   open class Builder {
@@ -18,6 +20,7 @@ class DocumentProperties private constructor(
     private var leftPageMargins: Box<Measurement<Double>>? = null
     private var rightPageMargins: Box<Measurement<Double>>? = null
     private var tableOfContentsSettings = TableOfContentsSettings()
+    private var figcaptionSettings = FigcaptionSettings()
 
     fun size(size: DocumentSize): Builder {
       this.size = size
@@ -44,12 +47,18 @@ class DocumentProperties private constructor(
       return this
     }
 
+    fun figcaptionSettings(figcaptionSettings: FigcaptionSettings): Builder {
+      this.figcaptionSettings = figcaptionSettings
+      return this
+    }
+
     fun build() = DocumentProperties(
       size,
       margins,
       leftPageMargins,
       rightPageMargins,
-      tableOfContentsSettings
+      tableOfContentsSettings,
+      figcaptionSettings
     )
   }
 }
