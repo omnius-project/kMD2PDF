@@ -1,5 +1,8 @@
 package com.github.woojiahao.style.utility
 
+import org.apache.commons.lang3.builder.EqualsBuilder
+import org.apache.commons.lang3.builder.HashCodeBuilder
+
 class Measurement<T : Number>(val value: T, val type: Type) {
   sealed class Type(val measurement: String) {
     class Pixel : Type("px")
@@ -9,6 +12,23 @@ class Measurement<T : Number>(val value: T, val type: Type) {
   }
 
   override fun toString() = "$value${type.measurement}"
+
+  override fun equals(other: Any?): Boolean {
+    if (other !is Measurement<*>) return false
+
+    val measurement = other as Measurement<T>
+
+    return EqualsBuilder()
+      .append(value, measurement.value)
+      .append(type.measurement, measurement.type.measurement)
+      .isEquals
+  }
+
+  override fun hashCode() =
+    HashCodeBuilder(17, 37)
+      .append(value)
+      .append(type.measurement)
+      .toHashCode()
 }
 
 val <T : Number> T.px
