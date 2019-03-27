@@ -3,6 +3,7 @@ package com.github.woojiahao.properties
 import com.github.woojiahao.FigcaptionSettings
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.Measurement
+import com.github.woojiahao.style.utility.`in`
 import com.github.woojiahao.toc.TableOfContentsSettings
 
 class DocumentProperties private constructor(
@@ -16,7 +17,7 @@ class DocumentProperties private constructor(
 
   open class Builder {
     private var size = DocumentSize()
-    private var margins: Box<Measurement<Double>>? = null
+    private var margins = Box(0.4.`in`)
     private var leftPageMargins: Box<Measurement<Double>>? = null
     private var rightPageMargins: Box<Measurement<Double>>? = null
     private var tableOfContentsSettings = TableOfContentsSettings()
