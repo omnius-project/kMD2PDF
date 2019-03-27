@@ -40,7 +40,7 @@ class MarkdownConverter private constructor(
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
-    .nodeRendererFactory { ImageNodeRenderer(it) }
+    .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
     .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
@@ -181,7 +181,7 @@ class MarkdownConverter private constructor(
   private fun wrap(content: String) = "\n$content\n"
 
   private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
-    "\n${CssSelector(elementName).apply { cssSelector() }.toCss()}\n"
+    wrap(CssSelector(elementName).apply { cssSelector() }.toCss())
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
