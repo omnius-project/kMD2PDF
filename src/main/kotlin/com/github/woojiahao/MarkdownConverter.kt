@@ -57,6 +57,7 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
+      sharedContext.replacedElementFactory = MediaReplacedElementFactory(sharedContext.replacedElementFactory)
       setDocumentFromString(generateHtml())
       loadFontDirectories()
       layout()
