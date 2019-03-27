@@ -4,6 +4,7 @@ import org.commonmark.node.Image
 import org.commonmark.node.Node
 import org.commonmark.renderer.NodeRenderer
 import org.commonmark.renderer.html.HtmlNodeRendererContext
+import org.commonmark.renderer.html.HtmlWriter
 import java.util.*
 
 class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
@@ -31,8 +32,7 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   private fun loadImage(imageAttributes: Map<String, String?>) {
     with(html) {
       line()
-      tag("img", imageAttributes)
-      tag("/img")
+      createTag("img", imageAttributes)
       line()
     }
   }
@@ -42,21 +42,28 @@ class ImageNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
 
     with(html) {
       line()
-      tag("figure")
+      createTag("figure") {
+        line()
+        createTag("img", imageAttributes)
+        line()
+        createTag("br")
+        createTag("figcaption") { text(caption) }
+        createTag("br")
+        line()
+      }
       line()
-      tag("img", imageAttributes)
-      tag("/img")
-      line()
-      tag("br")
-      tag("/br")
-      tag("figcaption")
-      text(caption)
-      tag("/figcaption")
-      tag("br")
-      tag("/br")
-      line()
-      tag("/figure")
-      line()
+    }
+  }
+
+  private fun createTag(
+    name: String,
+    attributes: Map<String, String?> = emptyMap(),
+    content: HtmlWriter.() -> Unit = { }
+  ) {
+    with(html) {
+      tag(name, attributes)
+      content()
+      tag("/$name")
     }
   }
 }
