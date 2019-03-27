@@ -9,12 +9,23 @@ import java.io.File
 import java.net.URI
 import java.util.*
 
-class ImageNodeRenderer(
-  private val document: File,
-  context: HtmlNodeRendererContext
-) : NodeRenderer {
+class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererContext) : NodeRenderer {
 
   private val html = context.writer
+
+  private val String?.isLocalFile: Boolean
+    get() {
+      this ?: return false
+
+      with(URI(replace("\\", "/"))) {
+        return try {
+          toURL()
+          false
+        } catch (e: IllegalArgumentException) {
+          true
+        }
+      }
+    }
 
   override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
 
@@ -23,28 +34,15 @@ class ImageNodeRenderer(
     val destination = image.destination
     val title = image.title
 
-    val processedDestination = processDestination(destination)
+    val isDestinationLocalFile = destination.isLocalFile
 
-    val imageAttributes = loadImageAttributes(title, processedDestination)
+    val processedDestination =
+      if (isDestinationLocalFile) processLocalFileLocation(destination)
+      else destination
+
+    val imageAttributes = loadImageAttributes(title, processedDestination, isDestinationLocalFile)
 
     title?.let { loadImageWithCaption(imageAttributes) } ?: loadImage(imageAttributes)
-  }
-
-  /**
-   * Processes the input [destination] to determine if it's a local file to process or URL
-   */
-  private fun processDestination(destination: String?): String? {
-    destination ?: return null
-
-    with(destination.replace("\\", "/")) {
-      val uri = URI(this)
-      return try {
-        uri.toURL()
-        this
-      } catch (e: IllegalArgumentException) {
-        processLocalFileLocation(this)
-      }
-    }
   }
 
   private fun processLocalFileLocation(localFilePath: String): String {
@@ -58,9 +56,14 @@ class ImageNodeRenderer(
     return localPath.joinToString("/")
   }
 
-  private fun loadImageAttributes(title: String?, destination: String?): Map<String, String?> {
+  private fun loadImageAttributes(
+    title: String?,
+    destination: String?,
+    isLocalFile: Boolean
+  ): Map<String, String?> {
     val imageAttributes = mutableMapOf("src" to destination)
     title?.let { imageAttributes["alt"] = it }
+    if (isLocalFile) imageAttributes["class"] = "local"
     return imageAttributes.toMap()
   }
 
