@@ -2,7 +2,7 @@ package com.github.woojiahao.style.elements
 
 class Image : Element("img") {
 
-  val figCaption = FigCaption()
+  val figcaption = FigCaption()
 
-  fun figcaption(style: FigCaption.() -> Unit) = figCaption.style()
+  fun figcaption(style: FigCaption.() -> Unit) = figcaption.style()
 }

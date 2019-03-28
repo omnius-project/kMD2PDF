@@ -57,7 +57,7 @@ class Style {
     ol,
     blockquote,
     img,
-    img.figCaption,
+    img.figcaption,
     table,
     table.thead,
     table.tbody,

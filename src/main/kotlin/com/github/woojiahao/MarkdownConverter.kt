@@ -2,11 +2,12 @@ package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
+import com.github.woojiahao.properties.PageSize
 import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.css.cssSelector
+import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.style.utility.px
 import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.toc.generateTableOfContents
@@ -40,7 +41,7 @@ class MarkdownConverter private constructor(
   private val htmlRenderer = HtmlRenderer
     .builder()
     .extensions(extensions)
-    .nodeRendererFactory { ImageNodeRenderer(it) }
+    .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
     .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
@@ -57,7 +58,12 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      setDocumentFromString(generateHtml())
+      sharedContext.replacedElementFactory = MediaReplacedElementFactory(
+        documentProperties,
+        sharedContext.replacedElementFactory
+      )
+      val content = generateHtml()
+      setDocumentFromString(content)
       loadFontDirectories()
       layout()
       return try {
@@ -69,42 +75,74 @@ class MarkdownConverter private constructor(
     }
   }
 
-  fun generateHtml() =
+  private fun generateHtml() =
     StringBuilder()
       .appendHTML()
       .html {
         head {
           style {
             unsafe {
-              +wrapDocumentContent(documentStyle.getStyles())
-              +wrapDocumentContent(pagePropertiesManager.toCss())
-              +wrapDocumentContent(cssSelector(".task-list") {
+              +wrap(documentStyle.getStyles())
+              +wrap(pagePropertiesManager.toCss())
+              +wrap(".task-list") {
                 attributes {
                   "list-style-type" to "none"
                   "margin-left" to 0.px
                   "padding-left" to 0.px
                 }
-              }.toCss())
-              +wrapDocumentContent(cssSelector(".task-list-item") {
+              }
+              +wrap(".task-list-item") {
                 attributes {
                   "list-style-type" to "none"
                   "margin" to 0.px
                   "padding" to 0.px
                 }
-              }.toCss())
-              +wrapDocumentContent(cssSelector(".task-list-item > input[type='checkbox']") {
+              }
+              +wrap(".task-list-item > input[type='checkbox']") {
                 attributes {
                   "margin-right" to 10.px
                   if (Settings.theme == Settings.Theme.DARK) {
                     "background-color" to Color.WHITE.cssColor()
                   }
                 }
-              }.toCss())
-              +wrapDocumentContent(cssSelector(".table-of-contents") {
+              }
+              +wrap(".table-of-contents") {
                 attributes {
                   "page-break-after" to "always"
                 }
-              }.toCss())
+              }
+
+              // Fig caption configuration
+              with (documentProperties.figcaptionSettings) {
+                val figcaptionNumberLabel = "figures"
+
+                if (isVisible) {
+                  +wrap("body") {
+                    attributes {
+                      "counter-reset" to figcaptionNumberLabel
+                    }
+                  }
+
+                  +wrap("figure") {
+                    attributes {
+                      "counter-increment" to figcaptionNumberLabel
+                    }
+                  }
+
+                  +wrap("figure figcaption:before") {
+                    attributes {
+                      "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
+                    }
+                  }
+
+                  +wrap("figure figcaption:after") {
+                    attributes {
+                      "content" to " '$append'"
+                    }
+                  }
+                }
+
+              }
             }
           }
         }
@@ -140,13 +178,16 @@ class MarkdownConverter private constructor(
           }
 
           div("content") {
-            unsafe { +wrapDocumentContent(htmlRenderer.render(parsedDocument).trim()) }
+            unsafe { +wrap(htmlRenderer.render(parsedDocument).trim()) }
           }
         }
       }
       .toString()
 
-  private fun wrapDocumentContent(content: String) = "\n$content\n"
+  private fun wrap(content: String) = "\n$content\n"
+
+  private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
+    wrap(CssSelector(elementName).apply { cssSelector() }.toCss())
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()

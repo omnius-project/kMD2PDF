@@ -56,15 +56,11 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
   }
 
   private val leftPageSelector = cssSelector("@page :left") {
-    attributes {
-      "margin" to leftPageMargins?.toCss { it.toString() }
-    }
+    attributes { "margin" to leftPageMargins?.toCss { it.toString() } }
   }
 
   private val rightPageSelector = cssSelector("@page :right") {
-    attributes {
-      "margin" to rightPageMargins?.toCss { it.toString() }
-    }
+    attributes { "margin" to rightPageMargins?.toCss { it.toString() } }
   }
 
   private fun CssAttributes.loadDocumentAreaAttributes(contentArea: DocumentText, elementContent: String) {
