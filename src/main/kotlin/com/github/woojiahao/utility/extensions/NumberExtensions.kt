@@ -1,5 +1,7 @@
 package com.github.woojiahao.utility.extensions
 
-fun Double.toInches() = this / 25.4
+import com.github.woojiahao.style.utility.`in`
 
-fun Int.toInches() = this / 25.4
+fun Double.toInches() = (this / 25.4).`in`
+
+fun Int.toInches() = (this / 25.4).`in`

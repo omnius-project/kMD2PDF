@@ -2,6 +2,7 @@ package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
+import com.github.woojiahao.properties.PageSize
 import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
@@ -57,8 +58,12 @@ class MarkdownConverter private constructor(
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
-      sharedContext.replacedElementFactory = MediaReplacedElementFactory(sharedContext.replacedElementFactory)
-      setDocumentFromString(generateHtml())
+      sharedContext.replacedElementFactory = MediaReplacedElementFactory(
+        documentProperties,
+        sharedContext.replacedElementFactory
+      )
+      val content = generateHtml()
+      setDocumentFromString(content)
       loadFontDirectories()
       layout()
       return try {
@@ -70,7 +75,7 @@ class MarkdownConverter private constructor(
     }
   }
 
-  fun generateHtml() =
+  private fun generateHtml() =
     StringBuilder()
       .appendHTML()
       .html {

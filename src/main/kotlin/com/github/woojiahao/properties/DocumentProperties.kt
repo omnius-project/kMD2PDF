@@ -8,7 +8,7 @@ import com.github.woojiahao.toc.TableOfContentsSettings
 
 class DocumentProperties private constructor(
   val size: DocumentSize,
-  val margins: Box<Measurement<Double>>?,
+  val margins: Box<Measurement<Double>>,
   val leftPageMargins: Box<Measurement<Double>>?,
   val rightPageMargins: Box<Measurement<Double>>?,
   val tableOfContentsSettings: TableOfContentsSettings,
