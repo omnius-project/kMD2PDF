@@ -38,9 +38,9 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
   override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
 
   override fun render(node: Node?) {
-    val image = node as Image
-    val destination = image.destination
-    val title = image.title
+    node as Image
+    val destination = node.destination
+    val title = node.title
 
     val isDestinationLocalFile = destination.isLocalFile
 
