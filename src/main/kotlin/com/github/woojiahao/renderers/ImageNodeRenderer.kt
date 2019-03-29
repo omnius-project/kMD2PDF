@@ -1,28 +1,36 @@
 package com.github.woojiahao.renderers
 
+import com.github.woojiahao.renderers.ImageNodeRenderer.DestinationType.*
 import org.commonmark.node.Image
 import org.commonmark.node.Node
 import org.commonmark.renderer.NodeRenderer
 import org.commonmark.renderer.html.HtmlNodeRendererContext
 import org.commonmark.renderer.html.HtmlWriter
 import java.io.File
+import java.net.MalformedURLException
 import java.net.URI
 import java.util.*
 
 class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererContext) : NodeRenderer {
 
+  private enum class DestinationType { WEB, RELATIVE_LOCAL, ABSOLUTE_LOCAL }
+
   private val html = context.writer
 
-  private val String?.isLocalFile: Boolean
+  private val String?.isLocalFile: DestinationType
     get() {
-      this ?: return false
+      this ?: return WEB
 
       with(URI(replace("\\", "/"))) {
         return try {
           toURL()
-          false
-        } catch (e: IllegalArgumentException) {
-          true
+          WEB
+        } catch (e: Exception) {
+          when (e) {
+            is MalformedURLException -> ABSOLUTE_LOCAL
+            is IllegalArgumentException -> RELATIVE_LOCAL
+            else -> throw e
+          }
         }
       }
     }
@@ -30,15 +38,16 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
   override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
 
   override fun render(node: Node?) {
-    val image = node as Image
-    val destination = image.destination
-    val title = image.title
+    node as Image
+    val destination = node.destination
+    val title = node.title
 
     val isDestinationLocalFile = destination.isLocalFile
 
-    val processedDestination =
-      if (isDestinationLocalFile) processLocalFileLocation(destination)
-      else destination
+    val processedDestination = when (isDestinationLocalFile) {
+      RELATIVE_LOCAL -> processLocalFileLocation(destination)
+      else -> destination
+    }
 
     val imageAttributes = loadImageAttributes(title, processedDestination, isDestinationLocalFile)
 
@@ -59,11 +68,14 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
   private fun loadImageAttributes(
     title: String?,
     destination: String?,
-    isLocalFile: Boolean
+    destinationType: DestinationType
   ): Map<String, String?> {
     val imageAttributes = mutableMapOf("src" to destination)
     title?.let { imageAttributes["alt"] = it }
-    if (isLocalFile) imageAttributes["class"] = "local"
+    imageAttributes["class"] = when (destinationType) {
+      RELATIVE_LOCAL, ABSOLUTE_LOCAL -> "local"
+      else -> ""
+    }
     return imageAttributes.toMap()
   }
 
@@ -85,7 +97,9 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
         createTag("img", imageAttributes)
         line()
         createTag("br")
-        createTag("figcaption") { text(caption) }
+        createTag("figcaption") {
+          text(caption)
+        }
         createTag("br")
         line()
       }
