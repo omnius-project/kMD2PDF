@@ -1,16 +1,20 @@
 package com.github.woojiahao.style.elements.code
 
 import com.github.woojiahao.style.Settings
-import com.github.woojiahao.style.css.cssProperty
+import com.github.woojiahao.style.css.CssProperty
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.c
 
-open class Code(elementName: String, settings: Settings) : Element(elementName, settings) {
-  override var fontFamily = settings.monospaceFont
-  override var textColor by cssProperty(c("073642"), settings.theme) {
-    darkTheme = c("eee8d5")
-  }
-  override var backgroundColor by cssProperty(c("fdf6e3"), settings.theme) {
-    darkTheme = c("002b36")
+open class Code(elementName: String) : Element(elementName) {
+  init {
+    val fontFamily by CssProperty(fallback = Settings.monospaceFont)
+    this.fontFamily = fontFamily
+
+    val textColor by CssProperty(c("073642"), c("eee8d5"))
+    this.textColor = textColor
+
+    val backgroundColor by CssProperty(c("fdf6e3"), c("002b36"))
+    this.backgroundColor = backgroundColor
   }
 }

@@ -12,33 +12,33 @@ import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
 
-class Style(val settings: Settings = Settings()) {
+class Style {
 
   companion object {
-    inline fun createStyle(settings: Settings = Settings(), style: Style.() -> Unit) =
-      Style(settings).apply { style() }
+    inline fun createStyle(style: Style.() -> Unit) = Style().apply { style() }
   }
 
-  val h1 = HeaderOne(settings)
-  val h2 = HeaderTwo(settings)
-  val h3 = HeaderThree(settings)
-  val h4 = HeaderFour(settings)
-  val h5 = HeaderFive(settings)
-  val h6 = HeaderSix(settings)
-  val inlineCode = InlineCode(settings)
-  val codeBlock = CodeBlock(settings)
-  val strong = Bold(settings)
-  val p = Paragraph(settings)
-  val a = Link(settings)
-  val ul = UnorderedList(settings)
-  val ol = OrderedList(settings)
-  val blockquote = BlockQuote(settings)
-  val img = Image(settings)
-  val table = Table(settings)
-  val del = Strikethrough(settings)
-  val hr = Ruler(settings)
-  val header = DocumentHeader(settings)
-  val footer = DocumentFooter(settings)
+  val h1 = HeadingOne()
+  val h2 = HeadingTwo()
+  val h3 = HeadingThree()
+  val h4 = HeadingFour()
+  val h5 = HeadingFive()
+  val h6 = HeadingSix()
+  val inlineCode = InlineCode()
+  val codeBlock = CodeBlock()
+  val strong = Bold()
+  val em = Emphasis()
+  val p = Paragraph()
+  val a = Link()
+  val ul = UnorderedList()
+  val ol = OrderedList()
+  val blockquote = BlockQuote()
+  val img = Image()
+  val table = Table()
+  val del = Strikethrough()
+  val hr = Ruler()
+  val header = DocumentHeader()
+  val footer = DocumentFooter()
 
   val elements = listOf(
     h1,
@@ -51,12 +51,13 @@ class Style(val settings: Settings = Settings()) {
     inlineCode,
     codeBlock,
     strong,
+    em,
     a,
     ul,
     ol,
     blockquote,
     img,
-    img.figCaption,
+    img.figcaption,
     table,
     table.thead,
     table.tbody,
@@ -83,6 +84,8 @@ class Style(val settings: Settings = Settings()) {
 
   inline fun strong(style: Bold.() -> Unit) = strong.style()
 
+  inline fun em(style: Emphasis.() -> Unit) = em.style()
+
   inline fun p(style: Paragraph.() -> Unit) = p.style()
 
   inline fun a(style: Link.() -> Unit) = a.style()
@@ -101,17 +104,17 @@ class Style(val settings: Settings = Settings()) {
 
   inline fun hr(style: Ruler.() -> Unit) = hr.style()
 
-  inline fun h1(style: HeaderOne.() -> Unit) = h1.style()
+  inline fun h1(style: HeadingOne.() -> Unit) = h1.style()
 
-  inline fun h2(style: HeaderTwo.() -> Unit) = h2.style()
+  inline fun h2(style: HeadingTwo.() -> Unit) = h2.style()
 
-  inline fun h3(style: HeaderThree.() -> Unit) = h3.style()
+  inline fun h3(style: HeadingThree.() -> Unit) = h3.style()
 
-  inline fun h4(style: HeaderFour.() -> Unit) = h4.style()
+  inline fun h4(style: HeadingFour.() -> Unit) = h4.style()
 
-  inline fun h5(style: HeaderFive.() -> Unit) = h5.style()
+  inline fun h5(style: HeadingFive.() -> Unit) = h5.style()
 
-  inline fun h6(style: HeaderSix.() -> Unit) = h6.style()
+  inline fun h6(style: HeadingSix.() -> Unit) = h6.style()
 
   inline fun header(style: DocumentHeader.() -> Unit) = header.style()
 

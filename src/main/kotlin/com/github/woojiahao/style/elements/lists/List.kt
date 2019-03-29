@@ -1,10 +1,9 @@
 package com.github.woojiahao.style.elements.lists
 
-import com.github.woojiahao.style.Settings
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
-import com.github.woojiahao.utility.cssSelector
 
-open class List(private val elementName: String, settings: Settings) : Element(elementName, settings) {
+open class List(private val elementName: String) : Element(elementName) {
 
   enum class ListStylePosition {
     INSIDE, OUTSIDE
@@ -37,9 +36,9 @@ open class List(private val elementName: String, settings: Settings) : Element(e
     fun toCss() = name.toLowerCase().replace("_", "-")
   }
 
-  open var listStyleType = ListStyleType.CIRCLE
+  var listStyleType = ListStyleType.CIRCLE
 
-  open var listStylePosition = ListStylePosition.OUTSIDE
+  var listStylePosition = ListStylePosition.OUTSIDE
 
   var listStyleImage: String? = null
 

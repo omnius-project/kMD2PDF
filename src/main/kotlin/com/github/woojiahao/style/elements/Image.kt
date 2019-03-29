@@ -1,10 +1,8 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.Settings
+class Image : Element("img") {
 
-class Image(settings: Settings) : Element("img", settings) {
+  val figcaption = FigCaption()
 
-  val figCaption = FigCaption(settings)
-
-  fun figcaption(style: FigCaption.() -> Unit) = figCaption.style()
+  fun figcaption(style: FigCaption.() -> Unit) = figcaption.style()
 }

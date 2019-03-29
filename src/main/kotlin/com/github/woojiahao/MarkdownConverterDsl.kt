@@ -1,7 +1,6 @@
 package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.toc.TableOfContentsSettings
 
@@ -23,21 +22,19 @@ inline fun markdownConverter(converter: MarkdownConverterBuilderDsl.() -> Unit) 
     build()
   }
 
-inline fun MarkdownConverterBuilderDsl.style(
-  settings: Settings = Settings(),
-  style: Style.() -> Unit
-) {
-  this.style(Style.createStyle(settings) { style() })
+inline fun MarkdownConverterBuilderDsl.style(style: Style.() -> Unit) {
+  this.style(Style.createStyle { style() })
 }
 
-inline fun MarkdownConverterBuilderDsl.documentProperties(
-  properties: DocumentPropertiesBuilderDsl.() -> Unit
-) = with(DocumentPropertiesBuilderDsl()) {
-  documentProperties(apply { properties() }.build())
-}
+inline fun MarkdownConverterBuilderDsl.documentProperties(properties: DocumentPropertiesBuilderDsl.() -> Unit) =
+  with(DocumentPropertiesBuilderDsl()) {
+    documentProperties(apply { properties() }.build())
+  }
 
-inline fun DocumentPropertiesBuilderDsl.tableOfContents(
-  properties: TableOfContentsSettings.() -> Unit
-) {
+inline fun DocumentPropertiesBuilderDsl.tableOfContents(properties: TableOfContentsSettings.() -> Unit) {
   tableOfContentsSettings(TableOfContentsSettings().apply { properties() })
+}
+
+inline fun DocumentPropertiesBuilderDsl.figcaption(properties: FigcaptionSettings.() -> Unit) {
+  figcaptionSettings(FigcaptionSettings().apply { properties() })
 }

@@ -2,15 +2,11 @@ package com.github.woojiahao.style.utility
 
 import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.cssColor
-import com.github.woojiahao.utility.px
 import java.awt.Color
 
-/**
- * Single side border.
- */
 data class Border(
-  var borderWidth: Double = 0.0,
-  var borderStyle: BorderStyle = BorderStyle.NONE,
+  var borderWidth: Measurement<Double> = 0.0.px,
+  var borderStyle: BorderStyle = NONE,
   var borderColor: Color? = Color.BLACK
 ) {
 
@@ -27,67 +23,10 @@ data class Border(
     HIDDEN
   }
 
-  /**
-   * Sets border to be [DOTTED].
-   */
-  infix fun Double.dotted(color: Color?) = setBorder(this, DOTTED, color)
+  fun clear() = set(0.0.px, NONE, Color.BLACK)
 
-  /**
-   * Sets border to be [DASHED].
-   */
-  infix fun Double.dashed(color: Color?) = setBorder(this, DASHED, color)
-
-  /**
-   * Sets border to be [SOLID].
-   */
-  infix fun Double.solid(color: Color?) = setBorder(this, SOLID, color)
-
-  /**
-   * Sets border to be [DOUBLE].
-   */
-  infix fun Double.double(color: Color?) = setBorder(this, DOUBLE, color)
-
-  /**
-   * Sets border to be [GROOVE].
-   */
-  infix fun Double.groove(color: Color?) = setBorder(this, GROOVE, color)
-
-  /**
-   * Sets border to be [RIDGE].
-   */
-  infix fun Double.ridge(color: Color?) = setBorder(this, RIDGE, color)
-
-  /**
-   * Sets border to be [INSET].
-   */
-  infix fun Double.inset(color: Color?) = setBorder(this, INSET, color)
-
-  /**
-   * Sets border to be [OUTSET].
-   */
-  infix fun Double.outset(color: Color?) = setBorder(this, OUTSET, color)
-
-  /**
-   * Sets border to be [NONE].
-   */
-  infix fun Double.none(color: Color?) = setBorder(this, NONE, color)
-
-  /**
-   * Sets border to be [HIDDEN].
-   */
-  infix fun Double.hidden(color: Color?) = setBorder(this, HIDDEN, color)
-
-  /**
-   * Resets the border to defaults of [borderWidth] - 0.0, [borderStyle] - [NONE],
-   * [borderColor] - [Color.BLACK], [borderRadius] - `Box(0.0)`.
-   */
-  fun clearBorder() = setBorder(0.0, NONE, Color.BLACK)
-
-  /**
-   * Sets the border preferences.
-   */
-  private fun setBorder(
-    borderWidth: Double,
+  private fun set(
+    borderWidth: Measurement<Double>,
     borderStyle: BorderStyle,
     borderColor: Color?
   ) {
@@ -96,5 +35,25 @@ data class Border(
     this.borderColor = borderColor
   }
 
-  override fun toString() = "${borderWidth.px} ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
+  override fun toString() = "$borderWidth ${borderStyle.name.toLowerCase()} ${borderColor?.cssColor()}"
 }
+
+infix fun Measurement<Double>.dotted(color: Color?) = Border(this, DOTTED, color)
+
+infix fun Measurement<Double>.dashed(color: Color?) = Border(this, DASHED, color)
+
+infix fun Measurement<Double>.solid(color: Color?) = Border(this, SOLID, color)
+
+infix fun Measurement<Double>.double(color: Color?) = Border(this, DOUBLE, color)
+
+infix fun Measurement<Double>.groove(color: Color?) = Border(this, GROOVE, color)
+
+infix fun Measurement<Double>.ridge(color: Color?) = Border(this, RIDGE, color)
+
+infix fun Measurement<Double>.inset(color: Color?) = Border(this, INSET, color)
+
+infix fun Measurement<Double>.outset(color: Color?) = Border(this, OUTSET, color)
+
+infix fun Measurement<Double>.none(color: Color?) = Border(this, NONE, color)
+
+infix fun Measurement<Double>.hidden(color: Color?) = Border(this, HIDDEN, color)

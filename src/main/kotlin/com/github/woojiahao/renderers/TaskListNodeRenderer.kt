@@ -1,7 +1,10 @@
 package com.github.woojiahao.renderers
 
-import kotlinx.html.*
+import kotlinx.html.classes
+import kotlinx.html.li
 import kotlinx.html.stream.appendHTML
+import kotlinx.html.ul
+import kotlinx.html.unsafe
 import org.commonmark.node.BulletList
 import org.commonmark.node.Node
 import org.commonmark.node.Text
@@ -20,43 +23,70 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   override fun render(node: Node?) {
     val bulletList = node as BulletList
 
+    val bulletListContent = bulletList.getListItemText()
+
+    val list = createList(bulletListContent)
+
+    html.raw(list)
+    html.line()
+  }
+
+  private fun createList(listItemContents: List<String>): String {
     val list = StringBuilder().appendHTML().ul {
-      bulletList.iterateNodeChildren {
-        val listItemContent = (it.firstChild.firstChild as Text).literal.trim()
+      for (listItemContent in listItemContents) {
+        val isTaskItem = listItemContent.isTaskListItem()
 
-        val isTaskItem = taskItemRegex.containsMatchIn(listItemContent)
+        if (!isTaskItem) {
+          li { +listItemContent }
+          continue
+        }
 
-        if (isTaskItem) {
-          classes = setOf("task-list")
+        classes = setOf("task-list")
 
-          val match = taskItemRegex.matchEntire(listItemContent)
-          match ?: return@iterateNodeChildren
+        val match = taskItemRegex.matchEntire(listItemContent)
+        match ?: continue
 
-          val taskCompletionStatus = match.groups[1]?.value ?: return@iterateNodeChildren
-          val taskDescription = match.groups[2]?.value ?: return@iterateNodeChildren
+        val taskCompletionStatus = match.groups[1]?.value ?: continue
+        val taskDescription = match.groups[2]?.value ?: continue
 
-          val isTaskCompleted = taskCompletionStatus.toLowerCase() == "x"
+        val isTaskCompleted = taskCompletionStatus.toLowerCase() == "x"
 
-          li("task-list-item") {
-            unsafe {
-              val inputString = StringBuilder("<input type=\"checkbox\" disabled=\"disabled\"")
-              if (isTaskCompleted) inputString.append(" checked=\"checked\"")
-              inputString.append("></input>")
-              raw(inputString.toString())
-            }
-
-            +taskDescription
+        li("task-list-item") {
+          unsafe {
+            val checkboxAttributes = loadCheckboxAttributes(isTaskCompleted)
+            raw(createCheckboxString(checkboxAttributes))
           }
-        } else {
-          li {
-            +listItemContent
-          }
+
+          +taskDescription
         }
       }
     }
 
-    html.raw(list.toString())
-    html.line()
+    return list.toString()
+  }
+
+  private fun createCheckboxString(checkboxAttributes: Map<String, String>): String {
+    val checkboxAttributesString = checkboxAttributes
+      .entries
+      .joinToString(" ") { "${it.key}=\"${it.value}\"" }
+    return "<input $checkboxAttributesString></input>"
+  }
+
+  private fun loadCheckboxAttributes(isTaskCompleted: Boolean): Map<String, String> {
+    val checkboxAttributes = mutableMapOf("type" to "checkbox", "disabled" to "disabled")
+    if (isTaskCompleted) checkboxAttributes["checked"] = "checked"
+    return checkboxAttributes.toMap()
+  }
+
+  private fun String.isTaskListItem() = taskItemRegex.containsMatchIn(this)
+
+  private fun BulletList.getListItemText(): List<String> {
+    val listItemText = mutableListOf<String>()
+    iterateNodeChildren {
+      val listItemContent = (it.firstChild.firstChild as Text).literal.trim()
+      listItemText += listItemContent
+    }
+    return listItemText.toList()
   }
 
   private fun Node.iterateNodeChildren(operation: (Node) -> Unit) {

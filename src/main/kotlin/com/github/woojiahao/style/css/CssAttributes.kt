@@ -3,25 +3,27 @@ package com.github.woojiahao.style.css
 class CssAttributes {
   private val attributes = mutableMapOf<String, String?>()
 
-  fun <T> add(attributeName: String, attributeValue: T?): CssAttributes {
-    attributes[attributeName] = attributeValue?.toString()
-    return this
-  }
-
   fun append(attributes: CssAttributes) = this.attributes.putAll(attributes.attributes)
 
-  fun remove(attributeName: String): CssAttributes {
-    attributes.remove(attributeName)
+  fun <T> add(name: String, value: T?): CssAttributes {
+    addAttribute(name, value)
     return this
   }
 
-  infix fun <T> String.to(attributeValue: T?) {
-    attributes[this] = attributeValue?.toString()
+  fun remove(name: String): CssAttributes {
+    attributes.remove(name)
+    return this
   }
+
+  infix fun <T> String.to(value: T?) = addAttribute(this, value)
 
   fun toCss() =
     attributes
       .entries
       .filter { it.value != null }
-      .joinToString("\n") { "\t${it.key}: ${it.value};" }
+      .joinToString("\n") { "\t${it.key}: ${it.value.toString()};" }
+
+  private fun <T> addAttribute(name: String, value: T?) {
+    attributes[name] = value?.toString()
+  }
 }

@@ -1,9 +1,6 @@
 package com.github.woojiahao.style.css
 
-class CssSelector(
-  private val selector: String,
-  val attributes: CssAttributes = CssAttributes()
-) {
+class CssSelector(private val selector: String, val attributes: CssAttributes = CssAttributes()) {
 
   private val nestedCssSelectors by lazy { mutableListOf<CssSelector>() }
 
@@ -12,11 +9,17 @@ class CssSelector(
   fun nested(nested: MutableList<CssSelector>.() -> Unit) = nestedCssSelectors.nested()
 
   fun toCss(): String {
-    val css = StringBuilder("$selector {\n").append(attributes.toCss())
+    val cssContents = mutableListOf(
+      "$selector {",
+      attributes.toCss()
+    )
     if (nestedCssSelectors.isNotEmpty()) {
-      css.append("\n").append(nestedCssSelectors.joinToString("\n") { it.toCss() })
+      cssContents += nestedCssSelectors.joinToString("\n") { it.toCss() }
     }
-    css.append("\n}")
-    return css.toString()
+    cssContents += "}"
+    return cssContents.joinToString("\n")
   }
 }
+
+inline fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) =
+  CssSelector(selectorName).apply { style() }

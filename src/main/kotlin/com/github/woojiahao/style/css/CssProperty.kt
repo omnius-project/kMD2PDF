@@ -1,32 +1,30 @@
 package com.github.woojiahao.style.css
 
-import com.github.woojiahao.style.Settings.Theme
+import com.github.woojiahao.style.Settings.Theme.DARK
+import com.github.woojiahao.style.Settings.Theme.LIGHT
+import com.github.woojiahao.style.Settings.theme
 import kotlin.reflect.KProperty
 
-class CssProperty<T>(defaultValue: T, private val theme: Theme = Theme.LIGHT) {
-  var lightTheme = defaultValue
-  var darkTheme = defaultValue
+class CssProperty<T>(
+  private var light: T? = null,
+  private var dark: T? = light,
+  private val fallback: T? = null
+) {
 
   operator fun getValue(thisRef: Any?, property: KProperty<*>) =
     when (theme) {
-      Theme.LIGHT -> lightTheme
-      Theme.DARK -> darkTheme
-    }
+      LIGHT -> light
+      DARK -> dark
+    } ?: fallback
 
-  operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-    when(theme) {
-      Theme.LIGHT -> {
-        this.lightTheme = value
+  operator fun setValue(thisRef: Any?, property: KProperty<*>, value: T?) {
+    when (theme) {
+      LIGHT -> {
+        this.light = value
       }
-      Theme.DARK -> {
-        this.darkTheme = value
+      DARK -> {
+        this.dark = value
       }
     }
   }
 }
-
-inline fun <T> cssProperty(
-  defaultValue: T,
-  theme: Theme = Theme.LIGHT,
-  configuration: CssProperty<T>.() -> Unit = {  }
-) = CssProperty(defaultValue, theme).apply { configuration() }

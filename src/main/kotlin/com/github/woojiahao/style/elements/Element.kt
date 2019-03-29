@@ -1,67 +1,59 @@
 package com.github.woojiahao.style.elements
 
 import com.github.woojiahao.style.Settings
+import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.css.CssSelector
-import com.github.woojiahao.style.css.cssProperty
-import com.github.woojiahao.style.utility.BorderBox
-import com.github.woojiahao.style.utility.Box
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.css.cssSelector
+import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.utility.c
 import com.github.woojiahao.utility.cssColor
-import com.github.woojiahao.utility.cssSelector
-import com.github.woojiahao.utility.px
 import java.awt.Color
 
-open class Element(private val elementName: String, settings: Settings) {
+open class Element(private val elementName: String) {
 
-  enum class FontWeight {
-    NORMAL, BOLD, BOLDER, LIGHTER
-  }
+  enum class FontWeight { NORMAL, BOLD, BOLDER, LIGHTER }
 
   enum class TextDecoration {
     OVERLINE, LINE_THROUGH, UNDERLINE, NONE;
 
-    fun toCss() = this.name.replace("_", "-").toLowerCase()
+    fun toCss() = name.replace("_", "-").toLowerCase()
   }
 
-  open var fontSize by cssProperty(settings.fontSize, settings.theme)
-  open var fontFamily by cssProperty(settings.font, settings.theme)
-  open var textColor by cssProperty(c("212121"), settings.theme) {
-      darkTheme = c("EEEEEE")
-  }
-  open var backgroundColor by cssProperty<Color?>(null, settings.theme)
-  open var fontWeight by cssProperty<FontWeight?>(null, settings.theme)
-  open var textDecoration by cssProperty<TextDecoration?>(null, settings.theme)
-  open var border by cssProperty<BorderBox?>(null, settings.theme)
-  open var borderRadius by cssProperty<Box<Double>?>(null, settings.theme)
-  open var padding by cssProperty<Box<Double>?>(null, settings.theme)
-  open var margin by cssProperty<Box<Double>?>(null, settings.theme)
+  var fontSize by CssProperty(fallback = Settings.fontSize)
+  var fontFamily by CssProperty<FontFamily?>(fallback = Settings.font)
+  var textColor by CssProperty(c("21"), c("EE"))
+  var backgroundColor by CssProperty<Color?>()
+  var fontWeight by CssProperty<FontWeight?>()
+  var textDecoration by CssProperty<TextDecoration?>()
+  var border by CssProperty(fallback = BorderBox(Border()))
+  var borderRadius by CssProperty(fallback = Box(0.0.px))
+  var padding by CssProperty<Box<Measurement<Double>>?>()
+  var margin by CssProperty<Box<Measurement<Double>>?>()
 
-  val globalCss by lazy {
-    cssSelector(elementName) {
+  val globalCss
+    get() = cssSelector(elementName) {
       attributes {
-        "font-size" to fontSize.px
+        "font-size" to fontSize?.let { it }
         "font-family" to fontFamily
         "color" to textColor?.cssColor()
         "background-color" to backgroundColor?.cssColor()
         "font-weight" to fontWeight?.name?.toLowerCase()
         "text-decoration" to textDecoration?.toCss()
-        "border-radius" to borderRadius?.toCss { it.px }
-        "padding" to padding?.toCss { it.px }
-        "margin" to margin?.toCss { it.px }
+        "border-radius" to borderRadius?.toCss { it.toString() }
+        "padding" to padding?.toCss { it.toString() }
+        "margin" to margin?.toCss { it.toString() }
         "border-top" to border?.top
         "border-right" to border?.right
         "border-bottom" to border?.bottom
         "border-left" to border?.left
       }
     }
-  }
 
   protected val css = mutableListOf<CssSelector>()
 
   fun fontFamily(load: FontFamily.() -> Unit) {
-    fontFamily.emptyFontFamily()
-    fontFamily.load()
+    fontFamily?.clear()
+    fontFamily?.load()
   }
 
   fun border(load: BorderBox.() -> Unit) = border?.load()
