@@ -7,19 +7,19 @@ import kotlin.test.assertEquals
 
 class BoxTest {
   @Test
-  fun `Box with 4 inputs assigns to each direction`() {
+  fun `Constructor with 4 inputs distribute values in top-right-bottom-left order`() {
     val box = Box(5, 10, 15, 20)
     box.checkBoxDimensions(5, 10, 15, 20)
   }
 
   @Test
-  fun `Box with 2 inputs assigns 2 to horizontal and 2 to vertical`() {
+  fun `Constructor with 2 inputs distribute values in top-bottom then left-right order`() {
     val box = Box("foo", "bar")
     box.checkBoxDimensions("foo", "bar", "foo", "bar")
   }
 
   @Test
-  fun `Box with 1 input assigns the same to all directions`() {
+  fun `Constructor with 1 input distributes same value to all sides in top-right-bottom-left order`() {
     val box = Box(14.3)
     box.checkBoxDimensions(14.3, 14.3, 14.3, 14.3)
   }
