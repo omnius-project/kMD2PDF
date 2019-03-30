@@ -5,63 +5,50 @@ import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.c
 import org.junit.Test
 import java.awt.Color
-import kotlin.test.Ignore
 import kotlin.test.assertEquals
 
-// TODO: Fix these test cases to accommodate the new changes made to Border
-@Ignore
 class BorderTest {
   @Test
   fun `Default border is 0 width, black color, NONE and 0 radius`() {
-    with(Border()) {
-      checkBorderSettings(0.0.px, NONE, Color.BLACK)
-    }
+    Border().checkBorderSettings(0.0.px, NONE, Color.BLACK)
   }
 
   @Test
-  fun `DSL sets border style to respective value`() {
+  fun `Utility methods return respective border with specific configurations`() {
     Border
       .BorderStyle
       .values()
-      .forEach { it.testDSL() }
+      .forEach { it.testUtility() }
   }
 
   @Test
   fun `clearBorder resets border to default`() {
-    with(Border()) {
-      border {
-        4.1.px dashed c("EDE7F6")
-      }
+    with(4.1.px dashed c("EDE7F6")) {
+      checkBorderSettings(4.1.px, DASHED, c("EDE7F6"))
       clear()
       checkBorderSettings(0.0.px, NONE, Color.BLACK)
     }
   }
 
-  private fun Border.BorderStyle.testDSL() {
+  private fun Border.BorderStyle.testUtility() {
     val borderWidth = 2.0.px
     val borderColor = Color.RED
 
-    with(Border()) {
-      border {
-        when (this@testDSL) {
-          DOTTED -> borderWidth dotted borderColor
-          DASHED -> borderWidth dashed borderColor
-          SOLID -> borderWidth solid borderColor
-          DOUBLE -> borderWidth double borderColor
-          GROOVE -> borderWidth groove borderColor
-          RIDGE -> borderWidth ridge borderColor
-          INSET -> borderWidth inset borderColor
-          OUTSET -> borderWidth outset borderColor
-          NONE -> borderWidth none borderColor
-          HIDDEN -> borderWidth hidden borderColor
-        }
-      }
-
-      checkBorderSettings(borderWidth, this@testDSL, borderColor)
+    val border = when (this) {
+      DOTTED -> borderWidth dotted borderColor
+      DASHED -> borderWidth dashed borderColor
+      SOLID -> borderWidth solid borderColor
+      DOUBLE -> borderWidth double borderColor
+      GROOVE -> borderWidth groove borderColor
+      RIDGE -> borderWidth ridge borderColor
+      INSET -> borderWidth inset borderColor
+      OUTSET -> borderWidth outset borderColor
+      NONE -> borderWidth none borderColor
+      HIDDEN -> borderWidth hidden borderColor
     }
-  }
 
-  private fun Border.border(load: Border.() -> Unit) = apply { load() }
+    border.checkBorderSettings(borderWidth, this, borderColor)
+  }
 
   private fun Border.checkBorderSettings(
     borderWidth: Measurement<Double>,
