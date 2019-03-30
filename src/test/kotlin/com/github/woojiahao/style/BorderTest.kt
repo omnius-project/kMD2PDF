@@ -30,6 +30,13 @@ class BorderTest {
     }
   }
 
+  @Test
+  fun `toString returns CSS format for border style`() {
+    val border = 3.5.px double c("33")
+    val expectedCss = "3.5px double rgb(51, 51, 51)"
+    assertEquals(expectedCss, border.toString())
+  }
+
   private fun Border.BorderStyle.testUtility() {
     val borderWidth = 2.0.px
     val borderColor = Color.RED
