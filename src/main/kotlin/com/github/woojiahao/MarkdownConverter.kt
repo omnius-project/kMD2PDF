@@ -2,7 +2,6 @@ package com.github.woojiahao
 
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
-import com.github.woojiahao.properties.PageSize
 import com.github.woojiahao.renderers.ImageNodeRenderer
 import com.github.woojiahao.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
@@ -113,7 +112,7 @@ class MarkdownConverter private constructor(
               }
 
               // Fig caption configuration
-              with (documentProperties.figcaptionSettings) {
+              with(documentProperties.figcaptionSettings) {
                 val figcaptionNumberLabel = "figures"
 
                 if (isVisible) {
@@ -152,9 +151,11 @@ class MarkdownConverter private constructor(
               div("table-of-contents") {
                 h1 { +"Table of contents" }
                 unsafe {
-                  raw(generateTableOfContents(
-                    tableOfContentsVisitor.getTableOfContents(),
-                    this@with)
+                  raw(
+                    generateTableOfContents(
+                      tableOfContentsVisitor.getTableOfContents(),
+                      this@with
+                    )
                   )
                 }
               }
