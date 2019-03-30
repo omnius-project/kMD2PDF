@@ -70,9 +70,9 @@ class CssPropertyTest {
   }
 
   private fun test(test: () -> Unit) {
-    resetSettings()
+    Settings.reset()
     test()
-    resetSettings()
+    Settings.reset()
   }
 
   private fun <T> testDarkThemeValue(expected: T?, actual: T?) = testThemeValue(DARK, expected, actual)
@@ -82,16 +82,6 @@ class CssPropertyTest {
   private fun <T> testThemeValue(theme: Theme, expected: T?, actual: T?) {
     Settings.theme = theme
     assertEquals(expected, actual)
-    resetSettings()
-  }
-
-  // TODO: Configure Settings to include this method
-  private fun resetSettings() {
-    settings {
-      theme = LIGHT
-      fontSize = 16.0.px
-      font = FontFamily(SANS_SERIF)
-      monospaceFont = FontFamily(MONOSPACE)
-    }
+    Settings.reset()
   }
 }
