@@ -8,17 +8,17 @@ class CssSelector(private val selector: String, val attributes: CssAttributes = 
 
   fun nested(nested: MutableList<CssSelector>.() -> Unit) = nestedCssSelectors.nested()
 
-  fun toCss(): String {
-    val cssContents = mutableListOf(
-      "$selector {",
-      attributes.toCss()
-    )
-    if (nestedCssSelectors.isNotEmpty()) {
-      cssContents += nestedCssSelectors.joinToString("\n") { it.toCss() }
+  fun toCss(): String =
+    with(mutableListOf("$selector {")) {
+      if (attributes.attrs.isNotEmpty())
+        this += attributes.toCss()
+
+      if (nestedCssSelectors.isNotEmpty())
+        this += nestedCssSelectors.joinToString("\n") { it.toCss() }
+
+      this += "}"
+      joinToString("\n")
     }
-    cssContents += "}"
-    return cssContents.joinToString("\n")
-  }
 }
 
 inline fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) =
