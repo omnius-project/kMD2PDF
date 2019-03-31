@@ -1,6 +1,5 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
-import com.github.woojiahao.style.utility.FontFamily
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 import org.junit.Test
 import kotlin.test.assertEquals

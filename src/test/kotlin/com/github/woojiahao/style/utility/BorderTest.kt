@@ -1,6 +1,5 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
-import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.style.utility.Border.BorderStyle.*
 import com.github.woojiahao.utility.c
 import org.junit.Test
