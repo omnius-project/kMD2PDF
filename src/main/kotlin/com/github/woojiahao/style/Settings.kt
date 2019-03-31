@@ -24,4 +24,4 @@ object Settings {
   }
 }
 
-inline fun settings(configuration: Settings.() -> Unit) = Settings.apply { configuration() }
+inline fun settings(configuration: Settings.() -> Unit) = Settings.apply(configuration)

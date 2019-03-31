@@ -99,5 +99,5 @@ class CssAttributesTest {
   }
 
   private fun attributes(attributes: CssAttributes.() -> Unit) =
-    CssAttributes().apply { attributes() }
+    CssAttributes().apply(attributes)
 }

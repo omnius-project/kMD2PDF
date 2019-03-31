@@ -15,7 +15,7 @@ import com.github.woojiahao.style.elements.table.Table
 class Style {
 
   companion object {
-    inline fun createStyle(style: Style.() -> Unit) = Style().apply { style() }
+    inline fun createStyle(style: Style.() -> Unit) = Style().apply(style)
   }
 
   val h1 = HeadingOne()
@@ -121,7 +121,7 @@ class Style {
   inline fun footer(style: DocumentFooter.() -> Unit) = footer.style()
 
   inline fun selector(selector: String, style: CssAttributes.() -> Unit) {
-    customStyles += CssSelector(selector, CssAttributes().apply { style() })
+    customStyles += CssSelector(selector, CssAttributes().apply(style))
   }
 
   fun getStyles(): String {

@@ -22,4 +22,4 @@ class CssSelector(private val selector: String, val attributes: CssAttributes = 
 }
 
 inline fun cssSelector(selectorName: String, style: CssSelector.() -> Unit) =
-  CssSelector(selectorName).apply { style() }
+  CssSelector(selectorName).apply(style)

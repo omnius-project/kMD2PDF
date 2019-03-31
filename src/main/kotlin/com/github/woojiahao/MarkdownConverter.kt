@@ -188,7 +188,7 @@ class MarkdownConverter private constructor(
   private fun wrap(content: String) = "\n$content\n"
 
   private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
-    wrap(CssSelector(elementName).apply { cssSelector() }.toCss())
+    wrap(CssSelector(elementName).apply(cssSelector).toCss())
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
