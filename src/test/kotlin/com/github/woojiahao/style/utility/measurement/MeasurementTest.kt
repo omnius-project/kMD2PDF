@@ -1,16 +1,11 @@
-package com.github.woojiahao.style.utility
+package com.github.woojiahao.style.utility.measurement
 
+import com.github.woojiahao.style.utility.*
 import com.github.woojiahao.style.utility.Measurement.Type.*
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNotEquals
 
 class MeasurementTest {
-  private class Dummy(val name: String, val age: Int) {
-    override fun toString() = "$name is $age years old"
-  }
-
   private val potentialIntInputs = listOf(Int.MIN_VALUE, Int.MAX_VALUE, 0, 9999, -1234)
   private val potentialDoubleInputs = listOf(Double.MIN_VALUE, Double.MAX_VALUE, 0.0, 9999.99, -1234.56)
   private val potentialFloatInputs = listOf(Float.MIN_VALUE, Float.MAX_VALUE, 0.4f, 9999.99f, -1234.56f)
@@ -25,41 +20,6 @@ class MeasurementTest {
     potentialFloatInputs,
     potentialDoubleInputs
   )
-
-  @Test
-  fun `equals returns false if comparing object is not the same type`() {
-    val measurement = Measurement(10, PIXELS)
-    val comparingObject = Dummy("Tim", 20)
-    assertFalse(measurement.equals(comparingObject))
-  }
-
-  @Test
-  fun `equals returns false if comparing Measurement does not have the same value with the same data type`() {
-    val measurement = Measurement(10, PIXELS)
-    val newMeasurement = Measurement(20, PIXELS)
-    assertNotEquals(measurement, newMeasurement)
-  }
-
-  @Test
-  fun `equals returns false if comparing Measurement value does not have the same data type`() {
-    val measurement = Measurement(10.0, PIXELS)
-    val newMeasurement = Measurement(10, PIXELS)
-    assertFalse(measurement.equals(newMeasurement))
-  }
-
-  @Test
-  fun `equals returns false if comparing Measurement does not have the same measurement type`() {
-    val measurement = Measurement(20, PIXELS)
-    val newMeasurement = Measurement(20, INCHES)
-    assertNotEquals(measurement, newMeasurement)
-  }
-
-  @Test
-  fun `equals returns false if comparing Measurement does not match the original at all`() {
-    val measurement = Measurement(10, PIXELS)
-    val newMeasurement = Measurement(20, INCHES)
-    assertNotEquals(measurement, newMeasurement)
-  }
 
   @Test
   fun `px returns Measurement with given value and type of PIXELS`() {
@@ -130,6 +90,14 @@ class MeasurementTest {
     val final = first - second
     val expectedMeasurement = (57 - 12).px
     assertEquals(expectedMeasurement, final)
+  }
+
+  @Test
+  fun `convert 1 pixel to inch should return 1 over 96 inches`() {
+    val pixel = 1.0.px
+    val converted = pixel.convert(INCHES)
+    val expected = 1.0 / 96.0
+    assertEquals(expected, converted.value)
   }
 
   private fun testAllMeasurements(assert: (Measurement.Type, Number, Measurement<*>?) -> Unit) {
