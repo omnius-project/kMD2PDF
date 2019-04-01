@@ -2,10 +2,19 @@ package com.github.woojiahao.style.utility.measurement
 
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.Measurement.Type.*
+import com.github.woojiahao.style.utility.match
 import org.junit.Test
 import kotlin.test.assertEquals
 
 class InfixMeasurementTest {
+  @Test
+  fun `match pairs the value with measurement type and returns a Measurement`() {
+    assertAllMeasurements { type, number, measurement ->
+      val newMeasurement = number match type
+      assertEquals(measurement, newMeasurement)
+    }
+  }
+
   @Test
   fun `px returns Measurement with given value and type of PIXELS`() {
     assertMeasurement(PIXELS) { num, measurement ->
