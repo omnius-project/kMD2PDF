@@ -1,6 +1,5 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
-import com.github.woojiahao.style.utility.*
 import org.junit.Test
 import java.awt.Color
 import kotlin.test.assertEquals

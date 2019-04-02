@@ -28,13 +28,13 @@ inline fun MarkdownConverterBuilderDsl.style(style: Style.() -> Unit) {
 
 inline fun MarkdownConverterBuilderDsl.documentProperties(properties: DocumentPropertiesBuilderDsl.() -> Unit) =
   with(DocumentPropertiesBuilderDsl()) {
-    documentProperties(apply { properties() }.build())
+    documentProperties(apply(properties).build())
   }
 
 inline fun DocumentPropertiesBuilderDsl.tableOfContents(properties: TableOfContentsSettings.() -> Unit) {
-  tableOfContentsSettings(TableOfContentsSettings().apply { properties() })
+  tableOfContentsSettings(TableOfContentsSettings().apply(properties))
 }
 
 inline fun DocumentPropertiesBuilderDsl.figcaption(properties: FigcaptionSettings.() -> Unit) {
-  figcaptionSettings(FigcaptionSettings().apply { properties() })
+  figcaptionSettings(FigcaptionSettings().apply(properties))
 }
