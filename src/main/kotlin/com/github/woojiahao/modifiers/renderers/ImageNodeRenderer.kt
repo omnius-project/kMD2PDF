@@ -1,6 +1,6 @@
-package com.github.woojiahao.renderers
+package com.github.woojiahao.modifiers.renderers
 
-import com.github.woojiahao.renderers.ImageNodeRenderer.DestinationType.*
+import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer.DestinationType.*
 import org.commonmark.node.Image
 import org.commonmark.node.Node
 import org.commonmark.renderer.NodeRenderer
@@ -58,7 +58,7 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
     val localPath = document.parent.replace("\\", "/").split("/").toMutableList()
 
     localFilePath.split("/").forEach {
-      if (it == "..") localPath.removeAt(localPath.size - 1)
+      if (it == "src/main") localPath.removeAt(localPath.size - 1)
       else localPath += it
     }
 

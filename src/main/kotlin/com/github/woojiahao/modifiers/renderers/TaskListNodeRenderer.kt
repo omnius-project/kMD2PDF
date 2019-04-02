@@ -1,10 +1,7 @@
-package com.github.woojiahao.renderers
+package com.github.woojiahao.modifiers.renderers
 
-import kotlinx.html.classes
-import kotlinx.html.li
+import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import kotlinx.html.ul
-import kotlinx.html.unsafe
 import org.commonmark.node.BulletList
 import org.commonmark.node.Node
 import org.commonmark.node.Text
@@ -21,9 +18,9 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
   override fun getNodeTypes(): MutableSet<Class<BulletList>> = Collections.singleton(BulletList::class.java)
 
   override fun render(node: Node?) {
-    val bulletList = node as BulletList
+    node as BulletList
 
-    val bulletListContent = bulletList.getListItemText()
+    val bulletListContent = node.getListItemText()
 
     val list = createList(bulletListContent)
 
@@ -31,19 +28,23 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
     html.line()
   }
 
-  private fun createList(listItemContents: List<String>): String {
+  private fun createList(listItemContents: List<ListItemContent>): String {
     val list = StringBuilder().appendHTML().ul {
       for (listItemContent in listItemContents) {
-        val isTaskItem = listItemContent.isTaskListItem()
+        val isTaskItem = listItemContent.isTaskListItem
 
         if (!isTaskItem) {
-          li { +listItemContent }
+          li {
+            listItemContent.contents.forEach { paragraph ->
+              p { +paragraph }
+            }
+          }
           continue
         }
 
         classes = setOf("task-list")
 
-        val match = taskItemRegex.matchEntire(listItemContent)
+        val match = taskItemRegex.matchEntire(listItemContent.contents[0])
         match ?: continue
 
         val taskCompletionStatus = match.groups[1]?.value ?: continue
@@ -51,13 +52,20 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
 
         val isTaskCompleted = taskCompletionStatus.toLowerCase() == "x"
 
-        li("task-list-item") {
-          unsafe {
-            val checkboxAttributes = loadCheckboxAttributes(isTaskCompleted)
-            raw(createCheckboxString(checkboxAttributes))
+        listItemContent.contents.forEachIndexed { index, paragraph ->
+          li("task-list-item") {
+            p {
+              if (index == 0) {
+                unsafe {
+                  val checkboxAttributes = loadCheckboxAttributes(isTaskCompleted)
+                  raw(createCheckboxString(checkboxAttributes))
+                }
+                +taskDescription
+              } else {
+                +paragraph
+              }
+            }
           }
-
-          +taskDescription
         }
       }
     }
@@ -78,15 +86,21 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
     return checkboxAttributes.toMap()
   }
 
-  private fun String.isTaskListItem() = taskItemRegex.containsMatchIn(this)
-
-  private fun BulletList.getListItemText(): List<String> {
-    val listItemText = mutableListOf<String>()
+  private fun BulletList.getListItemText(): List<ListItemContent> {
+    val contents = mutableListOf<ListItemContent>()
     iterateNodeChildren {
-      val listItemContent = (it.firstChild.firstChild as Text).literal.trim()
-      listItemText += listItemContent
+      val listItemContent = ListItemContent()
+      it.iterateNodeChildren { paragraph ->
+        val paragraphContent = mutableListOf<String>()
+        paragraph.iterateNodeChildren { text ->
+          if (text is Text)
+            paragraphContent += text.literal
+        }
+        listItemContent.addParagraph(paragraphContent.joinToString(""))
+      }
+      contents += listItemContent
     }
-    return listItemText.toList()
+    return contents.toList()
   }
 
   private fun Node.iterateNodeChildren(operation: (Node) -> Unit) {
@@ -96,5 +110,23 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
       operation(listItem)
       listItem = next
     }
+  }
+
+  private class ListItemContent {
+    private val taskItemRegex = Regex("^\\[(| |X|x)?\\] (.*)\$")
+
+    private val paragraphs = mutableListOf<String>()
+
+    val contents
+      get() = paragraphs.toList()
+
+    fun addParagraph(paragraph: String) {
+      paragraphs += paragraph
+    }
+
+    val isTaskListItem
+      get() =
+        if (contents.isEmpty()) false
+        else taskItemRegex.matches(contents[0])
   }
 }

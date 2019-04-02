@@ -1,4 +1,4 @@
-package com.github.woojiahao
+package com.github.woojiahao.modifiers
 
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.utility.Box
