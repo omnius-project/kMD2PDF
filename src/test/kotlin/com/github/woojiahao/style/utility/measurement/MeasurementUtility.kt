@@ -2,7 +2,6 @@ package com.github.woojiahao.style.utility.measurement
 
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.match
-import kotlin.test.assert
 
 private val potentialIntInputs = listOf(Int.MIN_VALUE, Int.MAX_VALUE, 0, 123456, -123456)
 private val potentialDoubleInputs = listOf(Double.MIN_VALUE, Double.MAX_VALUE, 0.0, 1234.56, -1234.56)
