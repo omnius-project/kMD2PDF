@@ -15,13 +15,15 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
 
   private enum class DestinationType { WEB, RELATIVE_LOCAL, ABSOLUTE_LOCAL }
 
+  private val urlSeparator = "/"
+
   private val html = context.writer
 
   private val String?.isLocalFile: DestinationType
     get() {
       this ?: return WEB
 
-      with(URI(replace("\\", "/"))) {
+      with(URI(replace("\\", urlSeparator))) {
         return try {
           toURL()
           WEB
@@ -55,14 +57,18 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
   }
 
   private fun processLocalFileLocation(localFilePath: String): String {
-    val localPath = document.parent.replace("\\", "/").split("/").toMutableList()
+    val localPath = document
+      .parent
+      .replace("\\", urlSeparator)
+      .split(urlSeparator)
+      .toMutableList()
 
-    localFilePath.split("/").forEach {
-      if (it == "src/main") localPath.removeAt(localPath.size - 1)
+    localFilePath.split(urlSeparator).forEach {
+      if (it == "..") localPath.removeAt(localPath.size - 1)
       else localPath += it
     }
 
-    return localPath.joinToString("/")
+    return localPath.joinToString(urlSeparator)
   }
 
   private fun loadImageAttributes(
