@@ -52,8 +52,9 @@ class TaskListNodeRenderer(context: HtmlNodeRendererContext) : NodeRenderer {
 
         val isTaskCompleted = taskCompletionStatus.toLowerCase() == "x"
 
-        listItemContent.contents.forEachIndexed { index, paragraph ->
-          li("task-list-item") {
+        val checked = if (isTaskCompleted) "checked" else "unchecked"
+        li("task-list-item $checked") {
+          listItemContent.contents.forEachIndexed { index, paragraph ->
             p {
               if (index == 0) {
                 unsafe {

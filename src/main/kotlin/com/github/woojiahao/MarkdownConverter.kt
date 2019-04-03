@@ -44,7 +44,6 @@ class MarkdownConverter private constructor(
     .builder()
     .extensions(extensions)
     .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
-    .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
   private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
@@ -86,12 +85,6 @@ class MarkdownConverter private constructor(
             unsafe {
               +wrap(documentStyle.getStyles())
               +wrap(pagePropertiesManager.toCss())
-              +wrap(".task-list") {
-                attributes {
-                  "list-style-type" to "none"
-                  "list-style-position" to "inside"
-                }
-              }
               +wrap(".table-of-contents") {
                 attributes {
                   "page-break-after" to "always"
