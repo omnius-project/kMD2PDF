@@ -1,11 +1,8 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.FontFamily
+class Image : Element("img") {
 
-/**
- * <img> element.
- */
-class Image(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element("img", fontSize, fontFamily)
+  val figcaption = FigCaption()
+
+  fun figcaption(style: FigCaption.() -> Unit) = figcaption.style()
+}

@@ -1,20 +1,24 @@
 package com.github.woojiahao.style.elements.table
 
-import com.github.woojiahao.style.Border
-import com.github.woojiahao.style.BorderBox
-import com.github.woojiahao.style.Box
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.elements.Element
+import com.github.woojiahao.style.utility.Border
+import com.github.woojiahao.style.utility.Border.BorderStyle.SOLID
+import com.github.woojiahao.style.utility.BorderBox
+import com.github.woojiahao.style.utility.Box
+import com.github.woojiahao.style.utility.px
+import com.github.woojiahao.utility.c
 import java.awt.Color
 
-/**
- * <th></th> element.
- */
-class TableHeader(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element("th", fontSize, fontFamily) {
-  override var border = BorderBox(Border(1.0, Border.BorderStyle.SOLID, Color.BLACK))
-  override var fontWeight = FontWeight.BOLD
-  override var padding: Box<Double>? = Box(5.0)
+class TableHeader : Element("th") {
+  init {
+    val border by CssProperty<BorderBox?>(
+      BorderBox(Border(1.0.px, SOLID, Color.BLACK)),
+      BorderBox(Border(1.0.px, SOLID, c("EE")))
+    )
+    this.border = border
+
+    fontWeight = FontWeight.BOLD
+    padding = Box(5.0.px)
+  }
 }

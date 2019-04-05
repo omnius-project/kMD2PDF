@@ -1,8 +1,27 @@
 package com.github.woojiahao.style.elements.code
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.css.cssSelector
+import com.github.woojiahao.style.utility.Box
+import com.github.woojiahao.style.utility.px
 
-class CodeBlock(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.MONOSPACE)
-) : Code("pre", fontSize, fontFamily)
+class CodeBlock : Code("pre") {
+  init {
+    padding = Box(10.0.px)
+  }
+
+  override fun toCss(): String {
+    css += cssSelector("pre > code") {
+      attributes {
+        "font-family" to fontFamily
+      }
+    }
+
+    css += cssSelector("pre") {
+      attributes {
+        "white-space" to "pre-wrap"
+      }
+    }
+
+    return super.toCss()
+  }
+}

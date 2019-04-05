@@ -1,13 +1,9 @@
 package com.github.woojiahao.style.elements.lists
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 
-open class List(
-  elementName: String,
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element(elementName, fontSize, fontFamily) {
+open class List(private val elementName: String) : Element(elementName) {
 
   enum class ListStylePosition {
     INSIDE, OUTSIDE
@@ -40,13 +36,20 @@ open class List(
     fun toCss() = name.toLowerCase().replace("_", "-")
   }
 
-  open var listStyleType = ListStyleType.CIRCLE
+  var listStyleType = ListStyleType.CIRCLE
 
-  open var listStylePosition = ListStylePosition.OUTSIDE
+  var listStylePosition = ListStylePosition.OUTSIDE
+
+  var listStyleImage: String? = null
 
   override fun toCss(): String {
-    attributes.attribute("list-style-type", listStyleType.toCss())
-    attributes.attribute("list-style-position", listStylePosition.name.toLowerCase())
+    css.add(cssSelector(elementName) {
+      attributes {
+        "list-style-type" to listStyleType.toCss()
+        "list-style-image" to listStyleImage?.let { "url($it)" }
+        "list-style-position" to listStylePosition.name.toLowerCase()
+      }
+    })
     return super.toCss()
   }
 }

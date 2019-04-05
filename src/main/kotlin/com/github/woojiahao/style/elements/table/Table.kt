@@ -1,25 +1,19 @@
 package com.github.woojiahao.style.elements.table
 
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 
-/**
- * <table></table> element
- */
-class Table(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element("table", fontSize, fontFamily) {
+class Table : Element("table") {
 
   enum class BorderCollapse {
     SEPARATE, COLLAPSE
   }
 
-  val th = TableHeader(fontSize, fontFamily.clone())
-  val thead = TableHead(fontSize, fontFamily.clone())
-  val tbody = TableBody(fontSize, fontFamily.clone())
-  val td = TableData(fontSize, fontFamily.clone())
-  val tr = TableRow(fontSize, fontFamily.clone())
+  val th = TableHeader()
+  val thead = TableHead()
+  val tbody = TableBody()
+  val td = TableData()
+  val tr = TableRow()
 
   var borderCollapse = BorderCollapse.COLLAPSE
 
@@ -34,7 +28,7 @@ class Table(
   fun td(style: TableData.() -> Unit) = td.style()
 
   override fun toCss(): String {
-    attributes.attribute("border-collapse", borderCollapse.name.toLowerCase())
+    css.add(cssSelector("table") { attributes { "border-collapse" to borderCollapse.name.toLowerCase() } })
     return super.toCss()
   }
 }

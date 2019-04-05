@@ -1,22 +1,31 @@
 package com.github.woojiahao.style.elements
 
-import com.github.woojiahao.style.Border
-import com.github.woojiahao.style.BorderBox
-import com.github.woojiahao.style.Box
-import com.github.woojiahao.style.FontFamily
+import com.github.woojiahao.style.css.CssProperty
+import com.github.woojiahao.style.css.cssSelector
+import com.github.woojiahao.style.utility.*
+import com.github.woojiahao.style.utility.Border.BorderStyle.SOLID
 import com.github.woojiahao.utility.c
+import com.github.woojiahao.utility.cssColor
+import java.awt.Color
 
-class BlockQuote(
-  fontSize: Double = 16.0,
-  fontFamily: FontFamily = FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)
-) : Element("blockquote", fontSize, fontFamily) {
-  override var backgroundColor = c("BBDEFB")
-  override var padding: Box<Double>? = Box(10.0, 20.0)
-  override var margin: Box<Double>? = Box(0.0)
-  override var border = BorderBox(
-    Border(),
-    Border(),
-    Border(),
-    Border(5.0, Border.BorderStyle.SOLID, c("1565C0"))
-  )
+class BlockQuote : Element("blockquote") {
+  init {
+    backgroundColor = c("EEEEEE")
+    textColor = Color.BLACK
+    padding = Box(10.0.px, 20.0.px)
+    val border by CssProperty<BorderBox?>(
+      BorderBox(
+        Border(),
+        Border(),
+        Border(),
+        Border(5.0.px, SOLID, c("E0E0E0"))
+      )
+    )
+    this.border = border
+  }
+  
+  override fun toCss(): String {
+    css += cssSelector("blockquote > p") { attributes { "color" to textColor?.cssColor() } }
+    return super.toCss()
+  }
 }
