@@ -8,7 +8,7 @@
 
 **Note:** Version 0.2.0 has been released! Check out the [changelog](Changelog.md) to see what's new!
 
-![](images/preview.png)
+![](images/dark-theme-preview.png)
 View more previews [here](Previews.md)
 
 ## About
