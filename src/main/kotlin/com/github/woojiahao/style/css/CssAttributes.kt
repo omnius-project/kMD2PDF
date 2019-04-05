@@ -3,6 +3,9 @@ package com.github.woojiahao.style.css
 class CssAttributes {
   private val attributes = mutableMapOf<String, String?>()
 
+  val attrs
+    get() = attributes.toMap()
+
   fun append(attributes: CssAttributes) = this.attributes.putAll(attributes.attributes)
 
   fun <T> add(name: String, value: T?): CssAttributes {

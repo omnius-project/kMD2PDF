@@ -1,10 +1,10 @@
 package com.github.woojiahao
 
+import com.github.woojiahao.modifiers.MediaReplacedElementFactory
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
-import com.github.woojiahao.properties.PageSize
-import com.github.woojiahao.renderers.ImageNodeRenderer
-import com.github.woojiahao.renderers.TaskListNodeRenderer
+import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer
+import com.github.woojiahao.modifiers.renderers.TaskListNodeRenderer
 import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssSelector
@@ -18,6 +18,8 @@ import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
 import org.commonmark.ext.gfm.tables.TablesExtension
+import org.commonmark.node.BulletList
+import org.commonmark.node.Node
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 import org.xhtmlrenderer.pdf.ITextRenderer
@@ -42,7 +44,6 @@ class MarkdownConverter private constructor(
     .builder()
     .extensions(extensions)
     .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
-    .nodeRendererFactory { TaskListNodeRenderer(it) }
     .build()
 
   private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
@@ -84,28 +85,6 @@ class MarkdownConverter private constructor(
             unsafe {
               +wrap(documentStyle.getStyles())
               +wrap(pagePropertiesManager.toCss())
-              +wrap(".task-list") {
-                attributes {
-                  "list-style-type" to "none"
-                  "margin-left" to 0.px
-                  "padding-left" to 0.px
-                }
-              }
-              +wrap(".task-list-item") {
-                attributes {
-                  "list-style-type" to "none"
-                  "margin" to 0.px
-                  "padding" to 0.px
-                }
-              }
-              +wrap(".task-list-item > input[type='checkbox']") {
-                attributes {
-                  "margin-right" to 10.px
-                  if (Settings.theme == Settings.Theme.DARK) {
-                    "background-color" to Color.WHITE.cssColor()
-                  }
-                }
-              }
               +wrap(".table-of-contents") {
                 attributes {
                   "page-break-after" to "always"
@@ -113,7 +92,7 @@ class MarkdownConverter private constructor(
               }
 
               // Fig caption configuration
-              with (documentProperties.figcaptionSettings) {
+              with(documentProperties.figcaptionSettings) {
                 val figcaptionNumberLabel = "figures"
 
                 if (isVisible) {
@@ -152,9 +131,11 @@ class MarkdownConverter private constructor(
               div("table-of-contents") {
                 h1 { +"Table of contents" }
                 unsafe {
-                  raw(generateTableOfContents(
-                    tableOfContentsVisitor.getTableOfContents(),
-                    this@with)
+                  raw(
+                    generateTableOfContents(
+                      tableOfContentsVisitor.getTableOfContents(),
+                      this@with
+                    )
                   )
                 }
               }
@@ -187,7 +168,7 @@ class MarkdownConverter private constructor(
   private fun wrap(content: String) = "\n$content\n"
 
   private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
-    wrap(CssSelector(elementName).apply { cssSelector() }.toCss())
+    wrap(CssSelector(elementName).apply(cssSelector).toCss())
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()

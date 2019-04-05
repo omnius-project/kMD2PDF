@@ -1,6 +1,6 @@
-package com.github.woojiahao.style
+package com.github.woojiahao.style.utility
 
-import com.github.woojiahao.style.utility.FontFamily
+import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -19,18 +19,13 @@ class FontFamilyTest {
 
   @Test
   fun `FontFamily adds fallback font to the end of the font list`() {
-    val fontFamily = FontFamily(
-      FontFamily.BaseFontFamily.SANS_SERIF,
-      "Roboto",
-      "Lato"
-    )
+    val fontFamily = FontFamily(SANS_SERIF, "Roboto", "Lato")
     fontFamily.checkFontList("Roboto", "Lato", "sans-serif")
   }
 
   @Test
   fun `Emptying FontFamily will clear any fonts loaded`() {
-    val fontFamily =
-      FontFamily("Fira Code", "Monaco", "Droid Sans Mono", "DejaVu Sans Mono")
+    val fontFamily = FontFamily("Fira Code", "Monaco", "Droid Sans Mono", "DejaVu Sans Mono")
     fontFamily.checkFontFamilySize(4)
     fontFamily.clear()
     fontFamily.checkFontFamilySize(0)
