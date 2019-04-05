@@ -38,6 +38,11 @@ If you encounter errors with loading the library, visit the troubleshooting guid
 ## Quick Start Guide
 All examples are taken from the [examples repository.](https://github.com/omnius-project/kMD2PDF-examples)
 
+```kotlin
+val document 
+  get() = MarkdownDocument("resources/markdown-all-in-one.md")
+```
+
 ### Default styling
 Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/DefaultStyling.kt)
 ```kotlin
