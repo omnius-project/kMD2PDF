@@ -9,13 +9,13 @@ add it to your project using the following code based on your build tool:
 <dependency>
   <groupId>com.github.woojiahao</groupId>
   <artifactId>kMD2PDF</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
 ## Gradle
 ```groovy
-implementation 'com.github.woojiahao:kMD2PDF:0.1.1'
+implementation 'com.github.woojiahao:kMD2PDF:0.2.0'
 ```
 
 ## Troubleshooting
@@ -35,7 +35,7 @@ the following fix:
     <dependency>
       <groupId>com.github.woojiahao</groupId>
       <artifactId>kMD2PDF</artifactId>
-      <version>0.1.2</version>
+      <version>0.2.0</version>
       <classifier>jar-with-dependencies</classifier>
     </dependency>
     ```
