@@ -7,39 +7,64 @@ The DSL aims to be as close to CSS as possible so that it is intuitive.
 If there isn't a specific configuration available for your customization needs, you can use a 
 [custom selector.](StyleDSL.md?id=custom-selectors)
 
-## Getting Started
-The DSL returns a customised version of `Style` with the styles you configure.
-
-First invoke the `Style#createStyle` static method and use the DSL.
+## Getting started
+Styles are configured within the `markdownConverter` block using the `style` block.
 
 ```kotlin
-val customisedStyle = Style.createStyle {
-  // Style configuration goes here
+val converter = markdownConverter {
+  style { }
 }
 ```
 
-**Note:** For the remainder of the guide, it'll be assumed that `createStyle` has been statically imported.
+## Global settings 
+Global settings are configured using the `settings` block in the `markdownConverter` block.
 
-## Global Settings
-These settings are will be applied to all elements unless otherwise specified.
+```kotlin
+markdownConverter {
+  settings { }
+}
+```
 
-### Font Size
+**Note:** The `settings` block must come before the `style` block, otherwise, the global settings will not apply.
+
+The following settings are available for configuration.
+
+### Font size
 Headers are scaled in relation to the global font size, following [these](https://www.w3schools.com/tags/tag_hn.asp) 
 constants.
 
-**Default:** 16.0
+**Default:** `16.0.px`
 ```kotlin
-createStyle(18.0) { }
+settings {
+  fontSize = 16.0.px
+}
 ```
 
-### Font Family
-`InlineCode` and `CodeBlock` do not inherit this global setting, instead, they default to use 
-`FontFamily(FontFamily.BaseFontFamily.MONOSPACE)`.
-
+### Font family
 **Default:** `FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)`
 
 ```kotlin
-createStyle(baseFontFamily = FontFamily("Roboto", "Lato")) { }
+settings {
+  font = FontFamily("Roboto", "Lato")
+}
+```
+
+### Monospace font
+**Default:** `FontFamily(FontFamily.BaseFontFamily.MONOSPACE)`
+
+```kotlin
+settings {
+  monospaceFont = FontFamily("Fira Code")
+}
+```
+
+### Theme
+**Default:** `Settings.Theme.LIGHT`
+
+```kotlin
+settings {
+  theme = Settings.Theme.DARK
+}
 ```
 
 ## Elements
@@ -52,7 +77,7 @@ All the elements available to be customised can be found
 For instance, to configure the `Paragraph` element, invoke the `Style#p` method within the DSL.
 
 ```kotlin
-createStyle {
+style {
   p {
     // Configuration for Paragraph goes here
   }
@@ -68,29 +93,43 @@ table {
 }
 ```
 
+## Themes
+0.2.0 introduced [theming](Changelog.md?id=Themes) and with that, a new set of classes `CssProperty` has been created
+as delegated properties to manage the configuration of settings depending on the theme of the document.
+
+```kotlin
+val textColor by CssProperty(c("21"), c("EE"))
+```
+
+In this instance, if the theme is `DARK`, the text color used will be `#EEEEEE` and if the theme is `LIGHT`, the text
+color used will be `#212121`.
+
+Some elements will have specified different colors to use depending on theme such as tables, code blocks and text 
+colors.
+
 ## Common Configurations
 This section covers the shared configuration settings available to all element types. The examples will be using 
 applying the styles to the `Paragraph` element, but these configurations can be applied to any other element.
 
 The table summarizes all the common configurations available:
 
-|Configuration|Data Type|Default Value|
-|---|---|---|
-|fontSize|Double|16.0|
-|fontFamily|FontFamily|`FontFamily(FontFamily.BaseFontFamily.SANS_SERIF)`|
-|textColor|Color?|`Color.BLACK`|
-|backgroundColor|Color?|`null`|
-|fontWeight|Element.FontWeight|`Element.FontWeight.NORMAL`|
-|textDecoration|Element.TextDecoration|`Element.TextDecoration.NONE`|
-|border|BorderBox|`BorderBox(Border())`|
-|borderRadius|Box<Double>|`Box(0.0)`|
-|padding|Box<Double>?|`null`|
-|margin|Box<Double>?|`null`|
+| Configuration   | Data Type              | Light                    | Dark      |
+| --------------- | ---------------------- | ------------------------ | --------- |
+| fontSize        | Double                 | `16.0.px`                | Same      |
+| fontFamily      | FontFamily             | `FontFamily(SANS_SERIF)` | Same      |
+| textColor       | Color?                 | `#212121`                | `#EEEEEE` |
+| backgroundColor | Color?                 | `null`                   | Same      |
+| fontWeight      | Element.FontWeight     | `null`                   | Same      |
+| textDecoration  | Element.TextDecoration | `null`                   | Same      |
+| border          | BorderBox              | `BorderBox(Border())`    | Same      |
+| borderRadius    | Box<Double>            | `Box(0.0.px)`            | Same      |
+| padding         | Box<Double>?           | `null`                   | Same      |
+| margin          | Box<Double>?           | `null`                   | Same      |
 
 ### Font Size
 ```kotlin
 p {
-  fontSize = 12.0
+  fontSize = 12.0.px
 }
 ```
 
@@ -149,13 +188,9 @@ the left border to be `4.0px dotted rgb(255, 0, 0)`.
 ```kotlin
 p {
   border {
-    all {
-      2.0 dashed Color.GREEN
-    }
+    all(2.0.px dashed Color.GREEN)
     
-    left {
-      4.0 dotted Color.RED
-    }
+    left(4.0.px dotted Color.RED)
   }
 }
 ```
@@ -167,7 +202,7 @@ The CSS equivalent of the example below is: `border-radius: 4.0px 3.0px 10.0px 2
 
 ```kotlin
 p {
-  borderRadius = Box(4.0, 3.0, 10.0, 2.0)
+  borderRadius = Box(4.0.px, 3.0.px, 10.0.px, 2.0.px)
 }
 ```
 
@@ -177,7 +212,7 @@ found [here.](AboutBox.md)
 
 ```kotlin
 p {
-  padding = Box(10.0)
+  padding = Box(10.0.px)
 }
 ```
 
@@ -188,17 +223,17 @@ found [here.](AboutBox.md)
 
 ```kotlin
 p {
-  margin = Box(10.0)
+  margin = Box(10.0.px)
 }
 ```
 
 ## Unordered And Ordered List Configurations
 These are configurations only accessible when customizing `UnorderedList` and `OrderedList`.
 
-|Configuration|Data Type|Default Value|
-|---|---|---|
-|listStyleType|List.ListStyleType|`List.ListStyleType.CIRCLE`|
-|listStylePosition|List.ListStylePosition|`List.ListStylePosition.OUTSIDE`|
+| Configuration     | Data Type              | Default Value                    |
+| ----------------- | ---------------------- | -------------------------------- |
+| listStyleType     | List.ListStyleType     | `List.ListStyleType.CIRCLE`      |
+| listStylePosition | List.ListStylePosition | `List.ListStylePosition.OUTSIDE` |
 
 ### List Style Type
 ```kotlin
@@ -218,6 +253,13 @@ ul {
 }
 ```
 
+### List Style Images
+```koltin
+ul {
+  listStyleImage = "https://via.placeholder.com/150"
+}
+```
+
 ## Table Configurations
 These are configurations only accessible when customizing `Table`. As specified above, to access and customize 
 table-specific elements, they have to be done within a `table` method call:
@@ -234,9 +276,9 @@ table {
 
 `Table` also introduces a new configuration setting:
 
-|Configuration|Data Type|Default Value|
-|---|---|---|
-|borderCollpase|Table.BorderCollapse|`Table.BorderCollapse.COLLAPSE`|
+| Configuration  | Data Type            | Default Value                   |
+| -------------- | -------------------- | ------------------------------- |
+| borderCollpase | Table.BorderCollapse | `Table.BorderCollapse.COLLAPSE` |
 
 ### Border Collapse
 **Note:** The typo is based on an actual typo in the codebase, this will be fixed in the next mini release.
