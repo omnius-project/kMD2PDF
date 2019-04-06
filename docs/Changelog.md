@@ -6,23 +6,13 @@ changes that have been applied to the library.
 The example repository for kMD2PDF will cover examples of the new features, they can be found 
 [here.](https://github.com/omnius-project/kMD2PDF-examples)
 
-## PDF document configuration system overhaul
-0.1.2 adopted a rather confusing approach to customizing the PDF that was exported by the library. This is due to the 
-lack of decoupling between classes and having the `MarkdownDocument` class perform more than 1 duty. It did not make
-sense to give a `MarkdownDocument` a style.
+## Markdown converter system overhaul
+0.2.0 introduces a new markdown converter system that relies on a DSL to handle the creation of a `MarkdownConverter` 
+and with that more customisation is enabled.
 
-Hence, in 0.2.0, the configuration system has been streamlined, to allow for a whole slew of customizations to be 
-presented that would otherwise be incredible confusing to implement.
-
-Sticking to the principle that a class should perform a single duty, the `MarkdownDocument` class has been relieved of
-its unwanted job of handling the parsing and conversion of the markdown document. Instead, its presence is simply to 
-perform the essential validation for the input files to ensure that it is a valid markdown file on the user's machine.
+This means that the `MarkdownDocument` is no longer housing the methods to convert the document.
 
 ### markdownConverter block
-The `MarkdownConverter` has picked up where `MarkdownDocument` left off and implemented a builder pattern to house the
-various configurations that the converted PDF document will have. Kotlin allows for a neater approach to the builder
-pattern, through the use of a DSL, and that's exactly what kMD2PDF adopted.
-
 Now, if you wish to set up any configurations for the PDF document that's to be exported, use the `markdownConverter`
 block, which will return a `MarkdownConverter` that is able to export the intended `MarkdownDocument`. 
 
@@ -61,7 +51,7 @@ markdownConverter {
   style {
     p {
       fontFamily {
-        +"Fira Code" // You sick heathen
+        +"Fira Code" 
       }
     }
   }
@@ -69,22 +59,24 @@ markdownConverter {
 ```
 
 ### Settings system overhaul
-In 0.1.2, configuring global settings is a tedious process that isn't too Kotlin-like as you will have to specify
-each configuration as a separate argument into the `createStyle` method which can make for an unpleasant experience if
-you want to configure the settings that are not in the original order. As such, it has been re-worked in 0.2.0 to have
-all settings to be configured by a `settings` block (which creates a `Settings` object) and now you have finer control
-over each global setting.
+The global setting system has been re-worked in 0.2.0 so that all settings are configured through the `settings` block,
+improving the overall experience.
 
-Pass the created `Settings` object as a parameter to a new `Style` object or to the `style` method.
+**Note:** The `Settings` object is a singleton, so if you wish to add settings configurations and add custom styling, 
+also place the `settings` block before the `style` block
 
 ```kotlin
 markdownConverter {
-  val settings = settings {
+  settings {
     monospaceFont = FontFamily("Source Code Pro")
     font = FontFamily("Lato")
   }
   
-  style(settings) { }
+  style {
+    p {
+      textColor = c("FF")
+    }
+  }
 }
 ```
 
@@ -92,7 +84,7 @@ markdownConverter {
 Alongside the changes made to the settings system, you can now specify a global monospace font that will be used by 
 both inline code and code blocks. This is set using the `monospaceFont` property within the `settings` block.
 
-### onComplete/onError changes
+### Conversion success/failures
 Instead of forcing the user to handle the success/failure conversion once, they are now able to handle it as many times
 as they wish using `success` and `failure`, brought about through the use of `Result` which the `convert` method returns
 from the `MarkdownConverter`.
@@ -161,12 +153,12 @@ This customization includes some key components that are configurable using
 The document size can be configured using one of three constructors belonging to the `DocumentSize` class. This is 
 inline with the available options for the `size` property in [CSS.](https://www.w3.org/TR/css-page-3/#page-size-prop)
 
-All measurements are done in inches.
+The default document size is `A3`.
 
 ```kotlin
 documentProperties {
   // Specifying width by height
-  size(DocumentSize(11, 13))
+  size(DocumentSize(11.`in`, 13.`in`))
   
   // Specifying preset document size (with optional orientation)
   size(DocumentSize(PageSize.A3, DocumentOrientation.HORIZONTAL))
@@ -181,12 +173,14 @@ The CSS specification for `@page` also allows developers to decide how much marg
 variations to this - first, the margins of every single page and second, the margins of pages that show up on the left
 side or right side.
 
+The default page margins are `0.4in` on all sides.
+
 #### All page margins
 The margins of all pages can be configured using the `margins` method.
 
 ```kotlin
 documentProperties {
-  margins(Box(1.1, 2.0))
+  margins(Box(1.1.`in`, 2.0.`in`))
 }
 ```
 
@@ -199,8 +193,8 @@ More information for how these influence the document can be found
 
 ```kotlin
 documentProperties {
-  leftPageMargins(Box(1.0, 2.1))
-  rightPageMargins(Box(0.2, 1.1))
+  leftPageMargins(Box(1.0.`in`, 2.1.`in`))
+  rightPageMargins(Box(0.2.`in`, 1.1.`in`))
 }
 ```
 
@@ -228,6 +222,33 @@ tableOfContents {
 }
 ```
 
+## Auto-generated figure captions
+Figure captions are generated from markdown images using the following markdown syntax:
+
+```md
+![](<image_url> "<figure_caption>")
+```
+
+If you wish to configure the components of the figure caption, do so using the `figurecaption` block in the 
+`documentProperties` block:
+
+```kotlin
+val converter = markdownConverter {
+  document(document)
+
+  documentProperties {
+    figcaption {
+      isVisible = true
+      divider = "::"
+      prepend = "Fig"
+      append = ":)"
+    }
+  }
+}
+```
+
+This creates the figure caption of `Fig 1 :: <figure_caption> :)`.
+
 ## Supporting list-style-image
 0.2.0 supports the `list-style-image` attribute from CSS, so now you can use images for the list items. This is done
 by using the `listStyleImage` attribute within either the `ul` or `ol` block.
@@ -240,18 +261,26 @@ style {
 }
 ```
 
-## Supporting task list items
-0.2.0 also introduces support for task list items, a concept that GitHub adopted for their own 
-[flavour of markdown](https://help.github.com/en/articles/basic-writing-and-formatting-syntax#task-lists). This 
-feature was not available to the commonmark-java library (the parsing library kMD2PDF uses). In order to provide 
-support for rendering task list items, a custom list item renderer had to be added to process these types of list items.
+## Measurements
+Instead of being restricted to the unit of measurement in the library, the `Measurement<T>` class has been created to
+allow you to specify the unit of measurement appropriate and the generate CSS will follow the given unit of measurement.
 
-Now, all you need to do to render task lists are to simply use the following markdown syntax:
-
-```markdown
-* [ ] Uncompleted task
-* [X] Completed task
+```kotlin
+markdownConverter {
+  settings {
+    fontSize = 16.0.px
+  }
+}
 ```
+
+Available units of measurement include:
+
+|Unit       |Extension|
+|-----------|---------|
+|Inches     |\`in\`   |
+|Pixels     |px       |
+|Centimeters|cm       |
+|Millimeters|mm       |
 
 ## Themes
 Ever wanted dark theme PDFs? Even if your answer was no, it's here! You can now export your documents in either light
