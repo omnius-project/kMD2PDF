@@ -1,4 +1,4 @@
-# Contributing
+# Contributing Guide
 ## Questions
 Any questions regarding the library should be posted on the issue tracker with the title as `[Question] <question>`.
 

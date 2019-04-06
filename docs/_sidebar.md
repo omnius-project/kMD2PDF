@@ -3,4 +3,6 @@
 * [Quick Start Guide](QuickStartGuide.md)
 * [Style DSL](StyleDSL.md)
 * [About Box](AboutBox.md)
+* [Previews](Previews.md)
+* [Changelog](Changelog.md)
 * [Contributing](Contributing.md)

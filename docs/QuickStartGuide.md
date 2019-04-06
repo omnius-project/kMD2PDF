@@ -1,90 +1,91 @@
 # Quick Start Guide
-All examples are taken from the [examples repository.](https://github.com/woojiahao/kMD2PDF-examples)
+All examples are taken from the [examples repository.](https://github.com/omnius-project/kMD2PDF-examples)
 
-### Default styling
-Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/DefaultStyling.kt)
 ```kotlin
-fun main() {
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
-  markdownDocument.toPDF()
-}
+val document 
+  get() = MarkdownDocument("resources/markdown-all-in-one.md")
 ```
 
-### Specifying PDF location
-Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SpecifyingPDFLocation.kt)
+## Default styling
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/DefaultStyling.kt)
 ```kotlin
 fun main() {
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
-  markdownDocument.toPDF("${System.getProperty("user.home")}/Desktop/exported.pdf")
-}
-```
-
-### onComplete
-Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/OnCompleteAction.kt)
-```kotlin
-fun main() {
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
-  markdownDocument.onComplete {
-    println("Conversion success - opening document")
-
-    if (Desktop.isDesktopSupported()) {
-      Desktop.getDesktop().open(it)
-    } else {
-      System.out.println("Awt Desktop is not supported!")
-    }
+  val converter = markdownConverter {
+    document(document)
   }
-  markdownDocument.toPDF()
+  converter.convert()
 }
 ```
 
-### onError
-Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/OnErrorAction.kt)
+## Specifying PDF location
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/SpecifyingPDFLocation.kt)
 ```kotlin
 fun main() {
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md")
-  markdownDocument.onError {
-    println("An error occurred")
-
-    if (it is FileNotFoundException) {
-      println("File is currently already open")
-    }
+  val converter = markdownConverter {
+    document(document)
+    targetLocation("${System.getProperty("user.home")}/Desktop/exported.pdf")
   }
-  markdownDocument.toPDF()
+  converter.convert()
 }
 ```
 
-### Custom styling using style DSL
-Example [here.](https://github.com/woojiahao/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/basic/SimpleStyling.kt)
-
-More on this subject can be found on the documentation site [here.](StyleDSL.md)
+## Conversion success
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/OnCompleteAction.kt)
 ```kotlin
 fun main() {
-  val customStyle = createDSLStyle()
-  val markdownDocument = MarkdownDocument("resources/markdown-all-in-one.md", customStyle)
-  markdownDocument.toPDF()
+  val converter = markdownConverter {
+    document(document)
+  }
+  val conversionResult = converter.convert()
+  conversionResult.success {
+    if (Desktop.isDesktopSupported()) Desktop.getDesktop().open(it)
+  }
 }
+```
 
-fun createDSLStyle() = Style
-    .createStyle(
-        16.0,
-        FontFamily("Roboto", "Lato")
-    ) {
+## Conversion failure
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/OnErrorAction.kt)
+```kotlin
+fun main() {
+  val converter = markdownConverter {
+    document(document)
+  }
+  val conversionStatus = converter.convert()
+  conversionStatus.failure {
+    if (it is FileNotFoundException) println("File is currently already open")
+  }
+}
+```
+
+## Custom styling using style DSL
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/SimpleStyling.kt)
+
+More on this subject can be found on the documentation site [here.](https://omnius-project.github.io/kMD2PDF/#/StyleDSL)
+```kotlin
+fun main() {
+  val converter = markdownConverter {
+    document(document)
+
+    settings {
+      fontSize = 16.0.px
+      font = FontFamily("Roboto", "Lato")
+      monospaceFont = FontFamily("Fira Code")
+    }
+
+    style {
       p {
         textColor = c("455A64")
       }
 
-      inlineCode {
-        fontFamily {
-          +"Fira Code"
-        }
-      }
-
       ul {
-        listStyleType = List.ListStyleType.SQUARE
+        listStyleType = SQUARE
       }
 
       selector("tr:nth-child(even)") {
         "background-color" to "#f2f2f2"
       }
     }
+  }
+  converter.convert()
+}
 ```
