@@ -26,11 +26,13 @@ is someone else doing this issue, you could request for a collaboration or pick 
 If you are a beginner, pick the issues with the label `good-first-issue` and try to solve it, you can always request 
 for assistance if you encounter any roadblocks along the way.
 
-## Making a pull request
+## Pull requests
 If you wish to make a PR, fork the repository, create a remote branch that the PR is meant to address, and make a PR
 to the `development` branch on the main repository.
 
 If your PR is meant to fix an issue, please reference the issue in the title of the remote branch like `issue-51-fix`.
+
+There are several PR templates that are loaded for this repository, find the one that fits your requirements and use it.
 
 ## Making a good issue
 There is no strict format for making issues, however, the following points are parts to include when making an issue.
