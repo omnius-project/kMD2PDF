@@ -34,13 +34,24 @@ If your PR is meant to fix an issue, please reference the issue in the title of 
 
 ## Making a good issue
 There is no strict format for making issues, however, the following points are parts to include when making an issue.
+
 ### Reporting a bug
+The issue template for bug reporting can be found 
+[here.](https://github.com/omnius-project/kMD2PDF/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+
 1. Description of the problem
 2. Steps to replicate the problem (if possible)
 3. Show any error messages in the console that appeared due to the problem
 4. Include any sample markdown documents that causes the problem (if possible)
 
 ### Feature request
+The issue template for feature requests can be found
+[here.](https://github.com/omnius-project/kMD2PDF/blob/master/.github/ISSUE_TEMPLATE/feature_request.md)
+
 1. Description of the feature
 2. Sample code of what it could look like (if possible)
 3. Open a PR for the implementation (if possible)
+
+## Code of conduct
+The code of conduct can be found 
+[here.](https://github.com/omnius-project/kMD2PDF/blob/master/.github/CODE_OF_CONDUCT.md)
