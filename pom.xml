@@ -293,7 +293,7 @@
     <kotlin.html.version>0.6.12</kotlin.html.version>
     <result.version>2.1.0</result.version>
     <flexmark.version>0.40.34</flexmark.version>
-    <openhtmltopdf.version>0.0.1-RC19</openhtmltopdf.version>
+    <openhtmltopdf.version>0.0.1-RC18</openhtmltopdf.version>
 
     <plugin.compiler.version>3.5.1</plugin.compiler.version>
     <plugin.jar.version>2.6</plugin.jar.version>
