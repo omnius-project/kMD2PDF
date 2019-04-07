@@ -223,36 +223,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.xhtmlrenderer</groupId>
-      <artifactId>flying-saucer-core</artifactId>
-      <version>${flying.saucer.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.xhtmlrenderer</groupId>
-      <artifactId>flying-saucer-pdf</artifactId>
-      <version>${flying.saucer.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcpkix-jdk14</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcmail-jdk14</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bctsp-jdk14</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.bouncycastle</groupId>
-          <artifactId>bcprov-jdk14</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${apache.commons.version}</version>
@@ -262,24 +232,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>2.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark</artifactId>
-      <version>${commonmark.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark-ext-gfm-tables</artifactId>
-      <version>${commonmark.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark-ext-gfm-strikethrough</artifactId>
-      <version>${commonmark.version}</version>
     </dependency>
 
     <dependency>
@@ -337,9 +289,6 @@
     <kotlin.code.style>official</kotlin.code.style>
 
     <junit.version>4.12</junit.version>
-    <commonmark.version>0.12.1</commonmark.version>
-    <itextpdf.version>5.5.10</itextpdf.version>
-    <flying.saucer.version>9.1.16</flying.saucer.version>
     <apache.commons.version>3.8.1</apache.commons.version>
     <kotlin.html.version>0.6.12</kotlin.html.version>
     <result.version>2.1.0</result.version>
