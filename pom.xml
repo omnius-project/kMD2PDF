@@ -283,6 +283,12 @@
     </dependency>
 
     <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-all</artifactId>
+      <version>${flexmark.version}</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.github.kittinunf.result</groupId>
       <artifactId>result</artifactId>
       <version>${result.version}</version>
@@ -301,6 +307,7 @@
     <apache.commons.version>3.8.1</apache.commons.version>
     <kotlin.html.version>0.6.12</kotlin.html.version>
     <result.version>2.1.0</result.version>
+    <flexmark.version>0.40.34</flexmark.version>
 
     <plugin.compiler.version>3.5.1</plugin.compiler.version>
     <plugin.jar.version>2.6</plugin.jar.version>
