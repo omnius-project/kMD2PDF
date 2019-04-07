@@ -4,21 +4,15 @@ import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.Measurement.Type.PIXELS
-import com.lowagie.text.Image
-import org.apache.commons.io.IOUtils
+import com.openhtmltopdf.extend.FSImage
+import com.openhtmltopdf.extend.ReplacedElement
+import com.openhtmltopdf.extend.ReplacedElementFactory
+import com.openhtmltopdf.extend.UserAgentCallback
+import com.openhtmltopdf.layout.LayoutContext
+import com.openhtmltopdf.render.BlockBox
+import com.openhtmltopdf.simple.extend.FormSubmissionListener
 import org.w3c.dom.Element
-import org.xhtmlrenderer.extend.FSImage
-import org.xhtmlrenderer.extend.ReplacedElement
-import org.xhtmlrenderer.extend.ReplacedElementFactory
-import org.xhtmlrenderer.extend.UserAgentCallback
-import org.xhtmlrenderer.layout.LayoutContext
-import org.xhtmlrenderer.pdf.ITextFSImage
-import org.xhtmlrenderer.pdf.ITextImageElement
-import org.xhtmlrenderer.pdf.ITextUserAgent
-import org.xhtmlrenderer.render.BlockBox
-import org.xhtmlrenderer.simple.extend.FormSubmissionListener
 import java.io.FileInputStream
-import kotlin.math.min
 
 class MediaReplacedElementFactory(
   private val documentProperties: DocumentProperties,

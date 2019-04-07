@@ -1,5 +1,7 @@
 package com.github.woojiahao
 
+import com.github.kittinunf.result.failure
+import com.github.woojiahao.modifiers.MediaReplacedElementFactory
 import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
@@ -8,6 +10,8 @@ import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.extensions.isFileType
+import com.openhtmltopdf.DOMBuilder
+import com.openhtmltopdf.pdfboxout.PdfRendererBuilder
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
@@ -17,7 +21,9 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
+import org.jsoup.Jsoup
 import java.io.File
+import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
@@ -52,22 +58,55 @@ class MarkdownConverter private constructor(
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   fun convert(): KResult<File, Exception> {
-    with(ITextRenderer()) {
+    val pdfRendererResult = buildPdfRenderer()
+
+    val exception = pdfRendererResult.exception()
+    exception?.let { return KResult.error(it) }
+
+    val pdfRenderer = pdfRendererResult.get()
+
+    val pdfBoxRenderer = pdfRenderer.buildPdfRenderer()
+    with(pdfBoxRenderer) {
       sharedContext.replacedElementFactory = MediaReplacedElementFactory(
         documentProperties,
         sharedContext.replacedElementFactory
       )
-      val content = generateHtml()
-      setDocumentFromString(content)
-      loadFontDirectories()
       layout()
       return try {
-        createPDF(FileOutputStream(targetLocation))
+        createPDF()
         KResult.success(targetLocation)
       } catch (e: Exception) {
         KResult.error(e)
       }
     }
+  }
+
+  private fun PdfRendererBuilder.parseW3cDocument(html: String) {
+    val doc = Jsoup.parse(html)
+    val dom = DOMBuilder.jsoup2DOM(doc)
+    withW3cDocument(dom, null)
+  }
+
+  private fun buildPdfRenderer(): KResult<PdfRendererBuilder, Exception> {
+    with(PdfRendererBuilder()) {
+      val content = generateHtml()
+      toStream(FileOutputStream(targetLocation))
+      parseW3cDocument(content)
+
+      return try {
+        KResult.success(this)
+      } catch (e: Exception) {
+        KResult.error(e)
+      }
+    }
+  }
+
+  private fun <T : Any, E : Exception> KResult<T, E>.exception(): E? {
+    var exception: E? = null
+
+    failure { exception = it }
+
+    return exception
   }
 
   private fun generateHtml() =
