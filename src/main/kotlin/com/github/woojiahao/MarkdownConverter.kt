@@ -1,31 +1,23 @@
 package com.github.woojiahao
 
-import com.github.woojiahao.modifiers.MediaReplacedElementFactory
+import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
-import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer
-import com.github.woojiahao.modifiers.renderers.TaskListNodeRenderer
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssSelector
-import com.github.woojiahao.style.utility.px
 import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.toc.generateTableOfContents
-import com.github.woojiahao.utility.cssColor
 import com.github.woojiahao.utility.extensions.isFileType
-import com.github.woojiahao.utility.getFontDirectories
+import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
+import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
+import com.vladsch.flexmark.ext.tables.TablesExtension
+import com.vladsch.flexmark.ext.toc.TocExtension
+import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.options.MutableDataSet
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension
-import org.commonmark.ext.gfm.tables.TablesExtension
-import org.commonmark.node.BulletList
-import org.commonmark.node.Node
-import org.commonmark.parser.Parser
-import org.commonmark.renderer.html.HtmlRenderer
-import org.xhtmlrenderer.pdf.ITextRenderer
-import java.awt.Color
 import java.io.File
-import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
@@ -36,22 +28,24 @@ class MarkdownConverter private constructor(
 ) {
 
   private val extensions = listOf(
+    TaskListExtension.create(),
     TablesExtension.create(),
-    StrikethroughExtension.create()
+    StrikethroughExtension.create(),
+    TocExtension.create()
   )
 
+  private val options = MutableDataSet().apply { set(Parser.EXTENSIONS, extensions) }
+
+  private val parser = Parser.builder(options).build()
+
   private val htmlRenderer = HtmlRenderer
-    .builder()
-    .extensions(extensions)
+    .builder(options)
     .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
     .build()
 
   private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
 
-  private val parsedDocument = Parser
-    .builder()
-    .extensions(extensions)
-    .build()
+  private val parsedDocument = parser
     .parse(markdownDocument.file.readText())
     .apply { accept(tableOfContentsVisitor) }
 
