@@ -1,23 +1,24 @@
 package com.github.woojiahao.modifiers.renderers
 
 import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer.DestinationType.*
-import org.commonmark.node.Image
-import org.commonmark.node.Node
-import org.commonmark.renderer.NodeRenderer
-import org.commonmark.renderer.html.HtmlNodeRendererContext
-import org.commonmark.renderer.html.HtmlWriter
+import com.vladsch.flexmark.ast.HtmlBlock
+import com.vladsch.flexmark.ast.Image
+import com.vladsch.flexmark.html.CustomNodeRenderer
+import com.vladsch.flexmark.html.HtmlWriter
+import com.vladsch.flexmark.html.renderer.NodeRenderer
+import com.vladsch.flexmark.html.renderer.NodeRendererContext
+import com.vladsch.flexmark.html.renderer.NodeRenderingHandler
+import com.vladsch.flexmark.util.ast.Node
+import com.vladsch.flexmark.util.html.Attributes
 import java.io.File
 import java.net.MalformedURLException
 import java.net.URI
 import java.util.*
 
-class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererContext) : NodeRenderer {
-
+class ImageNodeRenderer(private val document: File, private val html: HtmlWriter, node: Image) {
   private enum class DestinationType { WEB, RELATIVE_LOCAL, ABSOLUTE_LOCAL }
 
   private val urlSeparator = "/"
-
-  private val html = context.writer
 
   private val String?.isLocalFile: DestinationType
     get() {
@@ -37,12 +38,10 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
       }
     }
 
-  override fun getNodeTypes(): MutableSet<Class<Image>> = Collections.singleton(Image::class.java)
-
-  override fun render(node: Node?) {
-    node as Image
-    val destination = node.destination
-    val title = node.title
+  // TODO: Test to make sure this is invoked every time an image is found
+  init {
+    val destination = node.url.unescape()
+    val title = node.title.unescape()
 
     val isDestinationLocalFile = destination.isLocalFile
 
@@ -55,6 +54,7 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
 
     title?.let { loadImageWithCaption(imageAttributes) } ?: loadImage(imageAttributes)
   }
+
 
   private fun processLocalFileLocation(localFilePath: String): String {
     val localPath = document
@@ -119,7 +119,10 @@ class ImageNodeRenderer(private val document: File, context: HtmlNodeRendererCon
     content: HtmlWriter.() -> Unit = { }
   ) {
     with(html) {
-      tag(name, attributes)
+      val attrs = Attributes().apply {
+        attributes.forEach { key, value -> addValue(key, value) }
+      }
+      tag(name).apply { this.attributes = attrs }
       content()
       tag("/$name")
     }

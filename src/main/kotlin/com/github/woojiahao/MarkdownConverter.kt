@@ -11,12 +11,17 @@ import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
 import com.vladsch.flexmark.ast.Heading
+import com.vladsch.flexmark.ast.Image
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
+import com.vladsch.flexmark.html.CustomNodeRenderer
 import com.vladsch.flexmark.html.HtmlRenderer
+import com.vladsch.flexmark.html.renderer.NodeRenderer
+import com.vladsch.flexmark.html.renderer.NodeRenderingHandler
 import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.ast.Node
 import com.vladsch.flexmark.util.ast.NodeVisitor
 import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.options.MutableDataSet
@@ -49,7 +54,18 @@ class MarkdownConverter private constructor(
 
   private val htmlRenderer = HtmlRenderer
     .builder(options)
-    .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
+    .nodeRendererFactory {
+      NodeRenderer {
+        hashSetOf<NodeRenderingHandler<out Node>>(
+          object : NodeRenderingHandler<Image>(
+            Image::class.java,
+            CustomNodeRenderer<Image> { image, _, writer ->
+              ImageNodeRenderer(markdownDocument.file, writer, image)
+            }
+          ) {}
+        )
+      }
+    }
     .build()
 
   private val tocVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
