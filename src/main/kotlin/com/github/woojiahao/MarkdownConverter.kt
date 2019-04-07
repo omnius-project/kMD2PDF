@@ -10,12 +10,15 @@ import com.github.woojiahao.toc.TableOfContentsVisitor
 import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
+import com.vladsch.flexmark.ast.Heading
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
+import com.vladsch.flexmark.util.ast.NodeVisitor
+import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.options.MutableDataSet
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -49,16 +52,25 @@ class MarkdownConverter private constructor(
     .nodeRendererFactory { ImageNodeRenderer(markdownDocument.file, it) }
     .build()
 
-  private val tableOfContentsVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+  private val tocVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
 
-  private val parsedDocument = parser
-    .parse(markdownDocument.file.readText())
-    .apply { accept(tableOfContentsVisitor) }
+  private val tableOfContentsVisitor = object : NodeVisitor(
+    VisitHandler<Heading>(
+      Heading::class.java,
+      tocVisitor
+    )
+  ) {}
+
+  private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
   private val parsedDocumentBody
     get() = htmlRenderer.render(parsedDocument)
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
+
+  init {
+    tableOfContentsVisitor.visit(parsedDocument)
+  }
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
@@ -147,7 +159,7 @@ class MarkdownConverter private constructor(
                 unsafe {
                   raw(
                     generateTableOfContents(
-                      tableOfContentsVisitor.getTableOfContents(),
+                      tocVisitor.getTableOfContents(),
                       this@with
                     )
                   )

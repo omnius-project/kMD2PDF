@@ -1,12 +1,12 @@
 package com.github.woojiahao.toc
 
-import org.commonmark.node.AbstractVisitor
-import org.commonmark.node.Heading
-import org.commonmark.node.Node
-import org.commonmark.node.Text
+import com.vladsch.flexmark.ast.Heading
+import com.vladsch.flexmark.ast.Text
+import com.vladsch.flexmark.util.ast.Node
+import com.vladsch.flexmark.util.ast.Visitor
 
-class TableOfContentsVisitor(private val settings: TableOfContentsSettings) : AbstractVisitor() {
 
+class TableOfContentsVisitor(private val settings: TableOfContentsSettings) : Visitor<Heading> {
   private val headers = mutableListOf<TableOfContentsElement>()
 
   fun getTableOfContents(): List<TableOfContentsElement> {
@@ -26,7 +26,7 @@ class TableOfContentsVisitor(private val settings: TableOfContentsSettings) : Ab
     heading ?: return
 
     heading.iterateNodeChildren {
-      val content = (it as Text).literal
+      val content = (it as Text).chars.unescape()
       val level = heading.level
 
       with(headers) {
