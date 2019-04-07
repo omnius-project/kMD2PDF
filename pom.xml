@@ -238,42 +238,36 @@
       <groupId>com.vladsch.flexmark</groupId>
       <artifactId>flexmark-all</artifactId>
       <version>${flexmark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-core</artifactId>
+      <version>${flying.saucer.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-pdf</artifactId>
+      <version>${flying.saucer.version}</version>
       <exclusions>
         <exclusion>
-          <groupId>com.openhtmltopdf</groupId>
-          <artifactId>openhtmltopdf-core</artifactId>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcpkix-jdk14</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>com.openhtmltopdf</groupId>
-          <artifactId>openhtmltopdf-pdfbox</artifactId>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcmail-jdk14</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>com.openhtmltopdf</groupId>
-          <artifactId>openhtmltopdf-rtl-support</artifactId>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bctsp-jdk14</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>com.openhtmltopdf</groupId>
-          <artifactId>openhtmltopdf-jsoup-dom-converter</artifactId>
+          <groupId>org.bouncycastle</groupId>
+          <artifactId>bcprov-jdk14</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
-
-    <dependency>
-      <groupId>com.openhtmltopdf</groupId>
-      <artifactId>openhtmltopdf-core</artifactId>
-      <version>${openhtmltopdf.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.openhtmltopdf</groupId>
-      <artifactId>openhtmltopdf-pdfbox</artifactId>
-      <version>${openhtmltopdf.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.openhtmltopdf</groupId>
-      <artifactId>openhtmltopdf-jsoup-dom-converter</artifactId>
-      <version>${openhtmltopdf.version}</version>
     </dependency>
 
     <dependency>
@@ -294,6 +288,7 @@
     <result.version>2.1.0</result.version>
     <flexmark.version>0.40.34</flexmark.version>
     <openhtmltopdf.version>0.0.1-RC8</openhtmltopdf.version>
+    <flying.saucer.version>9.1.16</flying.saucer.version>
 
     <plugin.compiler.version>3.5.1</plugin.compiler.version>
     <plugin.jar.version>2.6</plugin.jar.version>
