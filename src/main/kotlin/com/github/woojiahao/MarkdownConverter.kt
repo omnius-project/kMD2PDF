@@ -1,7 +1,7 @@
 package com.github.woojiahao
 
 import com.github.woojiahao.modifiers.MediaReplacedElementFactory
-import com.github.woojiahao.modifiers.renderers.ImageNodeRenderer
+import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
@@ -45,28 +45,15 @@ class MarkdownConverter private constructor(
     TaskListExtension.create(),
     TablesExtension.create(),
     StrikethroughExtension.create(),
-    TocExtension.create()
+    TocExtension.create(),
+    FigureExtension(markdownDocument.file)
   )
 
   private val options = MutableDataSet().apply { set(Parser.EXTENSIONS, extensions) }
 
   private val parser = Parser.builder(options).build()
 
-  private val htmlRenderer = HtmlRenderer
-    .builder(options)
-    .nodeRendererFactory {
-      NodeRenderer {
-        hashSetOf<NodeRenderingHandler<out Node>>(
-          object : NodeRenderingHandler<Image>(
-            Image::class.java,
-            CustomNodeRenderer<Image> { image, _, writer ->
-              ImageNodeRenderer(markdownDocument.file, writer, image)
-            }
-          ) {}
-        )
-      }
-    }
-    .build()
+  private val htmlRenderer = HtmlRenderer.builder(options).build()
 
   private val tocVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
 
