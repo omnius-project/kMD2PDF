@@ -2,7 +2,6 @@ package com.github.woojiahao
 
 import com.github.woojiahao.utility.extensions.isFileType
 import java.io.File
-import org.commonmark.node.Document as CommonMarkDocument
 
 class MarkdownDocument(val file: File) {
 
