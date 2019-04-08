@@ -78,7 +78,6 @@ class MarkdownConverter private constructor(
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
       val content = htmlToXML(generateHtml())
-      val outputLocation = FileOutputStream(targetLocation)
 
       println(content)
 
@@ -90,6 +89,7 @@ class MarkdownConverter private constructor(
       loadFontDirectories()
       layout()
       return try {
+        val outputLocation = FileOutputStream(targetLocation)
         createPDF(outputLocation)
         KResult.success(targetLocation)
       } catch (e: Exception) {

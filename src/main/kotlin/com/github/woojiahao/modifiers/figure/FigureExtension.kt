@@ -9,6 +9,9 @@ class FigureExtension(private val markdownFile: File) : HtmlRenderer.HtmlRendere
   override fun rendererOptions(options: MutableDataHolder?) {}
 
   override fun extend(rendererBuilder: HtmlRenderer.Builder?, rendererType: String?) {
-    rendererBuilder?.nodeRendererFactory(FigureFactory(markdownFile))
+    with (rendererBuilder) {
+      this ?: return
+      nodeRendererFactory(FigureRendererFactory(markdownFile))
+    }
   }
 }
