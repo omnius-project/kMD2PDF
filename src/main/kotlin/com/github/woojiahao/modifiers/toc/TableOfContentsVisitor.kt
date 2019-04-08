@@ -1,4 +1,4 @@
-package com.github.woojiahao.toc
+package com.github.woojiahao.modifiers.toc
 
 import com.vladsch.flexmark.ast.Heading
 import com.vladsch.flexmark.ast.Text

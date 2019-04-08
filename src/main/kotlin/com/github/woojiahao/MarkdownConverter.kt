@@ -2,28 +2,21 @@ package com.github.woojiahao
 
 import com.github.woojiahao.modifiers.MediaReplacedElementFactory
 import com.github.woojiahao.modifiers.figure.FigureExtension
+import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
+import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
+import com.github.woojiahao.modifiers.toc.generateTableOfContents
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssSelector
-import com.github.woojiahao.toc.TableOfContentsVisitor
-import com.github.woojiahao.toc.generateTableOfContents
 import com.github.woojiahao.utility.extensions.isFileType
 import com.github.woojiahao.utility.getFontDirectories
-import com.vladsch.flexmark.ast.Heading
-import com.vladsch.flexmark.ast.Image
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
-import com.vladsch.flexmark.html.CustomNodeRenderer
 import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.html.renderer.NodeRenderer
-import com.vladsch.flexmark.html.renderer.NodeRenderingHandler
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.ast.Node
-import com.vladsch.flexmark.util.ast.NodeVisitor
-import com.vladsch.flexmark.util.ast.VisitHandler
 import com.vladsch.flexmark.util.options.MutableDataSet
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
@@ -55,14 +48,9 @@ class MarkdownConverter private constructor(
 
   private val htmlRenderer = HtmlRenderer.builder(options).build()
 
-  private val tocVisitor = TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
-
-  private val tableOfContentsVisitor = object : NodeVisitor(
-    VisitHandler<Heading>(
-      Heading::class.java,
-      tocVisitor
-    )
-  ) {}
+  private val tableOfContentsNodeVisitor = TableOfContentsNodeVisitor(
+    TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+  )
 
   private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
@@ -72,14 +60,13 @@ class MarkdownConverter private constructor(
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
   init {
-    tableOfContentsVisitor.visit(parsedDocument)
+    tableOfContentsNodeVisitor.visit(parsedDocument)
   }
 
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
       val content = htmlToXML(generateHtml())
-
-      println(content)
+      val outputLocation by lazy { FileOutputStream(targetLocation)}
 
       sharedContext.replacedElementFactory = MediaReplacedElementFactory(
         documentProperties,
@@ -89,7 +76,6 @@ class MarkdownConverter private constructor(
       loadFontDirectories()
       layout()
       return try {
-        val outputLocation = FileOutputStream(targetLocation)
         createPDF(outputLocation)
         KResult.success(targetLocation)
       } catch (e: Exception) {
@@ -162,7 +148,7 @@ class MarkdownConverter private constructor(
                 unsafe {
                   raw(
                     generateTableOfContents(
-                      tocVisitor.getTableOfContents(),
+                      tableOfContentsNodeVisitor.visitor.getTableOfContents(),
                       this@with
                     )
                   )

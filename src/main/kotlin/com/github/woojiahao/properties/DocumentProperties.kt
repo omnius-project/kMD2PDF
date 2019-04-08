@@ -4,7 +4,7 @@ import com.github.woojiahao.FigcaptionSettings
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.`in`
-import com.github.woojiahao.toc.TableOfContentsSettings
+import com.github.woojiahao.modifiers.toc.TableOfContentsSettings
 
 class DocumentProperties private constructor(
   val size: DocumentSize,

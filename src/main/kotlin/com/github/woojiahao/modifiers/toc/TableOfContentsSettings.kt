@@ -1,4 +1,4 @@
-package com.github.woojiahao.toc
+package com.github.woojiahao.modifiers.toc
 
 data class TableOfContentsSettings(
   var nestedLevel: Int = 3,
