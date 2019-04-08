@@ -68,6 +68,8 @@ class MarkdownConverter private constructor(
       val content = htmlToXML(generateHtml())
       val outputLocation by lazy { FileOutputStream(targetLocation) }
 
+      println(content)
+
       sharedContext.replacedElementFactory = MediaReplacedElementFactory(
         documentProperties,
         sharedContext.replacedElementFactory
@@ -149,7 +151,7 @@ class MarkdownConverter private constructor(
     return css.toString()
   }
 
-  private fun generateBody(): String {
+  fun generateBody(): String {
     with(StringBuilder().appendHTML()) {
       val tocSettings = documentProperties.tableOfContentsSettings
       if (tocSettings.isVisible) {
