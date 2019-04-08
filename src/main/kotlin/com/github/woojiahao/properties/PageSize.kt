@@ -1,7 +1,7 @@
 package com.github.woojiahao.properties
 
 import com.github.woojiahao.style.utility.Measurement
-import com.github.woojiahao.style.utility.Measurement.Type.*
+import com.github.woojiahao.style.utility.Measurement.Type.INCHES
 import com.github.woojiahao.style.utility.`in`
 import com.github.woojiahao.style.utility.mm
 

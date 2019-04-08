@@ -1,4 +1,4 @@
-package com.github.woojiahao.toc
+package com.github.woojiahao.modifiers.toc
 
 private val invertedHeaderOrder = mapOf(
   1 to 6,

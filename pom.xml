@@ -6,7 +6,7 @@
 
   <groupId>com.github.woojiahao</groupId>
   <artifactId>kMD2PDF</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
   <packaging>jar</packaging>
 
   <name>kMD2PDF</name>
@@ -223,6 +223,46 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${apache.commons.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.vladsch.flexmark</groupId>
+      <artifactId>flexmark-all</artifactId>
+      <version>${flexmark.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.openhtmltopdf</groupId>
+          <artifactId>openhtmltopdf-jsoup-dom-converter</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.openhtmltopdf</groupId>
+          <artifactId>openhtmltopdf-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.openhtmltopdf</groupId>
+          <artifactId>openhtmltopdf-pdfbox</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.openhtmltopdf</groupId>
+          <artifactId>openhtmltopdf-log4j</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.openhtmltopdf</groupId>
+          <artifactId>openhtmltopdf-slf4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
       <groupId>org.xhtmlrenderer</groupId>
       <artifactId>flying-saucer-core</artifactId>
       <version>${flying.saucer.version}</version>
@@ -253,36 +293,6 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${apache.commons.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark</artifactId>
-      <version>${commonmark.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark-ext-gfm-tables</artifactId>
-      <version>${commonmark.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.atlassian.commonmark</groupId>
-      <artifactId>commonmark-ext-gfm-strikethrough</artifactId>
-      <version>${commonmark.version}</version>
-    </dependency>
-
-    <dependency>
       <groupId>com.github.kittinunf.result</groupId>
       <artifactId>result</artifactId>
       <version>${result.version}</version>
@@ -295,12 +305,11 @@
     <kotlin.code.style>official</kotlin.code.style>
 
     <junit.version>4.12</junit.version>
-    <commonmark.version>0.12.1</commonmark.version>
-    <itextpdf.version>5.5.10</itextpdf.version>
-    <flying.saucer.version>9.1.16</flying.saucer.version>
     <apache.commons.version>3.8.1</apache.commons.version>
     <kotlin.html.version>0.6.12</kotlin.html.version>
     <result.version>2.1.0</result.version>
+    <flexmark.version>0.40.34</flexmark.version>
+    <flying.saucer.version>9.1.16</flying.saucer.version>
 
     <plugin.compiler.version>3.5.1</plugin.compiler.version>
     <plugin.jar.version>2.6</plugin.jar.version>
