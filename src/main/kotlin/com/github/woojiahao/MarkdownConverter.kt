@@ -66,7 +66,7 @@ class MarkdownConverter private constructor(
   fun convert(): KResult<File, Exception> {
     with(ITextRenderer()) {
       val content = htmlToXML(generateHtml())
-      val outputLocation by lazy { FileOutputStream(targetLocation)}
+      val outputLocation by lazy { FileOutputStream(targetLocation) }
 
       sharedContext.replacedElementFactory = MediaReplacedElementFactory(
         documentProperties,
@@ -85,11 +85,10 @@ class MarkdownConverter private constructor(
   }
 
   private fun htmlToXML(html: String) =
-    Jsoup.parse(html).apply {
-      outputSettings().syntax(Document.OutputSettings.Syntax.xml)
-    }.let {
-      it.html().replace("&nbsp;", " ")
-    }
+    Jsoup
+      .parse(html)
+      .apply { outputSettings().syntax(Document.OutputSettings.Syntax.xml) }
+      .let { it.html().replace("&nbsp;", " ") }
 
   private fun generateHtml() =
     StringBuilder()
@@ -97,93 +96,108 @@ class MarkdownConverter private constructor(
       .html {
         head {
           style {
-            unsafe {
-              +wrap(documentStyle.getStyles())
-              +wrap(pagePropertiesManager.toCss())
-              +wrap(".table-of-contents") {
-                attributes {
-                  "page-break-after" to "always"
-                }
-              }
-
-              // Fig caption configuration
-              with(documentProperties.figcaptionSettings) {
-                val figcaptionNumberLabel = "figures"
-
-                if (isVisible) {
-                  +wrap("body") {
-                    attributes {
-                      "counter-reset" to figcaptionNumberLabel
-                    }
-                  }
-
-                  +wrap("figure") {
-                    attributes {
-                      "counter-increment" to figcaptionNumberLabel
-                    }
-                  }
-
-                  +wrap("figure figcaption:before") {
-                    attributes {
-                      "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
-                    }
-                  }
-
-                  +wrap("figure figcaption:after") {
-                    attributes {
-                      "content" to " '$append'"
-                    }
-                  }
-                }
-
-              }
-            }
+            unsafe { raw(generateCss()) }
           }
         }
         body {
-          with(documentProperties.tableOfContentsSettings) {
-            if (isVisible) {
-              div("table-of-contents") {
-                h1 { +"Table of contents" }
-                unsafe {
-                  raw(
-                    generateTableOfContents(
-                      tableOfContentsNodeVisitor.visitor.getTableOfContents(),
-                      this@with
-                    )
-                  )
-                }
-              }
-            }
-          }
-
-          with(documentStyle.header) {
-            div("header-left") { +left.getContents() }
-
-            div("header-center") { +center.getContents() }
-
-            div("header-right") { +right.getContents() }
-          }
-
-          with(documentStyle.footer) {
-            div("footer-left") { +left.getContents() }
-
-            div("footer-center") { +center.getContents() }
-
-            div("footer-right") { +right.getContents() }
-          }
-
-          div("content") {
-            unsafe { +wrap(parsedDocumentBody.trim()) }
-          }
+          unsafe { raw(generateBody()) }
         }
       }
       .toString()
+
+  private fun generateCss(): String {
+    val css = StringBuilder()
+    css += wrap(documentStyle.getStyles())
+    css += wrap(pagePropertiesManager.toCss())
+    css += wrap(".table-of-contents") {
+      attributes {
+        "page-break-after" to "always"
+      }
+    }
+
+    // Fig caption configuration
+    with(documentProperties.figcaptionSettings) {
+      val figcaptionNumberLabel = "figures"
+
+      if (isVisible) {
+        css += wrap("body") {
+          attributes {
+            "counter-reset" to figcaptionNumberLabel
+          }
+        }
+
+        css += wrap("figure") {
+          attributes {
+            "counter-increment" to figcaptionNumberLabel
+          }
+        }
+
+        css += wrap("figure figcaption:before") {
+          attributes {
+            "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
+          }
+        }
+
+        css += wrap("figure figcaption:after") {
+          attributes {
+            "content" to " '$append'"
+          }
+        }
+      }
+    }
+
+    return css.toString()
+  }
+
+  private fun generateBody(): String {
+    with(StringBuilder().appendHTML()) {
+      val tocSettings = documentProperties.tableOfContentsSettings
+      if (tocSettings.isVisible) {
+        div("table-of-contents") {
+          h1 { +"Table of contents" }
+          unsafe {
+            raw(
+              generateTableOfContents(
+                tableOfContentsNodeVisitor.visitor.getTableOfContents(),
+                tocSettings
+              )
+            )
+          }
+        }
+      }
+
+      with(documentStyle.header) {
+        div("header-left") { +left.getContents() }
+
+        div("header-center") { +center.getContents() }
+
+        div("header-right") { +right.getContents() }
+      }
+
+      with(documentStyle.footer) {
+        div("footer-left") { +left.getContents() }
+
+        div("footer-center") { +center.getContents() }
+
+        div("footer-right") { +right.getContents() }
+      }
+
+      div("content") {
+        unsafe { +wrap(parsedDocumentBody.trim()) }
+      }
+
+      return finalize().toString()
+    }
+  }
 
   private fun wrap(content: String) = "\n$content\n"
 
   private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
     wrap(CssSelector(elementName).apply(cssSelector).toCss())
+
+  private operator fun StringBuilder.plusAssign(content: String) {
+    append(content)
+  }
 
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
