@@ -23,13 +23,13 @@ add it to your project using the following code based on your build tool:
 <dependency>
   <groupId>com.github.woojiahao</groupId>
   <artifactId>kMD2PDF</artifactId>
-  <version>0.2.0</version>
+  <version>0.2.1</version>
 </dependency>
 ```
 
 ### Gradle
 ```groovy
-implementation 'com.github.woojiahao:kMD2PDF:0.2.0'
+implementation 'com.github.woojiahao:kMD2PDF:0.2.1'
 ```
 
 If you encounter errors with loading the library, visit the troubleshooting guide 
