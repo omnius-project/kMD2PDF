@@ -9,7 +9,10 @@ import kotlin.test.assertEquals
 private val resourcesDirectory
   get() = File("src/test/resources/markdown-converter")
 
-fun getResource(folder: String, file: String) = File(File(resourcesDirectory, folder), file)
+fun getResource(folder: String, file: String, extension: String? = null): File {
+  val fileName = extension?.let { "$file.$it" } ?: file
+  return File(File(resourcesDirectory, folder), fileName)
+}
 
 fun setupConverter(markdownFile: File) =
   markdownConverter {
@@ -20,11 +23,8 @@ fun setupConverter(markdownFile: File) =
 fun assertMarkdown(folder: String, file: String) {
   require(file.indexOf(".") == -1) { "File should not include extensions as they are added within the method" }
 
-  val markdownFileName = "$file.md"
-  val htmlFileName = "$file.html"
-
-  val markdownFile = getResource(folder, markdownFileName)
-  val htmlFile = getResource(folder, htmlFileName)
+  val markdownFile = getResource(folder, file, "md")
+  val htmlFile = getResource(folder, file, "html")
 
   val converter = setupConverter(markdownFile)
 
@@ -32,13 +32,19 @@ fun assertMarkdown(folder: String, file: String) {
   val actualDocument = parseDocument(converter.generateBody()).getElementsByClass("content").first()
 
   // Ensure that they both have the same number of children
-  assertEquals(expectedDocument.childCount, actualDocument.childCount)
+  assertEquals(
+    expectedDocument.childCount,
+    actualDocument.childCount,
+    generateChildCountAssertFalseMessage(expectedDocument, actualDocument, "Document child count don't match")
+  )
 
   // Ensure that they both have the same set of elements
   val expectedDocumentBody = expectedDocument.children()
   val actualDocumentBody = actualDocument.children()
 
-  expectedDocumentBody.zip(actualDocumentBody).forEach { compare(it.first, it.second) }
+  expectedDocumentBody.zip(actualDocumentBody).forEach {
+    compare(it.first, it.second)
+  }
 }
 
 private fun compare(ex: Element, ac: Element) {
@@ -50,3 +56,30 @@ private fun compare(ex: Element, ac: Element) {
     }
   }
 }
+
+private fun assertElementEquals(ex: Element, ac: Element) {
+  assertEquals(
+    ex.childCount,
+    ac.childCount,
+    generateChildCountAssertFalseMessage(ex, ac, "Element child count don't match")
+  )
+  assertEquals(ex.tagName(), ac.tagName(), "Element tags don't match")
+  assertEquals(ex.ownText(), ac.ownText(), "Element text don't match")
+  assertEquals(ex.attributes().size(), ac.attributes().size(), "Element attribute size don't match")
+
+  val sortedExAttributes = ex.attributes().sortedBy { it.key }
+  val sortedAcAttributes = ac.attributes().sortedBy { it.key }
+  sortedExAttributes.zip(sortedAcAttributes).forEach {
+    val exAttribute = it.first
+    val acAttribute = it.second
+    assertEquals(exAttribute.key, acAttribute.key, "Attribute key don't match")
+    assertEquals(exAttribute.value, acAttribute.value, "Attribute value don't match")
+  }
+}
+
+private fun generateChildCountAssertFalseMessage(ex: Element, ac: Element, prepend: String = "") =
+  mutableListOf<String>().apply {
+    if (prepend.isNotEmpty()) this += prepend
+    this += "Expected: ${ex.childrenNames.joinToString(", ")}"
+    this += "Actual: ${ac.childrenNames.joinToString(", ")}"
+  }.joinToString("\n")

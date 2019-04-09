@@ -5,7 +5,6 @@ import org.junit.rules.TemporaryFolder
 import kotlin.test.Ignore
 import kotlin.test.Test
 
-@Ignore
 class MarkdownDocumentTest {
 
   @get:Rule
@@ -35,26 +34,4 @@ class MarkdownDocumentTest {
     val file = folder.newFile("README.md")
     MarkdownDocument(file)
   }
-
-  @Test
-  fun `Default markdown should render to default PDF`() {
-    val file = generateDefaultMarkdownFile()
-    val markdownDocument = MarkdownDocument(file)
-//    document.toPDF()
-  }
-
-  private fun generateDefaultMarkdownFile() =
-    folder
-      .newFile("README.md")
-      .apply {
-        writeText(
-          """
-          ## Hello world
-          This is a **test**!
-
-          ### Sub-heading
-          *Hello* world
-          """.trimIndent()
-        )
-      }
 }
