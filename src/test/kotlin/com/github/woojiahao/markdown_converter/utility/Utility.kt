@@ -2,6 +2,8 @@ package com.github.woojiahao.markdown_converter.utility
 
 import com.github.woojiahao.MarkdownDocument
 import com.github.woojiahao.markdownConverter
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.io.File
 import kotlin.test.assertEquals
@@ -50,3 +52,25 @@ private fun compare(ex: Element, ac: Element) {
     }
   }
 }
+
+val Element.childCount
+  get() = children().size
+
+fun assertElementEquals(ex: Element, ac: Element) {
+  assertEquals(ex.childCount, ac.childCount)
+  assertEquals(ex.tagName(), ac.tagName())
+  assertEquals(ex.ownText(), ac.ownText())
+  assertEquals(ex.attributes().size(), ac.attributes().size())
+  ex.attributes().zip(ac.attributes()).forEach {
+    val exAttribute = it.first
+    val acAttribute = it.second
+    assertEquals(exAttribute.key, acAttribute.key)
+    assertEquals(exAttribute.value, acAttribute.value)
+  }
+}
+
+fun parseDocument(html: String): Document =
+  Jsoup.parse(html).apply {
+    outputSettings().syntax(Document.OutputSettings.Syntax.xml)
+    html().replace("&nbsp;", " ")
+  }
