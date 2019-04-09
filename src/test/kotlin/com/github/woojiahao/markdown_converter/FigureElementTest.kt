@@ -13,6 +13,9 @@ class FigureElementTest : ElementTest("figure") {
   @Test
   fun `Absolute web paths is used as src`() = assert("AbsoluteWebPath")
 
+  @Test
+  fun `Local relative path will map to markdown file location and be used as src`() = assert("RelativeLocalPath")
+
   /**
    * Ignoring this test until absolute file path can be handled via Travis and in the markdown.
    *
