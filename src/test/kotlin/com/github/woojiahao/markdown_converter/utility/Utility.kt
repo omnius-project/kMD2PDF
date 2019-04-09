@@ -57,15 +57,15 @@ val Element.childCount
   get() = children().size
 
 fun assertElementEquals(ex: Element, ac: Element) {
-  assertEquals(ex.childCount, ac.childCount)
-  assertEquals(ex.tagName(), ac.tagName())
-  assertEquals(ex.ownText(), ac.ownText())
-  assertEquals(ex.attributes().size(), ac.attributes().size())
+  assertEquals(ex.childCount, ac.childCount, "Element child count don't match")
+  assertEquals(ex.tagName(), ac.tagName(), "Element tags don't match")
+  assertEquals(ex.ownText(), ac.ownText(), "Element text don't match")
+  assertEquals(ex.attributes().size(), ac.attributes().size(), "Element attribute size don't match")
   ex.attributes().zip(ac.attributes()).forEach {
     val exAttribute = it.first
     val acAttribute = it.second
-    assertEquals(exAttribute.key, acAttribute.key)
-    assertEquals(exAttribute.value, acAttribute.value)
+    assertEquals(exAttribute.key, acAttribute.key, "Attribute key don't match")
+    assertEquals(exAttribute.value, acAttribute.value, "Attribute value don't match")
   }
 }
 
