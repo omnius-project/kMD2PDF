@@ -11,7 +11,13 @@ import kotlin.test.assertEquals
 private val resourcesDirectory
   get() = File("src/test/resources/markdown-converter")
 
-fun getResource(folder: String, file: String) = File(File(resourcesDirectory, folder), file)
+val Element.childCount
+  get() = children().size
+
+fun getResource(folder: String, file: String, extension: String? = null): File {
+  val fileName = extension?.let { "$file.$it" } ?: file
+  return File(File(resourcesDirectory, folder), fileName)
+}
 
 fun setupConverter(markdownFile: File) =
   markdownConverter {
@@ -22,11 +28,8 @@ fun setupConverter(markdownFile: File) =
 fun assertMarkdown(folder: String, file: String) {
   require(file.indexOf(".") == -1) { "File should not include extensions as they are added within the method" }
 
-  val markdownFileName = "$file.md"
-  val htmlFileName = "$file.html"
-
-  val markdownFile = getResource(folder, markdownFileName)
-  val htmlFile = getResource(folder, htmlFileName)
+  val markdownFile = getResource(folder, file, "md")
+  val htmlFile = getResource(folder, file, "html")
 
   val converter = setupConverter(markdownFile)
 
@@ -53,10 +56,7 @@ private fun compare(ex: Element, ac: Element) {
   }
 }
 
-val Element.childCount
-  get() = children().size
-
-fun assertElementEquals(ex: Element, ac: Element) {
+private fun assertElementEquals(ex: Element, ac: Element) {
   assertEquals(ex.childCount, ac.childCount, "Element child count don't match")
   assertEquals(ex.tagName(), ac.tagName(), "Element tags don't match")
   assertEquals(ex.ownText(), ac.ownText(), "Element text don't match")
@@ -72,7 +72,7 @@ fun assertElementEquals(ex: Element, ac: Element) {
   }
 }
 
-fun parseDocument(html: String): Document =
+private fun parseDocument(html: String): Document =
   Jsoup.parse(html).apply {
     outputSettings().syntax(Document.OutputSettings.Syntax.xml)
     html().replace("&nbsp;", " ")
