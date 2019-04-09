@@ -17,9 +17,6 @@ val Element.lastChild
 val Element.isBlankParagraph
   get() = `is`("p") && text().isEmpty()
 
-val Element.isSurroundedByBlankParagraphs
-  get() = firstChild.isBlankParagraph && lastChild.isBlankParagraph
-
 fun assertElementEquals(ex: Element, ac: Element) {
   assertEquals(ex.childCount, ac.childCount)
   assertEquals(ex.tagName(), ac.tagName())

@@ -12,4 +12,9 @@ class FigureElementTest {
   fun `Absolute web paths will generate a figure with src set to web path`() {
     assertMarkdown(FIGURE_RESOURCE_NAME, "AbsoluteWebPath")
   }
+
+  @Test
+  fun `No alt text renders single img`() {
+    assertMarkdown(FIGURE_RESOURCE_NAME, "NoAltText")
+  }
 }
