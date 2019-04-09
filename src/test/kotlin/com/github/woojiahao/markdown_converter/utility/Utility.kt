@@ -34,7 +34,7 @@ fun assertMarkdown(folder: String, file: String) {
   val actualDocument = parseDocument(converter.generateBody()).getElementsByClass("content").first()
 
   // Ensure that they both have the same number of children
-  assertEquals(expectedDocument.childCount, actualDocument.childCount)
+  assertEquals(expectedDocument.childCount, actualDocument.childCount, "Document child count don't match")
 
   // Ensure that they both have the same set of elements
   val expectedDocumentBody = expectedDocument.children()
@@ -61,7 +61,10 @@ fun assertElementEquals(ex: Element, ac: Element) {
   assertEquals(ex.tagName(), ac.tagName(), "Element tags don't match")
   assertEquals(ex.ownText(), ac.ownText(), "Element text don't match")
   assertEquals(ex.attributes().size(), ac.attributes().size(), "Element attribute size don't match")
-  ex.attributes().zip(ac.attributes()).forEach {
+
+  val sortedExAttributes = ex.attributes().sortedBy { it.key }
+  val sortedAcAttributes = ac.attributes().sortedBy { it.key }
+  sortedExAttributes.zip(sortedAcAttributes).forEach {
     val exAttribute = it.first
     val acAttribute = it.second
     assertEquals(exAttribute.key, acAttribute.key, "Attribute key don't match")
