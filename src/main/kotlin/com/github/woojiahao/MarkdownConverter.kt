@@ -31,8 +31,13 @@ class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
   private val targetLocation: File,
-  private val documentProperties: DocumentProperties
+  private val documentProperties: DocumentProperties,
+  private val conversionTarget: ConversionTarget
 ) {
+
+  enum class ConversionTarget(val requiredExtension: String?, val isFolder: Boolean) {
+    PDF("pdf", false), HTML(null, true)
+  }
 
   private val extensions = listOf(
     TaskListExtension.create(),
@@ -68,8 +73,6 @@ class MarkdownConverter private constructor(
       val content = htmlToXML(generateHtml())
       val outputLocation by lazy { FileOutputStream(targetLocation) }
 
-      println(content)
-
       sharedContext.replacedElementFactory = MediaReplacedElementFactory(
         documentProperties,
         sharedContext.replacedElementFactory
@@ -85,12 +88,6 @@ class MarkdownConverter private constructor(
       }
     }
   }
-
-  private fun htmlToXML(html: String) =
-    Jsoup
-      .parse(html)
-      .apply { outputSettings().syntax(Document.OutputSettings.Syntax.xml) }
-      .let { it.html().replace("&nbsp;", " ") }
 
   private fun generateHtml() =
     StringBuilder()
@@ -201,9 +198,16 @@ class MarkdownConverter private constructor(
     append(content)
   }
 
+  private fun htmlToXML(html: String) =
+    Jsoup
+      .parse(html)
+      .apply { outputSettings().syntax(Document.OutputSettings.Syntax.xml) }
+      .let { it.html().replace("&nbsp;", " ") }
+
   private fun ITextRenderer.loadFontDirectories() {
     val fontDirectories = getFontDirectories()
     val hasNoFontDirectory = fontDirectories.none { File(it).exists() }
+    // TODO: Use logger for this
     if (hasNoFontDirectory) {
       println("Font folders could not be located on your system, fonts will default")
     }
@@ -215,6 +219,7 @@ class MarkdownConverter private constructor(
     private var style = Style()
     private var targetLocation: String? = null
     private var documentProperties = DocumentProperties.Builder().build()
+    private var conversionTarget = ConversionTarget.PDF
 
     fun document(document: MarkdownDocument): Builder {
       this.document = document
@@ -236,27 +241,54 @@ class MarkdownConverter private constructor(
       return this
     }
 
-    fun build(): MarkdownConverter {
-      check(document != null) { "Markdown document must be set using document()" }
+    fun conversionTarget(conversionTarget: ConversionTarget): Builder {
+      this.conversionTarget = conversionTarget
+      return this
+    }
 
-      val targetFile = createTargetOutputFile(targetLocation)
-      check(targetFile.isFileType("pdf")) { "Target location must have a .pdf extension" }
+    fun build(): MarkdownConverter {
+      val doc = document
+      check(doc != null) { "Markdown document must be set using document()" }
+
+      val targetFile = createTargetFile()
 
       return MarkdownConverter(
-        document!!,
+        doc,
         style,
         targetFile,
-        documentProperties
+        documentProperties,
+        conversionTarget
       )
     }
 
-    private fun createTargetOutputFile(filePath: String?) =
-      filePath?.let { File(it) } ?: createFileRelativeToDocument()
+    private fun createTargetFile(): File {
+      val targetFile = createTargetOutputFile(targetLocation, conversionTarget)
+      with(conversionTarget) {
+        if (isFolder) {
+          check(targetFile.extension.isEmpty()) { "Target location should not have extension" }
+        } else {
+          requiredExtension ?: return@with
+          check(targetFile.isFileType(requiredExtension)) {
+            "Target location must have a .$requiredExtension extension"
+          }
+        }
+      }
 
-    private fun createFileRelativeToDocument(): File {
+      return targetFile
+    }
+
+    private fun createTargetOutputFile(filePath: String?, conversionTarget: ConversionTarget) =
+      filePath?.let { File(it) } ?: createFileRelativeToDocument(conversionTarget)
+
+    private fun createFileRelativeToDocument(conversionTarget: ConversionTarget): File {
       with(document!!.file) {
-        check(this.parentFile != null) { "File cannot have no parent folder" }
-        return File(this.parentFile, "$nameWithoutExtension.pdf")
+        check(this.parentFile != null) { "File must have parent folder" }
+
+        val fileName =
+          if (!conversionTarget.isFolder) "$nameWithoutExtension.${conversionTarget.requiredExtension}"
+          else nameWithoutExtension
+
+        return File(this.parentFile, fileName)
       }
     }
   }
