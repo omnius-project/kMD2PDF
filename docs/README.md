@@ -16,5 +16,5 @@ kMD2PDF is a library written in Kotlin that converts markdown files to PDF docum
 provide users with high customization options for the exported PDF document.
 
 ## Libraries Used
-* [Commonmark Java](https://github.com/atlassian/commonmark-java)
+* [FlexMark](https://github.com/vsch/flexmark-java)
 * [flyingsaucer](https://github.com/flyingsaucerproject/flyingsaucer)
