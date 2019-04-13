@@ -1,5 +1,7 @@
 package com.github.woojiahao
 
+import com.github.woojiahao.MarkdownConverter.ConversionTarget.HTML
+import com.github.woojiahao.MarkdownConverter.ConversionTarget.PDF
 import com.github.woojiahao.modifiers.MediaReplacedElementFactory
 import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
@@ -30,13 +32,27 @@ import com.github.kittinunf.result.Result as KResult
 class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
   private val documentStyle: Style,
-  private val targetLocation: File,
+  targetLocation: File,
   private val documentProperties: DocumentProperties,
-  private val conversionTarget: ConversionTarget
+  conversionTarget: ConversionTarget
 ) {
 
   enum class ConversionTarget(val requiredExtension: String?, val isFolder: Boolean) {
     PDF("pdf", false), HTML(null, true)
+  }
+
+  private val conversionHandler by lazy {
+    val html = generateBody()
+    val css = generateCss()
+    when (conversionTarget) {
+      PDF -> PdfConversionHandler(
+        html,
+        css,
+        targetLocation,
+        mapOf("documentProperties" to documentProperties)
+      )
+      HTML -> HtmlConversionHandler(html, css, targetLocation)
+    }
   }
 
   private val extensions = listOf(
@@ -68,41 +84,7 @@ class MarkdownConverter private constructor(
     tableOfContentsNodeVisitor.visit(parsedDocument)
   }
 
-  fun convert(): KResult<File, Exception> {
-    with(ITextRenderer()) {
-      val content = htmlToXML(generateHtml())
-      val outputLocation by lazy { FileOutputStream(targetLocation) }
-
-      sharedContext.replacedElementFactory = MediaReplacedElementFactory(
-        documentProperties,
-        sharedContext.replacedElementFactory
-      )
-      setDocumentFromString(content)
-      loadFontDirectories()
-      layout()
-      return try {
-        createPDF(outputLocation)
-        KResult.success(targetLocation)
-      } catch (e: Exception) {
-        KResult.error(e)
-      }
-    }
-  }
-
-  private fun generateHtml() =
-    StringBuilder()
-      .appendHTML()
-      .html {
-        head {
-          style {
-            unsafe { raw(generateCss()) }
-          }
-        }
-        body {
-          unsafe { raw(generateBody()) }
-        }
-      }
-      .toString()
+  fun convert() = conversionHandler.convert()
 
   private fun generateCss(): String {
     val css = StringBuilder()
@@ -198,28 +180,12 @@ class MarkdownConverter private constructor(
     append(content)
   }
 
-  private fun htmlToXML(html: String) =
-    Jsoup
-      .parse(html)
-      .apply { outputSettings().syntax(Document.OutputSettings.Syntax.xml) }
-      .let { it.html().replace("&nbsp;", " ") }
-
-  private fun ITextRenderer.loadFontDirectories() {
-    val fontDirectories = getFontDirectories()
-    val hasNoFontDirectory = fontDirectories.none { File(it).exists() }
-    // TODO: Use logger for this
-    if (hasNoFontDirectory) {
-      println("Font folders could not be located on your system, fonts will default")
-    }
-    fontDirectories.forEach { fontResolver.addFontDirectory(it, false) }
-  }
-
   open class Builder {
     private var document: MarkdownDocument? = null
     private var style = Style()
     private var targetLocation: String? = null
     private var documentProperties = DocumentProperties.Builder().build()
-    private var conversionTarget = ConversionTarget.PDF
+    private var conversionTarget = PDF
 
     fun document(document: MarkdownDocument): Builder {
       this.document = document
