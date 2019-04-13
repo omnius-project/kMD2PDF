@@ -89,3 +89,18 @@ fun main() {
   converter.convert()
 }
 ```
+
+### Exporting to HTML
+Example [here.](https://github.com/omnius-project/kMD2PDF-examples/blob/master/src/main/kotlin/com/github/woojiahao/ConversionTargets.kt)
+
+More on the subject [here.](https://omnius-project.github.io/kMD2PDF/#/ConversionTargets)
+
+```kotlin
+fun main() {
+  val converter = markdownConverter {
+    document(document)
+    conversionTarget(MarkdownConverter.ConversionTarget.HTML)
+  }
+  converter.convert()
+}
+```
