@@ -1,4 +1,4 @@
-package com.github.woojiahao.markdown_converter
+package com.github.woojiahao.rendering
 
 import org.junit.Ignore
 import org.junit.Test
