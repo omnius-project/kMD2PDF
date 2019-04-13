@@ -2,7 +2,6 @@ package com.github.woojiahao
 
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.HTML
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.PDF
-import com.github.woojiahao.modifiers.MediaReplacedElementFactory
 import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
@@ -12,7 +11,6 @@ import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.utility.extensions.isFileType
-import com.github.woojiahao.utility.getFontDirectories
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
@@ -22,19 +20,15 @@ import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import kotlinx.html.*
 import kotlinx.html.stream.appendHTML
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.xhtmlrenderer.pdf.ITextRenderer
 import java.io.File
-import java.io.FileOutputStream
 import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
-  private val documentStyle: Style,
   targetLocation: File,
-  private val documentProperties: DocumentProperties,
-  conversionTarget: ConversionTarget
+  conversionTarget: ConversionTarget,
+  private val documentStyle: Style,
+  private val documentProperties: DocumentProperties
 ) {
 
   enum class ConversionTarget(val requiredExtension: String?, val isFolder: Boolean) {
@@ -220,10 +214,10 @@ class MarkdownConverter private constructor(
 
       return MarkdownConverter(
         doc,
-        style,
         targetFile,
-        documentProperties,
-        conversionTarget
+        conversionTarget,
+        style,
+        documentProperties
       )
     }
 
