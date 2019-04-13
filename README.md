@@ -6,7 +6,7 @@
 ![](art/logo.png)
 > Simple and highly customizable markdown to PDF conversion library
 
-**Note:** Version 0.2.0 has been released! Check out the 
+**Note:** Version 0.2.x has been released! Check out the 
 [changelog](https://omnius-project.github.io/kMD2PDF/#/Changelog) to see what's new!
 
 ## Jump To
@@ -23,13 +23,13 @@ add it to your project using the following code based on your build tool:
 <dependency>
   <groupId>com.github.woojiahao</groupId>
   <artifactId>kMD2PDF</artifactId>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
 </dependency>
 ```
 
 ### Gradle
 ```groovy
-implementation 'com.github.woojiahao:kMD2PDF:0.2.1'
+implementation 'com.github.woojiahao:kMD2PDF:0.2.2'
 ```
 
 If you encounter errors with loading the library, visit the troubleshooting guide 

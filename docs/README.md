@@ -6,7 +6,7 @@
 [![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://woojiahao.github.io/kMD2PDF)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.woojiahao/kMD2PDF/)
 
-**Note:** Version 0.2.0 has been released! Check out the [changelog](Changelog.md) to see what's new!
+**Note:** Version 0.2.x has been released! Check out the [changelog](Changelog.md) to see what's new!
 
 ![](images/dark-theme-preview.png)
 View more previews [here](Previews.md)
