@@ -11,10 +11,11 @@ class HtmlConversionHandler(
   targetLocation: File,
   extra: Map<String, Any> = emptyMap()
 ) : IConversionHandler<File>(html, css, targetLocation, extra) {
+  private val cssPathKey = "cssPath"
 
   override fun generateHtml(extra: Map<String, String>) =
     StringBuilder().appendHTML().html {
-      val cssPath = extra["cssPath"]
+      val cssPath = extra[cssPathKey]
       head { link(cssPath, "stylesheet", "text/css") }
       body { unsafe { raw(html) } }
     }.toString()
@@ -31,7 +32,7 @@ class HtmlConversionHandler(
         it.writeText(css)
       }
       val htmlFile = File(targetLocation, "$documentName.html").also {
-        val html = htmlToXML(generateHtml(mapOf("cssPath" to cssFile.absolutePath)))
+        val html = htmlToXML(generateHtml(mapOf(cssPathKey to cssFile.absolutePath)))
         it.writeText(html)
       }
 
