@@ -46,24 +46,27 @@ class FigureNodeRenderer(private val markdownFile: File) : NodeRenderer {
     )
 
   fun render(node: Image, html: HtmlWriter) {
-    val destination = node.url.unescape()
-    val title = node.title.unescape()
+    val src = node.url.unescape() ?: return
+    val alt = node.title.unescape() ?: return
 
-    val destinationType = destination.destinationType
+    val destinationType = src.destinationType
 
     val processedDestination = when (destinationType) {
-      RELATIVE_LOCAL -> processLocalFileLocation(destination)
-      else -> destination
+      RELATIVE_LOCAL -> processLocalFileLocation(src)
+      else -> src
     }
 
-    val imageNode = title?.let { loadImageWithCaption(title, processedDestination, destinationType) }
-        ?: loadImage(title, processedDestination, destinationType)
+    val imageNode = generateImage(alt, processedDestination, destinationType)
 
     html.raw(imageNode)
     html.line()
   }
 
-  private fun loadImage(alt: String?, src: String, destinationType: DestinationType) =
+  private fun generateImage(alt: String, src: String, destinationType: DestinationType) =
+    if (alt.isEmpty()) loadImage(alt, src, destinationType)
+    else loadImageWithCaption(alt, src, destinationType)
+
+  private fun loadImage(alt: String, src: String, destinationType: DestinationType) =
     createImageTag(alt, src, destinationType)
 
   private fun loadImageWithCaption(alt: String, src: String, destinationType: DestinationType) =
@@ -78,10 +81,10 @@ class FigureNodeRenderer(private val markdownFile: File) : NodeRenderer {
       br { }
     }.toString()
 
-  private fun createImageTag(alt: String?, src: String, destinationType: DestinationType) =
+  private fun createImageTag(alt: String, src: String, destinationType: DestinationType) =
     StringBuilder().appendHTML().img {
       this.src = src
-      if (alt != null) this.alt = alt
+      if (alt.isNotEmpty()) this.alt = alt
       classes = setOf(when (destinationType) {
         RELATIVE_LOCAL, ABSOLUTE_LOCAL -> "local"
         else -> ""
