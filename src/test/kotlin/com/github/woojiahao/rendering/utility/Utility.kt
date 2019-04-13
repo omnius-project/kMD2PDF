@@ -1,4 +1,4 @@
-package com.github.woojiahao.markdown_converter.utility
+package com.github.woojiahao.rendering.utility
 
 import com.github.woojiahao.MarkdownDocument
 import com.github.woojiahao.markdownConverter
@@ -7,7 +7,7 @@ import java.io.File
 import kotlin.test.assertEquals
 
 private val resourcesDirectory
-  get() = File("src/test/resources/markdown-converter")
+  get() = File("src/test/resources/rendering")
 
 fun getResource(folder: String, file: String, extension: String? = null): File {
   val fileName = extension?.let { "$file.$it" } ?: file

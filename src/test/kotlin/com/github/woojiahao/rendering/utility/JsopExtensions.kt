@@ -1,4 +1,4 @@
-package com.github.woojiahao.markdown_converter.utility
+package com.github.woojiahao.rendering.utility
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document

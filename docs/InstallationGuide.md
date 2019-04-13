@@ -15,7 +15,7 @@ add it to your project using the following code based on your build tool:
 
 ## Gradle
 ```groovy
-implementation 'com.github.woojiahao:kMD2PDF:0.2.1'
+implementation 'com.github.woojiahao:kMD2PDF:0.2.2'
 ```
 
 ## Troubleshooting
@@ -35,7 +35,7 @@ the following fix:
     <dependency>
       <groupId>com.github.woojiahao</groupId>
       <artifactId>kMD2PDF</artifactId>
-      <version>0.2.1</version>
+      <version>0.2.2</version>
       <classifier>jar-with-dependencies</classifier>
     </dependency>
     ```
