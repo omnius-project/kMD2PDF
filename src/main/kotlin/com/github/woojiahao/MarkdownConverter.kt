@@ -39,12 +39,7 @@ class MarkdownConverter private constructor(
     val html = generateBody()
     val css = generateCss()
     when (conversionTarget) {
-      PDF -> PdfConversionHandler(
-        html,
-        css,
-        targetLocation,
-        mapOf("documentProperties" to documentProperties)
-      )
+      PDF -> PdfConversionHandler(html, css, targetLocation, mapOf("documentProperties" to documentProperties))
       HTML -> HtmlConversionHandler(html, css, targetLocation)
     }
   }
