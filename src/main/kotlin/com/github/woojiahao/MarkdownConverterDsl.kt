@@ -1,5 +1,6 @@
 package com.github.woojiahao
 
+import com.github.woojiahao.modifiers.figure.FigcaptionSettings
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.modifiers.toc.TableOfContentsSettings
