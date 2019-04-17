@@ -15,6 +15,7 @@ import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
+import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
@@ -66,6 +67,8 @@ class MarkdownConverter private constructor(
     TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
   )
 
+  private val yamlFrontMatterVisitor = AbstractYamlFrontMatterVisitor()
+
   private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
   private val parsedDocumentBody
@@ -75,6 +78,7 @@ class MarkdownConverter private constructor(
 
   init {
     tableOfContentsNodeVisitor.visit(parsedDocument)
+    yamlFrontMatterVisitor.visit(parsedDocument)
   }
 
   fun convert() = conversionHandler.convert()
