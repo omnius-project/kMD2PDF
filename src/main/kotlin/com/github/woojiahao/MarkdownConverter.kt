@@ -19,8 +19,10 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
-import kotlinx.html.*
+import kotlinx.html.div
+import kotlinx.html.h1
 import kotlinx.html.stream.appendHTML
+import kotlinx.html.unsafe
 import java.io.File
 import com.github.kittinunf.result.Result as KResult
 
@@ -207,25 +209,27 @@ class MarkdownConverter private constructor(
       val doc = document
       check(doc != null) { "Markdown document must be set using document()" }
 
-      val targetFile = createTargetFile()
+      val targetFile = createTargetOutputFile(targetLocation, conversionTarget)
+      val (isTargetFileValid, invalidReason) = validateOutputFile(targetFile)
+      check(isTargetFileValid) { invalidReason }
 
       return MarkdownConverter(doc, targetFile, conversionTarget, style, documentProperties)
     }
 
-    private fun createTargetFile(): File {
-      val targetFile = createTargetOutputFile(targetLocation, conversionTarget)
+    private fun validateOutputFile(outputFile: File): Pair<Boolean, String> {
       with(conversionTarget) {
         if (isFolder) {
-          check(targetFile.extension.isEmpty()) { "Target location should not have extension" }
+          if (outputFile.extension.isNotEmpty())
+            return false to "Target location should not have extension"
         } else {
-          requiredExtension ?: return@with
-          check(targetFile.isFileType(requiredExtension)) {
-            "Target location must have a .$requiredExtension extension"
-          }
+          requiredExtension
+              ?: return false to "Required extension cannot be null for folder string"
+          if (!outputFile.isFileType(requiredExtension))
+            return false to "Target location must have a .$requiredExtension extension"
         }
       }
 
-      return targetFile
+      return true to ""
     }
 
     private fun createTargetOutputFile(filePath: String?, conversionTarget: ConversionTarget) =
