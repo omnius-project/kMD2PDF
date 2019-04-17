@@ -2,6 +2,10 @@ package com.github.woojiahao
 
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.HTML
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.PDF
+import com.github.woojiahao.conversion_handlers.HtmlConversionHandler
+import com.github.woojiahao.conversion_handlers.PdfConversionHandler
+import com.github.woojiahao.generators.CssGenerator
+import com.github.woojiahao.generators.HtmlGenerator
 import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
@@ -31,7 +35,7 @@ class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
   targetLocation: File,
   conversionTarget: ConversionTarget,
-  private val documentStyle: Style,
+  documentStyle: Style,
   private val documentProperties: DocumentProperties
 ) {
 
@@ -76,6 +80,15 @@ class MarkdownConverter private constructor(
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
+  private val cssGenerator = CssGenerator(documentStyle, pagePropertiesManager, documentProperties)
+
+  private val htmlGenerator = HtmlGenerator(
+    documentStyle,
+    parsedDocumentBody.trim(),
+    documentProperties,
+    tableOfContentsNodeVisitor.visitor.getTableOfContents()
+  )
+
   init {
     tableOfContentsNodeVisitor.visit(parsedDocument)
     yamlFrontMatterVisitor.visit(parsedDocument)
@@ -83,99 +96,9 @@ class MarkdownConverter private constructor(
 
   fun convert() = conversionHandler.convert()
 
-  private fun generateCss(): String {
-    val css = StringBuilder()
-    css += wrap(documentStyle.getStyles())
-    css += wrap(pagePropertiesManager.toCss())
-    css += wrap(".table-of-contents") {
-      attributes {
-        "page-break-after" to "always"
-      }
-    }
+  private fun generateCss() = cssGenerator.generate()
 
-    // Fig caption configuration
-    with(documentProperties.figcaptionSettings) {
-      val figcaptionNumberLabel = "figures"
-
-      if (isVisible) {
-        css += wrap("body") {
-          attributes {
-            "counter-reset" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure") {
-          attributes {
-            "counter-increment" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure figcaption:before") {
-          attributes {
-            "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
-          }
-        }
-
-        css += wrap("figure figcaption:after") {
-          attributes {
-            "content" to " '$append'"
-          }
-        }
-      }
-    }
-
-    return css.toString()
-  }
-
-  fun generateBody(): String {
-    with(StringBuilder().appendHTML()) {
-      val tocSettings = documentProperties.tableOfContentsSettings
-      if (tocSettings.isVisible) {
-        div("table-of-contents") {
-          h1 { +"Table of contents" }
-          unsafe {
-            raw(
-              generateTableOfContents(
-                tableOfContentsNodeVisitor.visitor.getTableOfContents(),
-                tocSettings
-              )
-            )
-          }
-        }
-      }
-
-      with(documentStyle.header) {
-        div("header-left") { +left.getContents() }
-
-        div("header-center") { +center.getContents() }
-
-        div("header-right") { +right.getContents() }
-      }
-
-      with(documentStyle.footer) {
-        div("footer-left") { +left.getContents() }
-
-        div("footer-center") { +center.getContents() }
-
-        div("footer-right") { +right.getContents() }
-      }
-
-      div("content") {
-        unsafe { +wrap(parsedDocumentBody.trim()) }
-      }
-
-      return finalize().toString()
-    }
-  }
-
-  private fun wrap(content: String) = "\n$content\n"
-
-  private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
-    wrap(CssSelector(elementName).apply(cssSelector).toCss())
-
-  private operator fun StringBuilder.plusAssign(content: String) {
-    append(content)
-  }
+  fun generateBody() = htmlGenerator.generate()
 
   open class Builder {
     private var document: MarkdownDocument? = null
