@@ -209,13 +209,7 @@ class MarkdownConverter private constructor(
 
       val targetFile = createTargetFile()
 
-      return MarkdownConverter(
-        doc,
-        targetFile,
-        conversionTarget,
-        style,
-        documentProperties
-      )
+      return MarkdownConverter(doc, targetFile, conversionTarget, style, documentProperties)
     }
 
     private fun createTargetFile(): File {
