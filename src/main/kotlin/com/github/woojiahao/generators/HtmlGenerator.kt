@@ -4,6 +4,8 @@ import com.github.woojiahao.modifiers.toc.TableOfContentsElement
 import com.github.woojiahao.modifiers.toc.generateTableOfContents
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.style.elements.document.DocumentArea
+import kotlinx.html.TagConsumer
 import kotlinx.html.div
 import kotlinx.html.h1
 import kotlinx.html.stream.appendHTML
@@ -15,37 +17,47 @@ class HtmlGenerator(
   private val documentProperties: DocumentProperties,
   private val tableOfContents: List<TableOfContentsElement>
 ) : AbstractContentGenerator() {
+
   override fun generate(): String {
-    with(StringBuilder().appendHTML()) {
-      val tocSettings = documentProperties.tableOfContentsSettings
-      if (tocSettings.isVisible) {
-        div("table-of-contents") {
-          h1 { +"Table of contents" }
-          unsafe { raw(generateTableOfContents(tableOfContents, tocSettings)) }
-        }
+    val content = StringBuilder()
+      .appendHTML()
+      .apply {
+        generateTableOfContents()
+        generateHeader()
+        generateFooter()
+        generateBody()
       }
 
-      with(documentStyle.header) {
-        div("header-left") { +left.getContents() }
+    return content.finalize().toString()
+  }
 
-        div("header-center") { +center.getContents() }
-
-        div("header-right") { +right.getContents() }
+  private fun TagConsumer<StringBuilder>.generateTableOfContents() {
+    val tocSettings = documentProperties.tableOfContentsSettings
+    if (tocSettings.isVisible) {
+      div("table-of-contents") {
+        h1 { +"Table of contents" }
+        unsafe { raw(generateTableOfContents(tableOfContents, tocSettings)) }
       }
+    }
+  }
 
-      with(documentStyle.footer) {
-        div("footer-left") { +left.getContents() }
+  private fun TagConsumer<StringBuilder>.generateHeader() = generateDocumentArea(documentStyle.header, "header")
 
-        div("footer-center") { +center.getContents() }
+  private fun TagConsumer<StringBuilder>.generateFooter() = generateDocumentArea(documentStyle.footer, "footer")
 
-        div("footer-right") { +right.getContents() }
-      }
+  private fun TagConsumer<StringBuilder>.generateBody() {
+    div("content") {
+      unsafe { +wrap(documentBody) }
+    }
+  }
 
-      div("content") {
-        unsafe { +wrap(documentBody) }
-      }
+  private fun TagConsumer<StringBuilder>.generateDocumentArea(area: DocumentArea, areaName: String) {
+    with(area) {
+      div("$areaName-left") { +left.getContents() }
 
-      return finalize().toString()
+      div("$areaName-center") { +center.getContents() }
+
+      div("$areaName-right") { +right.getContents() }
     }
   }
 }
