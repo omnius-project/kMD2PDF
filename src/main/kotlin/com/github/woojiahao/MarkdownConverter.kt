@@ -51,7 +51,7 @@ class MarkdownConverter private constructor(
     StrikethroughExtension.create(),
     TocExtension.create(),
     YamlFrontMatterExtension.create(),
-    FigureExtension(markdownDocument.file)
+    FigureExtension.create(markdownDocument.file)
   )
 
   private val options = MutableDataSet().apply { set(Parser.EXTENSIONS, extensions) }

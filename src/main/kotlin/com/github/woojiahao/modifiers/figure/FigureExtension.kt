@@ -6,6 +6,10 @@ import java.io.File
 
 class FigureExtension(private val markdownFile: File) : HtmlRenderer.HtmlRendererExtension {
 
+  companion object {
+    fun create(markdownFile: File) = FigureExtension(markdownFile)
+  }
+
   override fun rendererOptions(options: MutableDataHolder?) {}
 
   override fun extend(rendererBuilder: HtmlRenderer.Builder?, rendererType: String?) {
