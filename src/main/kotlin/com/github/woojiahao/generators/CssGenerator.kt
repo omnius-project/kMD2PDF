@@ -9,46 +9,59 @@ class CssGenerator(
   private val pagePropertiesManager: PagePropertiesManager,
   private val documentProperties: DocumentProperties
 ) : AbstractContentGenerator() {
+
   override fun generate(): String {
     val css = StringBuilder()
-    css += wrap(documentStyle.getStyles())
-    css += wrap(pagePropertiesManager.toCss())
-    css += wrap(".table-of-contents") {
+    css += generateStyle()
+    css += generatePageProperties()
+    css += generateTableOfContents()
+    css += generateFigures()
+
+    return css.toString()
+  }
+
+  private fun generateStyle() = wrap(documentStyle.getStyles())
+
+  private fun generatePageProperties() = wrap(pagePropertiesManager.toCss())
+
+  private fun generateTableOfContents() =
+    wrap(".table-of-contents") {
       attributes {
         "page-break-after" to "always"
       }
     }
 
-    // Fig caption configuration
+  private fun generateFigures(): String {
     with(documentProperties.figcaptionSettings) {
+      if (!isVisible) return ""
+
+      val figureAttributes = mutableListOf<String>()
       val figcaptionNumberLabel = "figures"
 
-      if (isVisible) {
-        css += wrap("body") {
-          attributes {
-            "counter-reset" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure") {
-          attributes {
-            "counter-increment" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure figcaption:before") {
-          attributes {
-            "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
-          }
-        }
-
-        css += wrap("figure figcaption:after") {
-          attributes {
-            "content" to " '$append'"
-          }
+      figureAttributes += wrap("body") {
+        attributes {
+          "counter-reset" to figcaptionNumberLabel
         }
       }
-    }
 
-    return css.toString()  }
+      figureAttributes += wrap("figure") {
+        attributes {
+          "counter-increment" to figcaptionNumberLabel
+        }
+      }
+
+      figureAttributes += wrap("figure figcaption:before") {
+        attributes {
+          "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
+        }
+      }
+
+      figureAttributes += wrap("figure figcaption:after") {
+        attributes {
+          "content" to " '$append'"
+        }
+      }
+      return figureAttributes.joinToString("")
+    }
+  }
 }
