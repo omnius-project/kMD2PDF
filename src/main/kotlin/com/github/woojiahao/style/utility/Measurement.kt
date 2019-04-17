@@ -21,7 +21,7 @@ class Measurement<T : Number>(val value: T, val type: Type) {
     private val measurementRegex: Regex
       get() {
         val regexString = values().joinToString("|") { it.measurement }
-        return Regex("^([\\d.]+)|($regexString)\$")
+        return Regex("^([\\d.]+)(|($regexString))\$")
       }
 
     fun toMeasurement(from: String): Measurement<Double>? {
@@ -30,13 +30,13 @@ class Measurement<T : Number>(val value: T, val type: Type) {
       val parts = measurementRegex.matchEntire(from)?.groupValues ?: return null
       if (parts.isEmpty()) return null
 
-      return when (parts.size) {
-        1 -> parts[0].toDoubleOrNull()?.px
-        2 -> {
-          val type = Type.getOrNull(parts[1]) ?: return null
-          return parts[0].toDouble() match type
-        }
-        else -> null
+      val value = parts[1]
+      val unit = parts[2]
+
+      return if (unit.isEmpty()) value.toDoubleOrNull()?.px
+      else {
+        val type = Type.getOrNull(unit) ?: return null
+        return value.toDouble() match type
       }
     }
   }
