@@ -32,10 +32,9 @@ class PdfConversionHandler(
         val content = htmlToXML(generateHtml())
         val outputLocation by lazy { FileOutputStream(targetLocation) }
 
-        sharedContext.replacedElementFactory = MediaReplacedElementFactory(
-          documentProperties,
-          sharedContext.replacedElementFactory
-        )
+        sharedContext.also {
+          it.replacedElementFactory = MediaReplacedElementFactory(documentProperties, it.replacedElementFactory)
+        }
         setDocumentFromString(content)
         loadFontDirectories()
         layout()
