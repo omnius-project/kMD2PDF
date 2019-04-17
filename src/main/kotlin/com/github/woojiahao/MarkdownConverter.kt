@@ -9,11 +9,9 @@ import com.github.woojiahao.generators.HtmlGenerator
 import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
-import com.github.woojiahao.modifiers.toc.generateTableOfContents
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.css.CssSelector
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
@@ -24,10 +22,6 @@ import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
-import kotlinx.html.div
-import kotlinx.html.h1
-import kotlinx.html.stream.appendHTML
-import kotlinx.html.unsafe
 import java.io.File
 import com.github.kittinunf.result.Result as KResult
 
@@ -36,20 +30,11 @@ class MarkdownConverter private constructor(
   targetLocation: File,
   conversionTarget: ConversionTarget,
   documentStyle: Style,
-  private val documentProperties: DocumentProperties
+  documentProperties: DocumentProperties
 ) {
 
   enum class ConversionTarget(val requiredExtension: String?, val isFolder: Boolean) {
     PDF("pdf", false), HTML(null, true)
-  }
-
-  private val conversionHandler by lazy {
-    val html = generateBody()
-    val css = generateCss()
-    when (conversionTarget) {
-      PDF -> PdfConversionHandler(html, css, targetLocation, mapOf("documentProperties" to documentProperties))
-      HTML -> HtmlConversionHandler(html, css, targetLocation)
-    }
   }
 
   private val extensions = listOf(
@@ -89,16 +74,24 @@ class MarkdownConverter private constructor(
     tableOfContentsNodeVisitor.visitor.getTableOfContents()
   )
 
+  val body
+    get() = htmlGenerator.generate()
+
+  val css
+    get() = cssGenerator.generate()
+
+  private val conversionHandler =
+    when (conversionTarget) {
+      PDF -> PdfConversionHandler(body, css, targetLocation, mapOf("documentProperties" to documentProperties))
+      HTML -> HtmlConversionHandler(body, css, targetLocation)
+    }
+
   init {
     tableOfContentsNodeVisitor.visit(parsedDocument)
     yamlFrontMatterVisitor.visit(parsedDocument)
   }
 
   fun convert() = conversionHandler.convert()
-
-  private fun generateCss() = cssGenerator.generate()
-
-  fun generateBody() = htmlGenerator.generate()
 
   open class Builder {
     private var document: MarkdownDocument? = null
