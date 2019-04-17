@@ -11,11 +11,12 @@ class CssGenerator(
 ) : AbstractContentGenerator() {
 
   override fun generate(): String {
-    val css = StringBuilder()
-    css += generateStyle()
-    css += generatePageProperties()
-    css += generateTableOfContents()
-    css += generateFigures()
+    val css = StringBuilder().also {
+      it += generateStyle()
+      it += generatePageProperties()
+      it += generateTableOfContents()
+      it += generateFigures()
+    }
 
     return css.toString()
   }
