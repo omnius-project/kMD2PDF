@@ -14,15 +14,15 @@ class CssPropertyTest {
   fun `Dark value falls back onto light value if not provided`() {
     settingsTest {
       val color = c("FF")
-      val property by CssProperty(it, color)
-      testDarkThemeValue(it, color, property)
+      val property by CssProperty(this, color)
+      testDarkThemeValue(color, property)
     }
   }
 
   @Test
   fun `Fallback value used if neither value is available aka null value`() {
     settingsTest {
-      val property by CssProperty(it, fallback = 10)
+      val property by CssProperty(this, fallback = 10)
       assertEquals(10, property)
     }
   }
@@ -32,17 +32,17 @@ class CssPropertyTest {
     settingsTest {
       val lightValue = 10
       val darkValue = 20
-      var property by CssProperty(it, lightValue)
-      testLightThemeValue(it, lightValue, property)
+      var property by CssProperty(this, lightValue)
+      testLightThemeValue(lightValue, property)
 
-      it.theme = DARK
+      theme = DARK
       property = darkValue
 
-      it.theme = LIGHT
-      testLightThemeValue(it, lightValue, property)
+      theme = LIGHT
+      testLightThemeValue(lightValue, property)
 
-      it.theme = DARK
-      testDarkThemeValue(it, darkValue, property)
+      theme = DARK
+      testDarkThemeValue(darkValue, property)
     }
   }
 
@@ -51,33 +51,31 @@ class CssPropertyTest {
     settingsTest {
       val lightValue = "Foo"
       val secondaryValue = "Bar"
-      var property by CssProperty(it, secondaryValue)
-      testLightThemeValue(it, secondaryValue, property)
+      var property by CssProperty(this, secondaryValue)
+      testLightThemeValue(secondaryValue, property)
 
-      it.theme = LIGHT
+      theme = LIGHT
       property = lightValue
 
-      it.theme = LIGHT
-      testLightThemeValue(it, lightValue, property)
+      theme = LIGHT
+      testLightThemeValue(lightValue, property)
 
-      it.theme = DARK
-      testDarkThemeValue(it, secondaryValue, property)
+      theme = DARK
+      testDarkThemeValue(secondaryValue, property)
     }
   }
 
-  private fun settingsTest(test: (Settings) -> Unit) = test(Settings())
+  private fun settingsTest(test: Settings.() -> Unit) = Settings().test()
 
-  private fun <T> testDarkThemeValue(settings: Settings, expected: T?, actual: T?) =
-    testThemeValue(settings, DARK, expected, actual)
+  private fun <T> Settings.testDarkThemeValue(expected: T?, actual: T?) =
+    testThemeValue(DARK, expected, actual)
 
-  private fun <T> testLightThemeValue(settings: Settings, expected: T?, actual: T?) =
-    testThemeValue(settings, LIGHT, expected, actual)
+  private fun <T> Settings.testLightThemeValue(expected: T?, actual: T?) =
+    testThemeValue(LIGHT, expected, actual)
 
-  private fun <T> testThemeValue(settings: Settings, theme: Theme, expected: T?, actual: T?) {
-    with(settings) {
-      this.theme = theme
-      assertEquals(expected, actual)
-      reset()
-    }
+  private fun <T> Settings.testThemeValue(theme: Theme, expected: T?, actual: T?) {
+    this.theme = theme
+    assertEquals(expected, actual)
+    reset()
   }
 }
