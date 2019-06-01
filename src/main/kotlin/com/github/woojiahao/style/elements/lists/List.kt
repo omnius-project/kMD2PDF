@@ -1,9 +1,10 @@
 package com.github.woojiahao.style.elements.lists
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 
-open class List(private val elementName: String) : Element(elementName) {
+open class List(private val elementName: String, settings: Settings) : Element(elementName, settings) {
 
   enum class ListStylePosition {
     INSIDE, OUTSIDE

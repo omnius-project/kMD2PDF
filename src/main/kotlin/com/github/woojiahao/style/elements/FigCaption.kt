@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements
 
-class FigCaption : Element("figcaption")
+import com.github.woojiahao.style.Settings
+
+class FigCaption(settings: Settings) : Element("figcaption", settings)

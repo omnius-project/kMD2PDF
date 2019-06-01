@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-class HeadingFour : Heading("h4")
+import com.github.woojiahao.style.Settings
+
+class HeadingFour(settings: Settings) : Heading("h4", settings = settings)

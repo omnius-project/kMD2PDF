@@ -6,8 +6,22 @@ import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.MONOSPACE
 import com.github.woojiahao.style.utility.FontFamily.BaseFontFamily.SANS_SERIF
 import com.github.woojiahao.style.utility.px
 
-object Settings {
-  enum class Theme { DARK, LIGHT }
+class Settings {
+  enum class Theme {
+    DARK, LIGHT;
+
+    companion object {
+      private val themes
+        get() = values().map { it.name.toLowerCase() }
+
+      fun getOrNull(theme: String): Theme? {
+        val matchingIndex = themes.indexOf(theme.toLowerCase())
+
+        return if (matchingIndex == -1) null
+        else values()[matchingIndex]
+      }
+    }
+  }
 
   var fontSize = 16.0.px
   var theme = LIGHT
@@ -24,4 +38,4 @@ object Settings {
   }
 }
 
-inline fun settings(configuration: Settings.() -> Unit) = Settings.apply(configuration)
+inline fun settings(configuration: Settings.() -> Unit) = Settings().apply(configuration)

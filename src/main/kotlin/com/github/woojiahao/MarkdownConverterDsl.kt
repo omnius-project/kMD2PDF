@@ -4,6 +4,7 @@ import com.github.woojiahao.modifiers.figure.FigcaptionSettings
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.style.Style
 import com.github.woojiahao.modifiers.toc.TableOfContentsSettings
+import com.github.woojiahao.style.Settings
 
 @DslMarker
 annotation class MarkdownConverterDsl
@@ -23,8 +24,8 @@ inline fun markdownConverter(converter: MarkdownConverterBuilderDsl.() -> Unit) 
     build()
   }
 
-inline fun MarkdownConverterBuilderDsl.style(style: Style.() -> Unit) {
-  this.style(Style.createStyle { style() })
+inline fun MarkdownConverterBuilderDsl.style(settings: Settings = Settings(), style: Style.() -> Unit) {
+  this.style(Style.createStyle(settings) { style() })
 }
 
 inline fun MarkdownConverterBuilderDsl.documentProperties(properties: DocumentPropertiesBuilderDsl.() -> Unit) =

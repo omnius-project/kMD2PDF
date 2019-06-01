@@ -7,11 +7,14 @@ import com.github.woojiahao.conversion_handlers.PdfConversionHandler
 import com.github.woojiahao.generators.CssGenerator
 import com.github.woojiahao.generators.HtmlGenerator
 import com.github.woojiahao.modifiers.figure.FigureExtension
+import com.github.woojiahao.modifiers.frontmatter.YamlFrontMatterReader
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.style.settings
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
@@ -27,9 +30,9 @@ import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
+  documentStyle: Style,
   targetLocation: File,
   conversionTarget: ConversionTarget,
-  documentStyle: Style,
   documentProperties: DocumentProperties
 ) {
 
@@ -60,8 +63,14 @@ class MarkdownConverter private constructor(
 
   private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
-  private val parsedDocumentBody
-    get() = htmlRenderer.render(parsedDocument)
+  private val parsedDocumentBody = htmlRenderer.render(parsedDocument)
+
+  private val yaml = YamlFrontMatterReader.parseYaml(yamlFrontMatterVisitor.data)
+
+  init {
+    yamlFrontMatterVisitor.visit(parsedDocument)
+    tableOfContentsNodeVisitor.visit(parsedDocument)
+  }
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
@@ -80,18 +89,21 @@ class MarkdownConverter private constructor(
   val css
     get() = cssGenerator.generate()
 
-  private val conversionHandler =
-    when (conversionTarget) {
-      PDF -> PdfConversionHandler(body, css, targetLocation, mapOf("documentProperties" to documentProperties))
-      HTML -> HtmlConversionHandler(body, css, targetLocation)
-    }
-
-  init {
-    tableOfContentsNodeVisitor.visit(parsedDocument)
-    yamlFrontMatterVisitor.visit(parsedDocument)
+  private val conversionHandler = when (conversionTarget) {
+    PDF -> PdfConversionHandler(body, css, targetLocation, mapOf("documentProperties" to documentProperties))
+    HTML -> HtmlConversionHandler(body, css, targetLocation)
   }
 
-  fun convert() = conversionHandler.convert()
+  fun convert(): KResult<File, Exception> {
+    settings {
+      yaml.font?.let { font = it }
+      yaml.monospaceFont?.let { monospaceFont = it }
+      yaml.fontSize?.let { fontSize = it }
+      yaml.theme?.let { theme = it }
+    }
+
+    return conversionHandler.convert()
+  }
 
   open class Builder {
     private var document: MarkdownDocument? = null
@@ -133,7 +145,13 @@ class MarkdownConverter private constructor(
       val (isTargetFileValid, invalidReason) = validateOutputFile(targetFile)
       check(isTargetFileValid) { invalidReason }
 
-      return MarkdownConverter(doc, targetFile, conversionTarget, style, documentProperties)
+      return MarkdownConverter(
+        doc,
+        style,
+        targetFile,
+        conversionTarget,
+        documentProperties
+      )
     }
 
     private fun validateOutputFile(outputFile: File): Pair<Boolean, String> {

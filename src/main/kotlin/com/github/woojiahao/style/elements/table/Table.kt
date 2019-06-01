@@ -1,19 +1,20 @@
 package com.github.woojiahao.style.elements.table
 
+import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.css.cssSelector
 import com.github.woojiahao.style.elements.Element
 
-class Table : Element("table") {
+class Table(settings: Settings) : Element("table", settings) {
 
   enum class BorderCollapse {
     SEPARATE, COLLAPSE
   }
 
-  val th = TableHeader()
-  val thead = TableHead()
-  val tbody = TableBody()
-  val td = TableData()
-  val tr = TableRow()
+  val th = TableHeader(settings)
+  val thead = TableHead(settings)
+  val tbody = TableBody(settings)
+  val td = TableData(settings)
+  val tr = TableRow(settings)
 
   var borderCollapse = BorderCollapse.COLLAPSE
 
