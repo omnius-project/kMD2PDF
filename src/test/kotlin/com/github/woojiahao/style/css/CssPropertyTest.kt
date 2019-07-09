@@ -6,8 +6,10 @@ import com.github.woojiahao.style.Settings.Theme.DARK
 import com.github.woojiahao.style.Settings.Theme.LIGHT
 import com.github.woojiahao.utility.c
 import org.junit.Test
+import kotlin.test.Ignore
 import kotlin.test.assertEquals
 
+@Ignore
 class CssPropertyTest {
 
   @Test
