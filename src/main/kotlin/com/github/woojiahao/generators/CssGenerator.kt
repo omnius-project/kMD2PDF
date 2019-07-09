@@ -10,6 +10,7 @@ class CssGenerator(
   private val documentProperties: DocumentProperties
 ) : AbstractContentGenerator() {
 
+  // TODO: Inline this function
   override fun generate(): String {
     val css = StringBuilder().also {
       it += generateStyle()
@@ -17,6 +18,8 @@ class CssGenerator(
       it += generateTableOfContents()
       it += generateFigures()
     }
+
+    print(css.toString())
 
     return css.toString()
   }

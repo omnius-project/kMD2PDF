@@ -77,6 +77,10 @@ class Style(val settings: Settings = Settings()) {
     footer.center
   )
 
+  val monospaceElements = listOf(codeBlock, inlineCode)
+
+  val regularElements = elements.minus(monospaceElements)
+
   val customStyles = mutableListOf<CssSelector>()
 
   inline fun inlineCode(style: InlineCode.() -> Unit) = inlineCode.style()

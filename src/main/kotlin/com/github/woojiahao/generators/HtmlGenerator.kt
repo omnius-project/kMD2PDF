@@ -18,6 +18,7 @@ class HtmlGenerator(
   private val tableOfContents: List<TableOfContentsElement>
 ) : AbstractContentGenerator() {
 
+  // TODO: Refactor this to 1 liner
   override fun generate(): String {
     val content = StringBuilder()
       .appendHTML()

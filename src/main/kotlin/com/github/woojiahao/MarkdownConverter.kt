@@ -7,14 +7,13 @@ import com.github.woojiahao.conversion_handlers.PdfConversionHandler
 import com.github.woojiahao.generators.CssGenerator
 import com.github.woojiahao.generators.HtmlGenerator
 import com.github.woojiahao.modifiers.figure.FigureExtension
-import com.github.woojiahao.modifiers.frontmatter.YamlFrontMatterReader
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
+import com.github.woojiahao.modifiers.yaml.parseYaml
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
-import com.github.woojiahao.style.Settings
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.settings
+import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
@@ -55,21 +54,26 @@ class MarkdownConverter private constructor(
 
   private val htmlRenderer = HtmlRenderer.builder(options).build()
 
-  private val tableOfContentsNodeVisitor = TableOfContentsNodeVisitor(
-    TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
-  )
-
-  private val yamlFrontMatterVisitor = AbstractYamlFrontMatterVisitor()
-
   private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
   private val parsedDocumentBody = htmlRenderer.render(parsedDocument)
 
-  private val yaml = YamlFrontMatterReader.parseYaml(yamlFrontMatterVisitor.data)
+  private val tableOfContentsNodeVisitor = TableOfContentsNodeVisitor(
+    TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+  ).also { it.visit(parsedDocument) }
 
-  init {
-    yamlFrontMatterVisitor.visit(parsedDocument)
-    tableOfContentsNodeVisitor.visit(parsedDocument)
+  private val yamlFrontMatterVisitor = AbstractYamlFrontMatterVisitor().also { it.visit(parsedDocument) }
+
+  private val yaml = parseYaml(yamlFrontMatterVisitor.data).also {
+    fun <T> List<Element>.updateStyles(input: T?, update: Element.(T) -> Unit) {
+      input?.let { forEach { e -> e.update(it) } }
+    }
+
+    with(documentStyle) {
+      regularElements.updateStyles(it.font) { font -> fontFamily = font }
+      monospaceElements.updateStyles(it.monospaceFont) { monospaceFont -> fontFamily = monospaceFont }
+      elements.updateStyles(it.fontSize) { fontSize -> this.fontSize = fontSize }
+    }
   }
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
@@ -83,27 +87,16 @@ class MarkdownConverter private constructor(
     tableOfContentsNodeVisitor.visitor.getTableOfContents()
   )
 
-  val body
-    get() = htmlGenerator.generate()
+  val body = htmlGenerator.generate()
 
-  val css
-    get() = cssGenerator.generate()
+  val css = cssGenerator.generate()
 
   private val conversionHandler = when (conversionTarget) {
     PDF -> PdfConversionHandler(body, css, targetLocation, mapOf("documentProperties" to documentProperties))
     HTML -> HtmlConversionHandler(body, css, targetLocation)
   }
 
-  fun convert(): KResult<File, Exception> {
-    settings {
-      yaml.font?.let { font = it }
-      yaml.monospaceFont?.let { monospaceFont = it }
-      yaml.fontSize?.let { fontSize = it }
-      yaml.theme?.let { theme = it }
-    }
-
-    return conversionHandler.convert()
-  }
+  fun convert() = conversionHandler.convert()
 
   open class Builder {
     private var document: MarkdownDocument? = null
