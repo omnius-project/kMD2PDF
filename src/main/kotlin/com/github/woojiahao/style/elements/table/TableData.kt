@@ -13,13 +13,12 @@ import java.awt.Color
 
 class TableData(settings: Settings) : Element("td", settings) {
   init {
-    val border by CssProperty<BorderBox?>(
-      settings,
+    border = CssProperty(
+      settings.theme,
       BorderBox(Border(1.0.px, SOLID, Color.BLACK)),
       BorderBox(Border(1.0.px, SOLID, c("EE")))
     )
-    this.border = border
 
-    padding = Box(5.0.px)
+    padding.value = Box(5.0.px)
   }
 }

@@ -11,11 +11,10 @@ import java.awt.Color.BLACK
 
 class Ruler(settings: Settings) : Element("hr", settings) {
   init {
-    val border by CssProperty<BorderBox?>(
-      settings,
+    border = CssProperty(
+      settings.theme,
       BorderBox(Border(1.0.px, SOLID, BLACK)),
       BorderBox(Border(1.0.px, SOLID, c("EE")))
     )
-    this.border = border
   }
 }

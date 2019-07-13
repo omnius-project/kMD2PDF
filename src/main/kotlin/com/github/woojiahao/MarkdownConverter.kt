@@ -13,6 +13,7 @@ import com.github.woojiahao.modifiers.yaml.parseYaml
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
+import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
@@ -25,7 +26,6 @@ import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
 import com.vladsch.flexmark.util.options.MutableDataSet
 import java.io.File
-import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
@@ -70,9 +70,16 @@ class MarkdownConverter private constructor(
     }
 
     with(documentStyle) {
-      regularElements.updateStyles(it.font) { font -> fontFamily = font }
-      monospaceElements.updateStyles(it.monospaceFont) { monospaceFont -> fontFamily = monospaceFont }
-      elements.updateStyles(it.fontSize) { fontSize -> this.fontSize = fontSize }
+      regularElements.updateStyles(it.font) { font -> fontFamily.value = font }
+      monospaceElements.updateStyles(it.monospaceFont) { monospaceFont -> fontFamily.value = monospaceFont }
+      elements.updateStyles(it.fontSize) { fontSize -> this.fontSize.value = fontSize }
+
+      // Updating the theme has to be propagated to each of the elements
+      it.theme.let { theme ->
+        theme ?: return@let
+        settings.theme = theme
+        elements.forEach { e -> e.attributes.forEach { attr -> attr.theme = theme } }
+      }
     }
   }
 

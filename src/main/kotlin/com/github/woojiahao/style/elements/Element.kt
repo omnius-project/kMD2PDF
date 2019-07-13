@@ -19,44 +19,59 @@ open class Element(private val elementName: String, settings: Settings) {
     fun toCss() = name.replace("_", "-").toLowerCase()
   }
 
-  var fontSize by CssProperty(settings, fallback = settings.fontSize)
-  var fontFamily by CssProperty<FontFamily?>(settings, fallback = settings.font)
-  var textColor by CssProperty(settings, c("21"), c("EE"))
-  var backgroundColor by CssProperty<Color?>(settings)
-  var fontWeight by CssProperty<FontWeight?>(settings)
-  var textDecoration by CssProperty<TextDecoration?>(settings)
-  var border by CssProperty(settings, fallback = BorderBox(Border()))
-  var borderRadius by CssProperty(settings, fallback = Box(0.0.px))
-  var padding by CssProperty<Box<Measurement<Double>>?>(settings)
-  var margin by CssProperty<Box<Measurement<Double>>?>(settings)
+  private val theme = settings.theme
+
+  var fontSize = CssProperty(theme, fallback = settings.fontSize)
+  var fontFamily = CssProperty<FontFamily?>(theme, fallback = settings.font)
+  var textColor = CssProperty(theme, c("21"), c("EE"))
+  var backgroundColor = CssProperty<Color?>(theme)
+  var fontWeight = CssProperty<FontWeight?>(theme)
+  var textDecoration = CssProperty<TextDecoration?>(theme)
+  var border = CssProperty(theme, fallback = BorderBox(Border()))
+  var borderRadius = CssProperty(theme, fallback = Box(0.0.px))
+  var padding = CssProperty<Box<Measurement<Double>>?>(theme)
+  var margin = CssProperty<Box<Measurement<Double>>?>(theme)
 
   val globalCss
     get() = cssSelector(elementName) {
       attributes {
-        "font-size" to fontSize?.let { it }
+        "font-size" to fontSize.value?.let { it }
         "font-family" to fontFamily
-        "color" to textColor?.cssColor()
-        "background-color" to backgroundColor?.cssColor()
-        "font-weight" to fontWeight?.name?.toLowerCase()
-        "text-decoration" to textDecoration?.toCss()
-        "border-radius" to borderRadius?.toCss { it.toString() }
-        "padding" to padding?.toCss { it.toString() }
-        "margin" to margin?.toCss { it.toString() }
-        "border-top" to border?.top
-        "border-right" to border?.right
-        "border-bottom" to border?.bottom
-        "border-left" to border?.left
+        "color" to textColor.value?.cssColor()
+        "background-color" to backgroundColor.value?.cssColor()
+        "font-weight" to fontWeight.value?.name?.toLowerCase()
+        "text-decoration" to textDecoration.value?.toCss()
+        "border-radius" to borderRadius.value?.toCss { it.toString() }
+        "padding" to padding.value?.toCss { it.toString() }
+        "margin" to margin.value?.toCss { it.toString() }
+        "border-top" to border.value?.top
+        "border-right" to border.value?.right
+        "border-bottom" to border.value?.bottom
+        "border-left" to border.value?.left
       }
     }
+
+  val attributes = listOf(
+    fontSize,
+    fontFamily,
+    textColor,
+    backgroundColor,
+    fontWeight,
+    textDecoration,
+    border,
+    borderRadius,
+    padding,
+    margin
+  )
 
   protected val css = mutableListOf<CssSelector>()
 
   fun fontFamily(load: FontFamily.() -> Unit) {
-    fontFamily?.clear()
-    fontFamily?.load()
+    fontFamily.value?.clear()
+    fontFamily.value?.load()
   }
 
-  fun border(load: BorderBox.() -> Unit) = border?.load()
+  fun border(load: BorderBox.() -> Unit) = border.value?.load()
 
   open fun toCss(): String {
     css += globalCss

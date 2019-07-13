@@ -7,7 +7,7 @@ import com.github.woojiahao.style.utility.px
 
 class CodeBlock(settings: Settings) : Code("pre", settings) {
   init {
-    padding = Box(10.0.px)
+    padding.value = Box(10.0.px)
   }
 
   override fun toCss(): String {

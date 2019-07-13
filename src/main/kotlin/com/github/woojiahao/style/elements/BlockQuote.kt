@@ -14,18 +14,18 @@ import java.awt.Color
 
 class BlockQuote(settings: Settings) : Element("blockquote", settings) {
   init {
-    backgroundColor = c("EEEEEE")
-    textColor = Color.BLACK
-    padding = Box(10.0.px, 20.0.px)
-    val border by CssProperty<BorderBox?>(
-      settings,
-      BorderBox(Border(), Border(), Border(), Border(5.0.px, SOLID, c("E0E0E0")))
+    backgroundColor.value = c("EE")
+    textColor.value = Color.BLACK
+    padding.value = Box(10.0.px, 20.0.px)
+    border = CssProperty(
+      settings.theme,
+      BorderBox(Border(), Border(), Border(), Border(5.0.px, SOLID, c("E0"))),
+      BorderBox(Border(), Border(), Border(), Border(5.0.px, SOLID, c("FA")))
     )
-    this.border = border
   }
 
   override fun toCss(): String {
-    css += cssSelector("blockquote > p") { attributes { "color" to textColor?.cssColor() } }
+    css += cssSelector("blockquote > p") { attributes { "color" to textColor.value?.cssColor() } }
     return super.toCss()
   }
 }

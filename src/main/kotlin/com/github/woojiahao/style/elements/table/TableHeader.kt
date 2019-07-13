@@ -13,14 +13,13 @@ import java.awt.Color
 
 class TableHeader(settings: Settings) : Element("th", settings) {
   init {
-    val border by CssProperty<BorderBox?>(
-      settings,
+    border = CssProperty(
+      settings.theme,
       BorderBox(Border(1.0.px, SOLID, Color.BLACK)),
       BorderBox(Border(1.0.px, SOLID, c("EE")))
     )
-    this.border = border
 
-    fontWeight = FontWeight.BOLD
-    padding = Box(5.0.px)
+    fontWeight.value = FontWeight.BOLD
+    padding.value = Box(5.0.px)
   }
 }
