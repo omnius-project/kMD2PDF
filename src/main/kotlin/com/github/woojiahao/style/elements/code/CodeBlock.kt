@@ -13,7 +13,7 @@ class CodeBlock(settings: Settings) : Code("pre", settings) {
   override fun toCss(): String {
     css += cssSelector("pre > code") {
       attributes {
-        "font-family" to fontFamily
+        "font-family" to fontFamily.value
       }
     }
 

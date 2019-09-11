@@ -40,9 +40,8 @@ private fun getBaseFontDirectories() =
 private fun getFontDirectorySubFolders(baseFontDirectories: List<File>) =
   baseFontDirectories
     .map {
-      it
-        .walk()
-        .filter { f -> f.isFileType("ttf", "otf") }
+      it.walk()
+        .filter { f -> f.isFileType("ttf", "otf") && f.isFile }
         .map { f -> f.parent }
         .distinct()
         .toList()

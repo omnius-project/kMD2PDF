@@ -36,7 +36,7 @@ open class Element(private val elementName: String, settings: Settings) {
     get() = cssSelector(elementName) {
       attributes {
         "font-size" to fontSize.value?.let { it }
-        "font-family" to fontFamily
+        "font-family" to fontFamily.value
         "color" to textColor.value?.cssColor()
         "background-color" to backgroundColor.value?.cssColor()
         "font-weight" to fontWeight.value?.name?.toLowerCase()

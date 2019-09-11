@@ -19,8 +19,6 @@ class CssGenerator(
       it += generateFigures()
     }
 
-    print(css.toString())
-
     return css.toString()
   }
 

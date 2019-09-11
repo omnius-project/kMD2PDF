@@ -13,7 +13,6 @@ import com.github.woojiahao.modifiers.yaml.parseYaml
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.css.CssProperty
 import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
@@ -24,7 +23,7 @@ import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
 import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
+import com.vladsch.flexmark.util.data.MutableDataSet
 import java.io.File
 
 class MarkdownConverter private constructor(
@@ -171,15 +170,15 @@ class MarkdownConverter private constructor(
     }
 
     private fun createTargetOutputFile(filePath: String?, conversionTarget: ConversionTarget) =
-      filePath?.let { File(it) } ?: createFileRelativeToDocument(conversionTarget)
+        filePath?.let { File(it) } ?: createFileRelativeToDocument(conversionTarget)
 
     private fun createFileRelativeToDocument(conversionTarget: ConversionTarget): File {
       with(document!!.file) {
         check(this.parentFile != null) { "File must have parent folder" }
 
         val fileName =
-          if (!conversionTarget.isFolder) "$nameWithoutExtension.${conversionTarget.requiredExtension}"
-          else nameWithoutExtension
+            if (!conversionTarget.isFolder) "$nameWithoutExtension.${conversionTarget.requiredExtension}"
+            else nameWithoutExtension
 
         return File(this.parentFile, fileName)
       }

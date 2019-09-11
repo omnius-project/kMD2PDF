@@ -1,7 +1,7 @@
 package com.github.woojiahao.modifiers.figure
 
 import com.vladsch.flexmark.html.HtmlRenderer
-import com.vladsch.flexmark.util.options.MutableDataHolder
+import com.vladsch.flexmark.util.data.MutableDataHolder
 import java.io.File
 
 class FigureExtension(private val markdownFile: File) : HtmlRenderer.HtmlRendererExtension {
@@ -13,7 +13,7 @@ class FigureExtension(private val markdownFile: File) : HtmlRenderer.HtmlRendere
   override fun rendererOptions(options: MutableDataHolder?) {}
 
   override fun extend(rendererBuilder: HtmlRenderer.Builder?, rendererType: String?) {
-    with (rendererBuilder) {
+    with(rendererBuilder) {
       this ?: return
       nodeRendererFactory(FigureRendererFactory(markdownFile))
     }
