@@ -29,7 +29,7 @@ fun assertMarkdown(folder: String, file: String) {
   val converter = setupConverter(markdownFile)
 
   val expectedDocument = parseDocument(htmlFile.readText()).body()
-  val actualDocument = parseDocument(converter.generateBody()).getElementsByClass("content").first()
+  val actualDocument = parseDocument(converter.body).getElementsByClass("content").first()
 
   // Ensure that they both have the same number of children
   assertEquals(

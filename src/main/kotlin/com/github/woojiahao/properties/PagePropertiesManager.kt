@@ -22,7 +22,7 @@ class PagePropertiesManager(documentProperties: DocumentProperties, style: Style
     attributes {
       "size" to size.size
       "margin" to margins?.toCss { it.toString() }
-      "background-color" to when (Settings.theme) {
+      "background-color" to when (style.settings.theme) {
         DARK -> c("21")?.cssColor()
         LIGHT -> Color.WHITE.cssColor()
       }

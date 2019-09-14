@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements
 
-class Emphasis : Element("em")
+import com.github.woojiahao.style.Settings
+
+class Emphasis(settings: Settings) : Element("em", settings)

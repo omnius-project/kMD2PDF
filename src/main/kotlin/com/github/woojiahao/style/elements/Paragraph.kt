@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements
 
-class Paragraph : Element("p")
+import com.github.woojiahao.style.Settings
+
+class Paragraph(settings: Settings) : Element("p", settings)

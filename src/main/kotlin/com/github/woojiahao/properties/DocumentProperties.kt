@@ -1,6 +1,6 @@
 package com.github.woojiahao.properties
 
-import com.github.woojiahao.FigcaptionSettings
+import com.github.woojiahao.modifiers.figure.FigcaptionSettings
 import com.github.woojiahao.style.utility.Box
 import com.github.woojiahao.style.utility.Measurement
 import com.github.woojiahao.style.utility.`in`
