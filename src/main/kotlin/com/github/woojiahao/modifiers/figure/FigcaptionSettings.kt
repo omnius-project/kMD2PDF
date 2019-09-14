@@ -1,4 +1,4 @@
-package com.github.woojiahao
+package com.github.woojiahao.modifiers.figure
 
 data class FigcaptionSettings(
   var isVisible: Boolean = true,

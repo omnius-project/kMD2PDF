@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-class HeadingSix : Heading("h6", 0.67)
+import com.github.woojiahao.style.Settings
+
+class HeadingSix(settings: Settings) : Heading("h6", 0.67, settings)

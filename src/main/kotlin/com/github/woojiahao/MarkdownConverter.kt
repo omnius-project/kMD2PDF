@@ -2,51 +2,40 @@ package com.github.woojiahao
 
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.HTML
 import com.github.woojiahao.MarkdownConverter.ConversionTarget.PDF
+import com.github.woojiahao.conversion_handlers.HtmlConversionHandler
+import com.github.woojiahao.conversion_handlers.PdfConversionHandler
+import com.github.woojiahao.generators.CssGenerator
+import com.github.woojiahao.generators.HtmlGenerator
 import com.github.woojiahao.modifiers.figure.FigureExtension
 import com.github.woojiahao.modifiers.toc.TableOfContentsNodeVisitor
 import com.github.woojiahao.modifiers.toc.TableOfContentsVisitor
-import com.github.woojiahao.modifiers.toc.generateTableOfContents
+import com.github.woojiahao.modifiers.yaml.parseYaml
 import com.github.woojiahao.properties.DocumentProperties
 import com.github.woojiahao.properties.PagePropertiesManager
 import com.github.woojiahao.style.Style
-import com.github.woojiahao.style.css.CssSelector
+import com.github.woojiahao.style.elements.Element
 import com.github.woojiahao.utility.extensions.isFileType
 import com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension
 import com.vladsch.flexmark.ext.gfm.tasklist.TaskListExtension
 import com.vladsch.flexmark.ext.tables.TablesExtension
 import com.vladsch.flexmark.ext.toc.TocExtension
+import com.vladsch.flexmark.ext.yaml.front.matter.AbstractYamlFrontMatterVisitor
+import com.vladsch.flexmark.ext.yaml.front.matter.YamlFrontMatterExtension
 import com.vladsch.flexmark.html.HtmlRenderer
 import com.vladsch.flexmark.parser.Parser
-import com.vladsch.flexmark.util.options.MutableDataSet
-import kotlinx.html.*
-import kotlinx.html.stream.appendHTML
+import com.vladsch.flexmark.util.data.MutableDataSet
 import java.io.File
-import com.github.kittinunf.result.Result as KResult
 
 class MarkdownConverter private constructor(
   markdownDocument: MarkdownDocument,
+  documentStyle: Style,
   targetLocation: File,
   conversionTarget: ConversionTarget,
-  private val documentStyle: Style,
-  private val documentProperties: DocumentProperties
+  documentProperties: DocumentProperties
 ) {
 
   enum class ConversionTarget(val requiredExtension: String?, val isFolder: Boolean) {
     PDF("pdf", false), HTML(null, true)
-  }
-
-  private val conversionHandler by lazy {
-    val html = generateBody()
-    val css = generateCss()
-    when (conversionTarget) {
-      PDF -> PdfConversionHandler(
-        html,
-        css,
-        targetLocation,
-        mapOf("documentProperties" to documentProperties)
-      )
-      HTML -> HtmlConversionHandler(html, css, targetLocation)
-    }
   }
 
   private val extensions = listOf(
@@ -54,7 +43,8 @@ class MarkdownConverter private constructor(
     TablesExtension.create(),
     StrikethroughExtension.create(),
     TocExtension.create(),
-    FigureExtension(markdownDocument.file)
+    YamlFrontMatterExtension.create(),
+    FigureExtension.create(markdownDocument.file)
   )
 
   private val options = MutableDataSet().apply { set(Parser.EXTENSIONS, extensions) }
@@ -63,116 +53,56 @@ class MarkdownConverter private constructor(
 
   private val htmlRenderer = HtmlRenderer.builder(options).build()
 
-  private val tableOfContentsNodeVisitor = TableOfContentsNodeVisitor(
-    TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
-  )
-
   private val parsedDocument = parser.parse(markdownDocument.file.readText())
 
-  private val parsedDocumentBody
-    get() = htmlRenderer.render(parsedDocument)
+  private val parsedDocumentBody = htmlRenderer.render(parsedDocument)
+
+  private val tableOfContentsNodeVisitor = TableOfContentsNodeVisitor(
+    TableOfContentsVisitor(documentProperties.tableOfContentsSettings)
+  ).also { it.visit(parsedDocument) }
+
+  private val yamlFrontMatterVisitor = AbstractYamlFrontMatterVisitor().also { it.visit(parsedDocument) }
+
+  private val yaml = parseYaml(yamlFrontMatterVisitor.data).also {
+    fun <T> List<Element>.updateStyles(input: T?, update: Element.(T) -> Unit) {
+      input?.let { forEach { e -> e.update(it) } }
+    }
+
+    with(documentStyle) {
+      regularElements.updateStyles(it.font) { font -> fontFamily.value = font }
+      monospaceElements.updateStyles(it.monospaceFont) { monospaceFont -> fontFamily.value = monospaceFont }
+      elements.updateStyles(it.fontSize) { fontSize -> this.fontSize.value = fontSize }
+
+      // Updating the theme has to be propagated to each of the elements
+      it.theme.let { theme ->
+        theme ?: return@let
+        settings.theme = theme
+        elements.forEach { e -> e.attributes.forEach { attr -> attr.theme = theme } }
+      }
+    }
+  }
 
   private val pagePropertiesManager = PagePropertiesManager(documentProperties, documentStyle)
 
-  init {
-    tableOfContentsNodeVisitor.visit(parsedDocument)
+  private val cssGenerator = CssGenerator(documentStyle, pagePropertiesManager, documentProperties)
+
+  private val htmlGenerator = HtmlGenerator(
+    documentStyle,
+    parsedDocumentBody.trim(),
+    documentProperties,
+    tableOfContentsNodeVisitor.visitor.getTableOfContents()
+  )
+
+  val body = htmlGenerator.generate()
+
+  val css = cssGenerator.generate()
+
+  private val conversionHandler = when (conversionTarget) {
+    PDF -> PdfConversionHandler(body, css, targetLocation, mapOf("documentProperties" to documentProperties))
+    HTML -> HtmlConversionHandler(body, css, targetLocation)
   }
 
   fun convert() = conversionHandler.convert()
-
-  private fun generateCss(): String {
-    val css = StringBuilder()
-    css += wrap(documentStyle.getStyles())
-    css += wrap(pagePropertiesManager.toCss())
-    css += wrap(".table-of-contents") {
-      attributes {
-        "page-break-after" to "always"
-      }
-    }
-
-    // Fig caption configuration
-    with(documentProperties.figcaptionSettings) {
-      val figcaptionNumberLabel = "figures"
-
-      if (isVisible) {
-        css += wrap("body") {
-          attributes {
-            "counter-reset" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure") {
-          attributes {
-            "counter-increment" to figcaptionNumberLabel
-          }
-        }
-
-        css += wrap("figure figcaption:before") {
-          attributes {
-            "content" to "'$prepend ' counter($figcaptionNumberLabel) ' $divider '"
-          }
-        }
-
-        css += wrap("figure figcaption:after") {
-          attributes {
-            "content" to " '$append'"
-          }
-        }
-      }
-    }
-
-    return css.toString()
-  }
-
-  fun generateBody(): String {
-    with(StringBuilder().appendHTML()) {
-      val tocSettings = documentProperties.tableOfContentsSettings
-      if (tocSettings.isVisible) {
-        div("table-of-contents") {
-          h1 { +"Table of contents" }
-          unsafe {
-            raw(
-              generateTableOfContents(
-                tableOfContentsNodeVisitor.visitor.getTableOfContents(),
-                tocSettings
-              )
-            )
-          }
-        }
-      }
-
-      with(documentStyle.header) {
-        div("header-left") { +left.getContents() }
-
-        div("header-center") { +center.getContents() }
-
-        div("header-right") { +right.getContents() }
-      }
-
-      with(documentStyle.footer) {
-        div("footer-left") { +left.getContents() }
-
-        div("footer-center") { +center.getContents() }
-
-        div("footer-right") { +right.getContents() }
-      }
-
-      div("content") {
-        unsafe { +wrap(parsedDocumentBody.trim()) }
-      }
-
-      return finalize().toString()
-    }
-  }
-
-  private fun wrap(content: String) = "\n$content\n"
-
-  private fun wrap(elementName: String, cssSelector: CssSelector.() -> Unit) =
-    wrap(CssSelector(elementName).apply(cssSelector).toCss())
-
-  private operator fun StringBuilder.plusAssign(content: String) {
-    append(content)
-  }
 
   open class Builder {
     private var document: MarkdownDocument? = null
@@ -210,43 +140,45 @@ class MarkdownConverter private constructor(
       val doc = document
       check(doc != null) { "Markdown document must be set using document()" }
 
-      val targetFile = createTargetFile()
+      val targetFile = createTargetOutputFile(targetLocation, conversionTarget)
+      val (isTargetFileValid, invalidReason) = validateOutputFile(targetFile)
+      check(isTargetFileValid) { invalidReason }
 
       return MarkdownConverter(
         doc,
+        style,
         targetFile,
         conversionTarget,
-        style,
         documentProperties
       )
     }
 
-    private fun createTargetFile(): File {
-      val targetFile = createTargetOutputFile(targetLocation, conversionTarget)
+    private fun validateOutputFile(outputFile: File): Pair<Boolean, String> {
       with(conversionTarget) {
         if (isFolder) {
-          check(targetFile.extension.isEmpty()) { "Target location should not have extension" }
+          if (outputFile.extension.isNotEmpty())
+            return false to "Target location should not have extension"
         } else {
-          requiredExtension ?: return@with
-          check(targetFile.isFileType(requiredExtension)) {
-            "Target location must have a .$requiredExtension extension"
-          }
+          requiredExtension
+              ?: return false to "Required extension cannot be null for folder string"
+          if (!outputFile.isFileType(requiredExtension))
+            return false to "Target location must have a .$requiredExtension extension"
         }
       }
 
-      return targetFile
+      return true to ""
     }
 
     private fun createTargetOutputFile(filePath: String?, conversionTarget: ConversionTarget) =
-      filePath?.let { File(it) } ?: createFileRelativeToDocument(conversionTarget)
+        filePath?.let { File(it) } ?: createFileRelativeToDocument(conversionTarget)
 
     private fun createFileRelativeToDocument(conversionTarget: ConversionTarget): File {
       with(document!!.file) {
         check(this.parentFile != null) { "File must have parent folder" }
 
         val fileName =
-          if (!conversionTarget.isFolder) "$nameWithoutExtension.${conversionTarget.requiredExtension}"
-          else nameWithoutExtension
+            if (!conversionTarget.isFolder) "$nameWithoutExtension.${conversionTarget.requiredExtension}"
+            else nameWithoutExtension
 
         return File(this.parentFile, fileName)
       }

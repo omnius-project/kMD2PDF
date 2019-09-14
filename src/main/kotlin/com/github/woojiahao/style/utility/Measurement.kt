@@ -9,7 +9,36 @@ class Measurement<T : Number>(val value: T, val type: Type) {
     PIXELS("px"),
     INCHES("in", 96.0),
     CENTIMETERS("cm", (96.0 / 2.54)),
-    MILLIMETERS("mm", (96.0 / 25.4))
+    MILLIMETERS("mm", (96.0 / 25.4));
+
+    companion object {
+      fun getOrNull(target: String) =
+        values().firstOrNull { it.measurement.toLowerCase() == target.toLowerCase() }
+    }
+  }
+
+  companion object {
+    private val measurementRegex: Regex
+      get() {
+        val regexString = values().joinToString("|") { it.measurement }
+        return Regex("^([\\d.]+)(|($regexString))\$")
+      }
+
+    fun toMeasurement(from: String): Measurement<Double>? {
+      if (!measurementRegex.matches(from)) return null
+
+      val parts = measurementRegex.matchEntire(from)?.groupValues ?: return null
+      if (parts.isEmpty()) return null
+
+      val value = parts[1]
+      val unit = parts[2]
+
+      return if (unit.isEmpty()) value.toDoubleOrNull()?.px
+      else {
+        val type = Type.getOrNull(unit) ?: return null
+        return value.toDouble() match type
+      }
+    }
   }
 
   @Suppress("IMPLICIT_CAST_TO_ANY", "UNCHECKED_CAST")

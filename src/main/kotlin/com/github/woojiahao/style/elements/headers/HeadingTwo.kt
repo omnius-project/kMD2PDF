@@ -1,3 +1,5 @@
 package com.github.woojiahao.style.elements.headers
 
-class HeadingTwo : Heading("h2", 1.5)
+import com.github.woojiahao.style.Settings
+
+class HeadingTwo(settings: Settings) : Heading("h2", 1.5, settings)

@@ -12,33 +12,34 @@ import com.github.woojiahao.style.elements.lists.OrderedList
 import com.github.woojiahao.style.elements.lists.UnorderedList
 import com.github.woojiahao.style.elements.table.Table
 
-class Style {
+class Style(val settings: Settings = Settings()) {
 
   companion object {
-    inline fun createStyle(style: Style.() -> Unit) = Style().apply(style)
+    inline fun createStyle(settings: Settings = Settings(), style: Style.() -> Unit) =
+      Style(settings).apply(style)
   }
 
-  val h1 = HeadingOne()
-  val h2 = HeadingTwo()
-  val h3 = HeadingThree()
-  val h4 = HeadingFour()
-  val h5 = HeadingFive()
-  val h6 = HeadingSix()
-  val inlineCode = InlineCode()
-  val codeBlock = CodeBlock()
-  val strong = Bold()
-  val em = Emphasis()
-  val p = Paragraph()
-  val a = Link()
-  val ul = UnorderedList()
-  val ol = OrderedList()
-  val blockquote = BlockQuote()
-  val img = Image()
-  val table = Table()
-  val del = Strikethrough()
-  val hr = Ruler()
-  val header = DocumentHeader()
-  val footer = DocumentFooter()
+  val h1 = HeadingOne(settings)
+  val h2 = HeadingTwo(settings)
+  val h3 = HeadingThree(settings)
+  val h4 = HeadingFour(settings)
+  val h5 = HeadingFive(settings)
+  val h6 = HeadingSix(settings)
+  val inlineCode = InlineCode(settings)
+  val codeBlock = CodeBlock(settings)
+  val strong = Bold(settings)
+  val em = Emphasis(settings)
+  val p = Paragraph(settings)
+  val a = Link(settings)
+  val ul = UnorderedList(settings)
+  val ol = OrderedList(settings)
+  val blockquote = BlockQuote(settings)
+  val img = Image(settings)
+  val table = Table(settings)
+  val del = Strikethrough(settings)
+  val hr = Ruler(settings)
+  val header = DocumentHeader(settings)
+  val footer = DocumentFooter(settings)
 
   val elements = listOf(
     h1,
@@ -75,6 +76,10 @@ class Style {
     footer.right,
     footer.center
   )
+
+  val monospaceElements = listOf(codeBlock, inlineCode)
+
+  val regularElements = elements.minus(monospaceElements)
 
   val customStyles = mutableListOf<CssSelector>()
 
